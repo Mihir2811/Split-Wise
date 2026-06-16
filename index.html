@@ -159,22 +159,58 @@ body {
   border-bottom: 10px solid var(--clr-blue);
 }
 .govuk-header__inner {
-  max-width: 960px; margin: 0 auto; padding: 12px 15px;
-  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  max-width: 960px; margin: 0 auto; padding: 10px 12px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  flex-wrap: wrap;
 }
-.govuk-header__logo { color: #ffffff; font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
-.govuk-header__actions { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.govuk-header__logo {
+  color: #ffffff; font-size: 1.05rem; font-weight: 700; letter-spacing: -0.5px;
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
+.govuk-header__logo span { display: none; }
+.govuk-header__actions {
+  display: flex; gap: 6px; flex-shrink: 0; align-items: center;
+  flex-wrap: wrap; justify-content: flex-end;
+}
 
 .govuk-header__actions .govuk-btn {
   background: #f3f2f1 !important;
   color: #0b0c0c !important;
-  box-shadow: 0 2px 0 #505a5f !important;
+  box-shadow: none !important;
+  padding: 8px !important;
+  min-width: 38px; min-height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 4px;
 }
+.govuk-header__actions .govuk-btn .icon { width: 18px; height: 18px; }
+.govuk-header__actions .btn-label { display: none; }
+
+/* Download / Upload split data buttons always keep their full text label,
+   on every screen size, so they are never mistaken for unrelated icons. */
+.govuk-header__actions--full-label {
+  width: auto !important;
+  padding: 8px 12px !important;
+  font-size: .8125rem !important;
+}
+.govuk-header__actions--full-label span { display: inline !important; }
+
 .govuk-header__actions .govuk-btn:hover { background: #dbdad9 !important; }
 .govuk-header__actions .govuk-btn:focus {
   outline: 3px solid var(--clr-yellow);
+  outline-offset: 1px;
   background: var(--clr-yellow) !important;
   color: #0b0c0c !important;
+}
+
+/* From small-tablet breakpoint up, show text labels alongside icons */
+@media (min-width: 481px) {
+  .govuk-header__logo span { display: inline; }
+  .govuk-header__actions .govuk-btn {
+    padding: 8px 12px !important;
+    width: auto;
+  }
+  .govuk-header__actions .btn-label { display: inline; }
+  .govuk-header__actions--full-label { font-size: 1rem !important; }
 }
 
 /* ── INFO BANNER (replaces phase banner) ───────────────────────── */
@@ -528,6 +564,12 @@ body {
     <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M12 4 10.6 5.4 16.2 11H4v2h12.2l-5.6 5.6L12 20l8-8z"/></symbol>
     <!-- Party / celebration (all settled) -->
     <symbol id="icon-celebrate" viewBox="0 0 24 24"><path d="M3 21l1.7-5.1c.2-.6.7-1 1.3-1.1L13.6 13l-2-2-7.5 1.6c-.6.1-1.1-.4-.9-1L5 4l3.5 3.5L17 4l-1.5 3.5L19 11l-7.4 1.6L13.7 14l-1.7 7.5c-.1.6-.6 1-1.2 1.1L3 21z"/></symbol>
+    <!-- Plain text file -->
+    <symbol id="icon-text-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 1.5L19.5 9H14V3.5zM8 13h8v1.5H8V13zm0 3.5h8V18H8v-1.5zm0-7h5v1.5H8V9.5z"/></symbol>
+    <!-- Cash / money received -->
+    <symbol id="icon-cash" viewBox="0 0 24 24"><path d="M3 6h18a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm9 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM5 9a2 2 0 0 1-2 2v2a2 2 0 0 1 2 2h14a2 2 0 0 1 2-2v-2a2 2 0 0 1-2-2H5z"/></symbol>
+    <!-- Undo / revert -->
+    <symbol id="icon-undo" viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62a6.95 6.95 0 0 1 5.12-2.13c3.07 0 5.7 1.92 6.74 4.6l2.06-.76C20.07 10.36 16.6 8 12.5 8z"/></symbol>
   </defs>
 </svg>
 
@@ -535,22 +577,22 @@ body {
 <header class="govuk-header">
   <div class="govuk-header__inner">
     <span class="govuk-header__logo">
-      <svg class="icon icon--lg" aria-hidden="true"><use href="#icon-wallet"></use></svg>
-      Split Bills
+      <svg class="icon" aria-hidden="true" style="width:22px;height:22px"><use href="#icon-wallet"></use></svg>
+      <span>Split Bills</span>
     </span>
     <div class="govuk-header__actions">
-      <button id="theme-btn" class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text"
-              onclick="toggleTheme()" title="Switch colour theme">
-        <svg class="icon icon--sm" aria-hidden="true"><use id="theme-icon" href="#icon-sun"></use></svg>
-        <span id="theme-label">Light</span>
+      <button id="theme-btn" class="govuk-btn govuk-btn--secondary govuk-btn--sm"
+              onclick="toggleTheme()" title="Switch colour theme" aria-label="Switch colour theme">
+        <svg class="icon" aria-hidden="true"><use id="theme-icon" href="#icon-sun"></use></svg>
+        <span class="btn-label" id="theme-label">&nbsp;Light</span>
       </button>
-      <button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="exportData()" title="Save all your split data as a file">
-        <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-download"></use></svg>
-        <span>Download split data</span>
+      <button class="govuk-btn govuk-btn--secondary govuk-btn--sm govuk-header__actions--full-label" onclick="exportData()" title="Download split data" aria-label="Download split data">
+        <svg class="icon" aria-hidden="true"><use href="#icon-download"></use></svg>
+        <span>&nbsp;Download split data</span>
       </button>
-      <label class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" style="cursor:pointer" title="Load split data from a previously downloaded file">
-        <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-upload"></use></svg>
-        <span>Upload split data</span>
+      <label class="govuk-btn govuk-btn--secondary govuk-btn--sm govuk-header__actions--full-label" style="cursor:pointer" title="Upload split data" aria-label="Upload split data">
+        <svg class="icon" aria-hidden="true"><use href="#icon-upload"></use></svg>
+        <span>&nbsp;Upload split data</span>
         <input type="file" accept=".json" onchange="importData(event)" style="display:none">
       </label>
     </div>
@@ -560,7 +602,7 @@ body {
 <div class="info-banner">
   <div class="info-banner__inner">
     <svg class="icon icon--sm text-muted" aria-hidden="true"><use href="#icon-wallet"></use></svg>
-    <span class="govuk-hint mb0">All data stays on this device. Use "Download split data" regularly to keep a backup file.</span>
+    <span class="govuk-hint mb0">All data stays on this device. Use "Download" regularly to keep a backup file.</span>
   </div>
 </div>
 
@@ -600,13 +642,15 @@ body {
       <h3>4. Check balances and settle up</h3>
       <ul>
         <li><strong>Balances</strong> tab shows who is owed money and who owes money.</li>
-        <li><strong>Settle up</strong> tab shows the simplest set of payments to clear all debts.</li>
+        <li><strong>Settle up</strong> tab shows the simplest set of payments to clear all debts, under the session name.</li>
+        <li>Once someone pays you back, tap <strong>Money received</strong> to mark that payment as done. Tap <strong>Undo</strong> if you marked it by mistake.</li>
       </ul>
 
       <h3>5. Save your data</h3>
       <ul>
-        <li>Tap <strong>Download split data</strong> to save a backup file (.json) to your device.</li>
-        <li>Tap <strong>Upload split data</strong> to restore from a backup file later, or on another device.</li>
+        <li>Tap the <strong>download icon</strong> in the top bar to save a backup file (.json) you can re-upload later.</li>
+        <li>Tap the <strong>upload icon</strong> to restore from a backup file, or on another device.</li>
+        <li>Inside a session, tap <strong>Download as text</strong> to get a plain, readable .txt summary of all expenses, balances, and settlements — useful for sharing or printing.</li>
       </ul>
     </div>
   </div>
@@ -672,10 +716,16 @@ body {
         <h1 class="govuk-h2 mb0" id="s-title"></h1>
         <p class="govuk-hint mb0" id="s-members"></p>
       </div>
-      <button class="govuk-btn govuk-btn--danger govuk-btn--sm btn-icon-text" onclick="deleteSess()">
-        <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-trash"></use></svg>
-        Delete session
-      </button>
+      <div class="flex gap-sm flex-wrap">
+        <button class="govuk-btn govuk-btn--danger govuk-btn--sm btn-icon-text" onclick="deleteSess()">
+          <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-trash"></use></svg>
+          Delete session
+        </button>
+        <button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="downloadSessTxt()" title="Download a plain text summary of this session">
+          <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-text-file"></use></svg>
+          Download as text
+        </button>
+      </div>
     </div>
 
     <nav class="govuk-tabs" role="tablist">
@@ -1063,7 +1113,7 @@ function createSess() {
   const name = document.getElementById('ns-name').value.trim() || 'Session';
   if (tempMembers.length < 2) { alert('Please add at least 2 people before creating a session.'); return; }
   tempMembers.forEach(m => { if (!db.people.includes(m)) db.people.push(m); });
-  const session = { id: uid(), name, members: [...tempMembers], expenses: [], createdAt: new Date().toISOString() };
+  const session = { id: uid(), name, members: [...tempMembers], expenses: [], settledPairs: [], createdAt: new Date().toISOString() };
   db.sessions.push(session); saveDb();
   closeModal('m-ns'); openSess(session.id); showToast('Session created');
 }
@@ -1081,6 +1131,82 @@ function deleteSess() {
   if (!confirm(`Delete "${getSess()?.name}" and all its expenses? This cannot be undone.`)) return;
   db.sessions = db.sessions.filter(s => s.id !== curSessId);
   saveDb(); goHome(); showToast('Session deleted', 'icon-trash');
+}
+
+function downloadSessTxt() {
+  const s = getSess();
+  if (!s) return;
+
+  const line  = '-'.repeat(48);
+  const dline = '='.repeat(48);
+  const lines = [];
+
+  lines.push(dline);
+  lines.push(`  ${s.name}`);
+  lines.push(dline);
+  lines.push('');
+  lines.push(`People: ${s.members.join(', ')}`);
+  lines.push(`Created: ${new Date(s.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}`);
+  lines.push('');
+
+  lines.push(line);
+  lines.push('EXPENSES');
+  lines.push(line);
+  if (!s.expenses.length) {
+    lines.push('(no expenses added yet)');
+  } else {
+    s.expenses.forEach((exp, idx) => {
+      const date = new Date(exp.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+      lines.push(`${idx + 1}. ${exp.description} - Rs. ${fmt(exp.amount)}`);
+      lines.push(`   Date: ${date}`);
+      lines.push(`   Paid by: ${exp.paidBy}`);
+      lines.push(`   Split among: ${exp.splitAmong.map(p => `${p} (Rs. ${fmt(exp.shares[p])})`).join(', ')}`);
+      if (exp.note) lines.push(`   Note: ${exp.note}`);
+      lines.push('');
+    });
+  }
+
+  const total = s.expenses.reduce((a, e) => a + e.amount, 0);
+  lines.push(`Total spent: Rs. ${fmt(total)}`);
+  lines.push('');
+
+  lines.push(line);
+  lines.push('BALANCES');
+  lines.push(line);
+  const bal = computeBalances(s);
+  Object.entries(bal).forEach(([person, b]) => {
+    if (b > 0.005)      lines.push(`${person}: should receive Rs. ${fmt(b)}`);
+    else if (b < -0.005) lines.push(`${person}: owes Rs. ${fmt(Math.abs(b))}`);
+    else                  lines.push(`${person}: settled up`);
+  });
+  lines.push('');
+
+  lines.push(line);
+  lines.push('SETTLE UP - WHO PAYS WHOM');
+  lines.push(line);
+  const txns = computeSettlement(s);
+  const settledPairs = Array.isArray(s.settledPairs) ? s.settledPairs : [];
+  if (!txns.length) {
+    lines.push('Everyone is settled up. No payments needed.');
+  } else {
+    txns.forEach(t => {
+      const status = settledPairs.includes(txnKey(t)) ? ' [RECEIVED]' : ' [PENDING]';
+      lines.push(`${t.from} pays ${t.to}: Rs. ${fmt(t.amount)}${status}`);
+    });
+  }
+  lines.push('');
+  lines.push(dline);
+  lines.push(`Generated by Split Bills on ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}`);
+  lines.push(dline);
+
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = (s.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase() || 'session') + '-summary.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Text summary downloaded', 'icon-text-file');
 }
 
 // ================================================================
@@ -1380,6 +1506,8 @@ function computeSettlement(s) {
   return txns;
 }
 
+function txnKey(t) { return t.from + '→' + t.to; }
+
 function renderSettle() {
   const s  = getSess();
   const el = document.getElementById('set-list');
@@ -1389,25 +1517,67 @@ function renderSettle() {
       <p>Add some expenses first to see settlement details here.</p>
     </div>`; return;
   }
+  if (!Array.isArray(s.settledPairs)) s.settledPairs = [];
+
   const txns = computeSettlement(s);
+
+  // Drop stale "received" markers for pairs that no longer owe money
+  const liveKeys = new Set(txns.map(txnKey));
+  s.settledPairs = s.settledPairs.filter(k => liveKeys.has(k));
+
+  const header = `<div class="govuk-inset mb4">
+    <strong>${esc(s.name)}</strong>
+    <span class="fsm text-muted"> &middot; settlement summary</span>
+  </div>`;
+
   if (!txns.length) {
-    el.innerHTML = `<div class="govuk-panel govuk-panel--green">
+    el.innerHTML = header + `<div class="govuk-panel govuk-panel--green">
       <svg class="icon icon--lg" aria-hidden="true" style="margin-bottom:8px"><use href="#icon-celebrate"></use></svg>
       <div class="govuk-panel__title">All settled!</div>
       <div style="font-size:1rem;margin-top:8px">No payments are needed right now.</div>
     </div>`; return;
   }
-  el.innerHTML = txns.map(t =>
-    `<div class="govuk-card govuk-card--bl">
-      <div class="flex align-c justify-b gap-sm">
+
+  el.innerHTML = header + txns.map(t => {
+    const key       = txnKey(t);
+    const isReceived = s.settledPairs.includes(key);
+    return `<div class="govuk-card ${isReceived ? 'govuk-card--xl' : 'govuk-card--bl'}">
+      <div class="flex align-c justify-b gap-sm flex-wrap">
         <div class="flex align-c gap-sm" style="flex-wrap:wrap">
-          <span class="fw">${esc(t.from)}</span>
+          <span class="fw ${isReceived ? 'text-muted' : ''}">${esc(t.from)}</span>
           <svg class="icon icon--sm text-muted" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
-          <span class="fw">${esc(t.to)}</span>
+          <span class="fw ${isReceived ? 'text-muted' : ''}">${esc(t.to)}</span>
         </div>
-        <div class="fw flg text-blue">₹${fmt(t.amount)}</div>
+        <div class="flex align-c gap-sm flex-wrap">
+          <div class="fw flg ${isReceived ? 'text-muted' : 'text-blue'}">₹${fmt(t.amount)}</div>
+          ${isReceived
+            ? `<button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="toggleReceived('${esc(key)}', false)" title="Undo — mark as not yet received">
+                 <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-undo"></use></svg>
+                 Undo
+               </button>`
+            : `<button class="govuk-btn govuk-btn--primary govuk-btn--sm btn-icon-text" onclick="toggleReceived('${esc(key)}', true)" title="Mark this payment as received">
+                 <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-cash"></use></svg>
+                 Money received
+               </button>`}
+        </div>
       </div>
-    </div>`).join('');
+      ${isReceived ? `<div class="fsm text-green mt4" style="margin-top:8px"><svg class="icon icon--sm" aria-hidden="true"><use href="#icon-check"></use></svg> Marked as received</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function toggleReceived(key, received) {
+  const s = getSess();
+  if (!Array.isArray(s.settledPairs)) s.settledPairs = [];
+  if (received) {
+    if (!s.settledPairs.includes(key)) s.settledPairs.push(key);
+    showToast('Marked as received', 'icon-cash');
+  } else {
+    s.settledPairs = s.settledPairs.filter(k => k !== key);
+    showToast('Marked as not yet received', 'icon-undo');
+  }
+  saveDb();
+  renderSettle();
 }
 
 // ================================================================
