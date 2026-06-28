@@ -1,81 +1,64 @@
-Split Bills
-===========
+# Split Bills
 
-Overview
---------
-Split Bills is a simple expense-sharing application that helps users divide a bill equally among multiple people. It supports quick one-time bill splitting as well as tracking shared expenses through saved sessions.
+A simple web application to split bills with friends or family.
 
-Features
---------
-1. Quick Split
-   - Split a single bill equally.
-   - No data is saved.
+## What is this?
 
-2. Session Tracking
-   - Create and save expense sessions.
-   - Add multiple expenses over time.
-   - Track who paid and who owes money.
-   - View running balances for all participants.
+Split Bills helps you divide a bill equally between multiple people. You can use it for a quick one-time calculation or save expenses in a session to keep track of shared spending.
 
-3. Participant Management
-   - Add any number of people.
-   - Optional participant names.
-   - Automatically assigns names such as "Person 1", "Person 2", etc., when left blank.
+For example, if four friends go out for dinner and the total bill is ₹2,000, this app tells you that each person should pay ₹500.
 
-4. Expense Details
-   - Total bill amount.
-   - Number of participants.
-   - Optional expense description.
-   - Equal bill calculation.
+## Features
 
-How Quick Split Works
----------------------
+* Split a bill equally among any number of people.
+* Add names for each person (optional).
+* Leave names blank and the app will use "Person 1", "Person 2", and so on.
+* Add a short description of the expense (optional).
+* Use **Quick Split** for one-time calculations.
+* Save expenses in sessions to track multiple shared expenses over time.
+
+## How to Use
+
+### Quick Split
+
 1. Enter the total bill amount.
-2. Select the number of people sharing the expense.
-3. Optionally enter participant names.
-4. Optionally add a description for the expense.
-5. Click "Calculate Split".
-6. The application calculates the amount each person should pay equally.
+2. Enter the number of people sharing the bill.
+3. Add names if you want (optional).
+4. Enter what the expense was for (optional).
+5. Click **Calculate Split**.
+6. The app shows how much each person should pay.
 
-Example
--------
-Total Bill: ₹1500
-Participants: 3
+## Example
 
-Result:
-Person 1 : ₹500.00
-Person 2 : ₹500.00
-Person 3 : ₹500.00
+**Total Bill:** ₹1,500
 
-Project Structure
------------------
-This project consists of:
+**People:** 3
 
-- User interface for bill entry
-- Bill splitting logic
-- Session management (saved expenses)
-- Expense history
-- Balance calculations
+Each person pays:
 
-Future Improvements
--------------------
-- Unequal/custom splits
-- Percentage-based splitting
-- Split by item
-- Payment settlement tracking
-- Export expenses to CSV or PDF
-- Multi-currency support
-- User authentication
-- Cloud synchronization
-- Mobile-friendly interface
+* Person 1 – ₹500
+* Person 2 – ₹500
+* Person 3 – ₹500
 
-Notes
------
-- Currency is displayed in Indian Rupees (₹).
-- Participant names are optional.
-- If names are omitted, default labels are assigned automatically.
-- Quick Split calculations are not saved unless created within a session.
+## Why I Built This
 
-License
--------
-This project is intended for learning and personal use. Modify and extend it as needed.
+This project was created to make splitting bills simple and easy. Instead of using a calculator every time, the app does the math instantly and helps keep shared expenses organized.
+
+## Future Improvements
+
+* Custom split amounts
+* Split by percentage
+* Split by individual items
+* Track who has paid
+* Export expenses
+* Support different currencies
+
+## Technologies Used
+
+* HTML
+* CSS
+* JavaScript
+
+## License
+
+This project is open for learning and personal use.
