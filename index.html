@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Split Bills</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d70b8'/%3E%3Cpath fill='%23ffffff' d='M20 10h-1V8a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2zM7 8h11v2H7V8zm13 12H7V12h13v2h-3a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h3v2zm0-4h-3v-2h3v2z'/%3E%3C/svg%3E">
 <style>
 /* ── GOV.UK Design System — with light/dark theming ────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -525,6 +526,88 @@ body {
 .mb2 { margin-bottom: 8px; }
 .mb4 { margin-bottom: 20px; }
 .mt4 { margin-top: 20px; }
+
+/* ── FOOTER / TASKBAR ───────────────────────────────────────────── */
+.app-footer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #0b0c0c;
+  border-top: 4px solid var(--clr-blue);
+  z-index: 900;
+  box-shadow: 0 -2px 12px rgba(0,0,0,.35);
+}
+.app-footer__inner {
+  max-width: 960px; margin: 0 auto;
+  padding: 0 12px;
+  display: flex; align-items: stretch;
+  justify-content: space-between;
+  gap: 0;
+}
+.footer-item {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 3px;
+  padding: 8px 10px;
+  color: #b1b4b6;
+  font-size: .65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .4px;
+  border: none; background: none; cursor: pointer;
+  font-family: inherit; flex: 1;
+  transition: color .15s, background .15s;
+  white-space: nowrap;
+}
+.footer-item:hover { color: #ffffff; background: rgba(255,255,255,.06); }
+.footer-item:focus { outline: 3px solid var(--clr-yellow); outline-offset: -3px; }
+.footer-item--active { color: var(--clr-yellow); }
+.footer-item .icon { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+.footer-item__label { line-height: 1; }
+.footer-divider {
+  width: 1px; background: #38383a;
+  margin: 8px 0; flex-shrink: 0;
+}
+/* push main content up so footer doesn't overlap */
+body { padding-bottom: 60px; }
+
+/* ── SHARE MODAL SPECIFICS ──────────────────────────────────────── */
+.share-format-card {
+  display: flex; align-items: center; gap: 12px;
+  border: 2px solid var(--clr-divider);
+  padding: 14px 16px; margin-bottom: 10px;
+  cursor: pointer; background: var(--clr-surface-2);
+  transition: border-color .15s, background .15s;
+}
+.share-format-card:hover { border-color: var(--clr-blue); background: var(--clr-inset-bg); }
+.share-format-card input[type=radio] { accent-color: var(--clr-blue); width: 20px; height: 20px; flex-shrink: 0; }
+.share-format-card__body { flex: 1; }
+.share-format-card__title { font-weight: 700; font-size: 1rem; }
+.share-format-card__desc  { font-size: .8rem; color: var(--clr-muted); margin-top: 2px; }
+.share-format-icon {
+  width: 36px; height: 36px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-weight: 900; font-size: 13px; letter-spacing: -.5px;
+}
+.share-format-icon--pdf  { background: #d4351c; color: #fff; }
+.share-format-icon--xlsx { background: #00703c; color: #fff; }
+
+/* ── SETTLE-UP ENHANCEMENT ──────────────────────────────────────── */
+.settle-for-label {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--clr-tag-blue-bg); color: var(--clr-tag-blue-txt);
+  border-radius: 3px; padding: 2px 7px;
+  font-size: .75rem; font-weight: 700; margin-top: 6px;
+}
+.settle-expense-list {
+  margin-top: 8px;
+  border-top: 1px dashed var(--clr-divider);
+  padding-top: 8px;
+}
+.settle-expense-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 4px 0;
+  font-size: .8125rem; color: var(--clr-muted);
+  border-bottom: 1px solid var(--clr-surface-2);
+}
+.settle-expense-row:last-child { border-bottom: none; }
+.settle-expense-row strong { color: var(--clr-text); }
 </style>
 </head>
 <body>
@@ -570,6 +653,18 @@ body {
     <symbol id="icon-cash" viewBox="0 0 24 24"><path d="M3 6h18a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm9 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM5 9a2 2 0 0 1-2 2v2a2 2 0 0 1 2 2h14a2 2 0 0 1 2-2v-2a2 2 0 0 1-2-2H5z"/></symbol>
     <!-- Undo / revert -->
     <symbol id="icon-undo" viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62a6.95 6.95 0 0 1 5.12-2.13c3.07 0 5.7 1.92 6.74 4.6l2.06-.76C20.07 10.36 16.6 8 12.5 8z"/></symbol>
+    <!-- Share -->
+    <symbol id="icon-share" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81A3 3 0 0 0 21 5a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81A2.99 2.99 0 0 0 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65A2.92 2.92 0 0 0 18 22a2.92 2.92 0 0 0 2.92-2.92A2.92 2.92 0 0 0 18 16.08z"/></symbol>
+    <!-- Home -->
+    <symbol id="icon-home" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></symbol>
+    <!-- Session / layers -->
+    <symbol id="icon-sessions" viewBox="0 0 24 24"><path d="M2 17h20v2H2v-2zm1.15-4.05L4 11.47l.85 1.48 1.3-.75-.85-1.48H7v-1.5H5.3l.85-1.47L4.85 7l-.85 1.47L3.15 7l-1.3.73.85 1.47H1v1.5h1.7l-.85 1.48 1.3.77zM6.85 7l1.3.73-.85 1.47H9v1.5H7.3l.85 1.48-1.3.77-.85-1.48-.85 1.48-1.3-.77.85-1.48H3v-1.5h1.7L3.85 7.73 5.15 7l.85 1.47L6.85 7zm6 0l1.3.73-.85 1.47H15v1.5h-1.7l.85 1.48-1.3.77-.85-1.48-.85 1.48-1.3-.77.85-1.48H9v-1.5h1.7L9.85 7.73 11.15 7l.85 1.47L12.85 7zm6 0l1.3.73-.85 1.47H21v1.5h-1.7l.85 1.48-1.3.77-.85-1.48-.85 1.48-1.3-.77.85-1.48H15v-1.5h1.7L15.85 7.73 17.15 7l.85 1.47L18.85 7z"/></symbol>
+    <!-- Quick split -->
+    <symbol id="icon-quick" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8z"/></symbol>
+    <!-- Info -->
+    <symbol id="icon-info" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol>
+    <!-- Spreadsheet/Excel -->
+    <symbol id="icon-excel" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm1 9H9v2h6v-2zm0 4H9v2h6v-2zM9 9h6V7H9v2zm5-6.5V9h5.5L14 2.5z"/></symbol>
   </defs>
 </svg>
 
@@ -725,6 +820,10 @@ body {
           <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-text-file"></use></svg>
           Download as text
         </button>
+        <button class="govuk-btn govuk-btn--primary govuk-btn--sm btn-icon-text" onclick="openShareModal()" title="Share this session as PDF or Excel">
+          <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-share"></use></svg>
+          Share
+        </button>
       </div>
     </div>
 
@@ -743,7 +842,12 @@ body {
     </div>
     <div id="p-bal" class="hidden"><div id="bal-list"></div></div>
     <div id="p-set" class="hidden">
-      <p class="govuk-body text-muted fsm mb4">This shows the fewest payments needed to settle all debts.</p>
+      <div class="govuk-inset mb4" style="border-left-color:var(--clr-blue)">
+        <p class="fw" style="margin-bottom:4px">How Settle Up works</p>
+        <p class="fsm text-muted mb2">This calculates the <strong>minimum number of payments</strong> needed to clear every debt in this session — so nobody has to make more transfers than necessary.</p>
+        <p class="fsm text-muted mb2">Each row shows <strong>who owes whom, how much, and why</strong> — the contributing expenses are listed beneath each payment so you can trace exactly where the amount comes from.</p>
+        <p class="fsm text-muted mb0">Once a payment is made, tap <strong>"Money received"</strong> to mark it done. Use <strong>Share</strong> above to export the full summary as PDF or Excel.</p>
+      </div>
       <div id="set-list"></div>
     </div>
   </section>
@@ -840,6 +944,90 @@ body {
     </div>
   </div>
 </div>
+<!-- MODAL: Share Session -->
+<div class="govuk-modal-overlay" id="m-share" role="dialog" aria-modal="true" aria-labelledby="m-share-title">
+  <div class="govuk-modal">
+    <h2 class="govuk-h2" id="m-share-title">Share session</h2>
+    <p class="govuk-body fsm text-muted mb4">Choose a format, then tap <strong>Download &amp; Share</strong>. Your browser will prompt you to save the file — you can then share it via WhatsApp, email, or any other app.</p>
+
+    <label class="share-format-card">
+      <input type="radio" name="share-fmt" value="pdf" checked>
+      <div class="share-format-icon share-format-icon--pdf">PDF</div>
+      <div class="share-format-card__body">
+        <div class="share-format-card__title">PDF Document</div>
+        <div class="share-format-card__desc">Formatted report with session summary, all expenses, balances &amp; settlement — ideal for sharing or printing.</div>
+      </div>
+    </label>
+
+    <label class="share-format-card">
+      <input type="radio" name="share-fmt" value="xlsx">
+      <div class="share-format-icon share-format-icon--xlsx">XLS</div>
+      <div class="share-format-card__body">
+        <div class="share-format-card__title">Excel Spreadsheet (.xlsx)</div>
+        <div class="share-format-card__desc">Multi-sheet workbook with Expenses, Balances and Settlement tabs — great for further analysis or record-keeping.</div>
+      </div>
+    </label>
+
+    <div class="flex gap-sm mt4">
+      <button class="govuk-btn govuk-btn--primary btn-icon-text" onclick="doShare()">
+        <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-download"></use></svg>
+        Download &amp; Share
+      </button>
+      <button class="govuk-btn govuk-btn--secondary" onclick="closeModal('m-share')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER TASKBAR ───────────────────────────────────────────── -->
+<footer class="app-footer" role="contentinfo" aria-label="App navigation">
+  <div class="app-footer__inner">
+    <button class="footer-item" id="ft-home" onclick="footerNav('home')" title="Home — sessions list">
+      <svg class="icon" aria-hidden="true"><use href="#icon-home"></use></svg>
+      <span class="footer-item__label">Home</span>
+    </button>
+    <div class="footer-divider"></div>
+    <button class="footer-item" id="ft-sessions" onclick="footerNav('sessions')" title="Your sessions">
+      <svg class="icon" aria-hidden="true"><use href="#icon-sessions"></use></svg>
+      <span class="footer-item__label">Sessions</span>
+    </button>
+    <div class="footer-divider"></div>
+    <button class="footer-item" id="ft-quick" onclick="footerNav('quick')" title="Quick split">
+      <svg class="icon" aria-hidden="true"><use href="#icon-quick"></use></svg>
+      <span class="footer-item__label">Quick Split</span>
+    </button>
+    <div class="footer-divider"></div>
+    <button class="footer-item" id="ft-share-footer" onclick="footerShareOrExport()" title="Share / Export">
+      <svg class="icon" aria-hidden="true"><use href="#icon-share"></use></svg>
+      <span class="footer-item__label">Share</span>
+    </button>
+    <div class="footer-divider"></div>
+    <button class="footer-item" id="ft-about" onclick="footerNav('about')" title="About Split Bills">
+      <svg class="icon" aria-hidden="true"><use href="#icon-info"></use></svg>
+      <span class="footer-item__label">About</span>
+    </button>
+  </div>
+</footer>
+
+<!-- MODAL: About -->
+<div class="govuk-modal-overlay" id="m-about" role="dialog" aria-modal="true" aria-labelledby="m-about-title">
+  <div class="govuk-modal">
+    <h2 class="govuk-h2" id="m-about-title">About Split Bills</h2>
+    <div class="govuk-inset mb4">
+      <p class="fw mb2">Built by Mihir Panchal</p>
+      <p class="fsm text-muted mb2">AI/ML Developer — builds scalable, data-driven systems using Python and AI techniques. Experience in Generative AI, Deep Learning, and Machine Learning.</p>
+    </div>
+    <div class="govuk-summary">
+      <div class="govuk-summary-row"><div class="govuk-summary-key">Portfolio</div><div class="govuk-summary-val"><a href="https://mihir-panchal.vercel.app" target="_blank" rel="noopener" style="color:var(--clr-blue)">mihir-panchal.vercel.app</a></div></div>
+      <div class="govuk-summary-row"><div class="govuk-summary-key">Email</div><div class="govuk-summary-val"><a href="mailto:mihirpanchal2811@gmail.com" style="color:var(--clr-blue)">mihirpanchal2811@gmail.com</a></div></div>
+      <div class="govuk-summary-row"><div class="govuk-summary-key">Report an issue</div><div class="govuk-summary-val"><a href="https://github.com" target="_blank" rel="noopener" style="color:var(--clr-blue)">GitHub Issues</a></div></div>
+      <div class="govuk-summary-row"><div class="govuk-summary-key">LinkedIn</div><div class="govuk-summary-val"><a href="https://linkedin.com" target="_blank" rel="noopener" style="color:var(--clr-blue)">Mihir Panchal</a></div></div>
+      <div class="govuk-summary-row"><div class="govuk-summary-key">Version</div><div class="govuk-summary-val fsm text-muted">Split Bills v2.0 — all data stays on your device</div></div>
+    </div>
+    <p class="fsm text-muted mb4">This project is open for learning and personal use. Future improvements include custom split amounts, percentage splits, per-item splits, payment tracking, and multi-currency support.</p>
+    <button class="govuk-btn govuk-btn--secondary" onclick="closeModal('m-about')">Close</button>
+  </div>
+</div>
+
 <script>
 'use strict';
 
@@ -1508,64 +1696,6 @@ function computeSettlement(s) {
 
 function txnKey(t) { return t.from + '→' + t.to; }
 
-function renderSettle() {
-  const s  = getSess();
-  const el = document.getElementById('set-list');
-  if (!s.expenses.length) {
-    el.innerHTML = `<div class="govuk-empty">
-      <svg class="icon icon--lg" aria-hidden="true"><use href="#icon-receipt"></use></svg>
-      <p>Add some expenses first to see settlement details here.</p>
-    </div>`; return;
-  }
-  if (!Array.isArray(s.settledPairs)) s.settledPairs = [];
-
-  const txns = computeSettlement(s);
-
-  // Drop stale "received" markers for pairs that no longer owe money
-  const liveKeys = new Set(txns.map(txnKey));
-  s.settledPairs = s.settledPairs.filter(k => liveKeys.has(k));
-
-  const header = `<div class="govuk-inset mb4">
-    <strong>${esc(s.name)}</strong>
-    <span class="fsm text-muted"> &middot; settlement summary</span>
-  </div>`;
-
-  if (!txns.length) {
-    el.innerHTML = header + `<div class="govuk-panel govuk-panel--green">
-      <svg class="icon icon--lg" aria-hidden="true" style="margin-bottom:8px"><use href="#icon-celebrate"></use></svg>
-      <div class="govuk-panel__title">All settled!</div>
-      <div style="font-size:1rem;margin-top:8px">No payments are needed right now.</div>
-    </div>`; return;
-  }
-
-  el.innerHTML = header + txns.map(t => {
-    const key       = txnKey(t);
-    const isReceived = s.settledPairs.includes(key);
-    return `<div class="govuk-card ${isReceived ? 'govuk-card--xl' : 'govuk-card--bl'}">
-      <div class="flex align-c justify-b gap-sm flex-wrap">
-        <div class="flex align-c gap-sm" style="flex-wrap:wrap">
-          <span class="fw ${isReceived ? 'text-muted' : ''}">${esc(t.from)}</span>
-          <svg class="icon icon--sm text-muted" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
-          <span class="fw ${isReceived ? 'text-muted' : ''}">${esc(t.to)}</span>
-        </div>
-        <div class="flex align-c gap-sm flex-wrap">
-          <div class="fw flg ${isReceived ? 'text-muted' : 'text-blue'}">₹${fmt(t.amount)}</div>
-          ${isReceived
-            ? `<button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="toggleReceived('${esc(key)}', false)" title="Undo — mark as not yet received">
-                 <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-undo"></use></svg>
-                 Undo
-               </button>`
-            : `<button class="govuk-btn govuk-btn--primary govuk-btn--sm btn-icon-text" onclick="toggleReceived('${esc(key)}', true)" title="Mark this payment as received">
-                 <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-cash"></use></svg>
-                 Money received
-               </button>`}
-        </div>
-      </div>
-      ${isReceived ? `<div class="fsm text-green mt4" style="margin-top:8px"><svg class="icon icon--sm" aria-hidden="true"><use href="#icon-check"></use></svg> Marked as received</div>` : ''}
-    </div>`;
-  }).join('');
-}
-
 function toggleReceived(key, received) {
   const s = getSess();
   if (!Array.isArray(s.settledPairs)) s.settledPairs = [];
@@ -1594,12 +1724,426 @@ document.querySelectorAll('.govuk-modal-overlay').forEach(overlay => {
 });
 
 // ================================================================
+//  FOOTER NAVIGATION
+// ================================================================
+function updateFooterActive(key) {
+  ['home','sessions','quick','share-footer','about'].forEach(k => {
+    document.getElementById('ft-' + k)?.classList.toggle('footer-item--active', k === key);
+  });
+}
+
+function footerNav(key) {
+  if (key === 'home') {
+    updateFooterActive('home');
+    goHome();
+  } else if (key === 'sessions') {
+    updateFooterActive('sessions');
+    goHome();
+    // scroll to sessions list
+    setTimeout(() => document.getElementById('sess-list')?.scrollIntoView({ behavior: 'smooth' }), 80);
+  } else if (key === 'quick') {
+    updateFooterActive('quick');
+    // if in session view, go home first
+    if (!document.getElementById('v-home').classList.contains('hidden') === false) goHome();
+    showView('home');
+    setTimeout(() => document.getElementById('qs-amt')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
+  } else if (key === 'about') {
+    updateFooterActive('about');
+    openModal('m-about');
+  }
+}
+
+function footerShareOrExport() {
+  updateFooterActive('share-footer');
+  const inSession = !document.getElementById('v-sess').classList.contains('hidden');
+  if (inSession) {
+    openShareModal();
+  } else {
+    // fallback: export full JSON
+    exportData();
+  }
+}
+
+// ================================================================
+//  SHARE MODAL
+// ================================================================
+function openShareModal() {
+  const s = getSess();
+  if (!s) { alert('Open a session first to share it.'); return; }
+  openModal('m-share');
+}
+
+function doShare() {
+  const fmt = document.querySelector('input[name="share-fmt"]:checked')?.value || 'pdf';
+  closeModal('m-share');
+  if (fmt === 'pdf') exportSessionPDF();
+  else               exportSessionXLSX();
+}
+
+// ================================================================
+//  PDF EXPORT (pure client-side, no external library)
+// ================================================================
+function exportSessionPDF() {
+  const s = getSess(); if (!s) return;
+  const bal   = computeBalances(s);
+  const txns  = computeSettlement(s);
+  const total = s.expenses.reduce((a, e) => a + e.amount, 0);
+  const settled = Array.isArray(s.settledPairs) ? s.settledPairs : [];
+  const now   = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+  const created = new Date(s.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+
+  // Build an HTML page optimised for print/PDF
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>${s.name} — Split Bills Report</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Arial,sans-serif;font-size:12px;color:#0b0c0c;background:#fff;padding:24px 32px;}
+  h1{font-size:22px;margin-bottom:4px;}
+  h2{font-size:15px;margin:20px 0 8px;border-bottom:2px solid #1d70b8;padding-bottom:4px;color:#1d70b8;}
+  .meta{font-size:11px;color:#505a5f;margin-bottom:8px;}
+  .badge{display:inline-block;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase;}
+  .badge-blue{background:#d2e2f1;color:#144e81;}
+  .badge-green{background:#cce2d8;color:#005a30;}
+  .badge-red{background:#f5d0cb;color:#55150b;}
+  .badge-grey{background:#eeefef;color:#383f43;}
+  table{width:100%;border-collapse:collapse;margin-bottom:16px;}
+  th{background:#1d70b8;color:#fff;text-align:left;padding:6px 8px;font-size:11px;}
+  td{padding:6px 8px;border-bottom:1px solid #dbdad9;vertical-align:top;font-size:11px;}
+  tr:nth-child(even) td{background:#f8f8f8;}
+  .total-row td{font-weight:700;background:#e8f0fa;border-top:2px solid #1d70b8;}
+  .summary-box{border:2px solid #1d70b8;border-radius:4px;padding:12px 16px;margin-bottom:16px;display:flex;gap:32px;flex-wrap:wrap;}
+  .summary-box__item{flex:1;min-width:140px;}
+  .summary-box__val{font-size:18px;font-weight:700;color:#1d70b8;}
+  .summary-box__label{font-size:10px;color:#505a5f;text-transform:uppercase;letter-spacing:.5px;}
+  .settle-card{border:1px solid #dbdad9;border-left:5px solid #1d70b8;padding:10px 12px;margin-bottom:8px;border-radius:0 3px 3px 0;}
+  .settle-card.done{border-left-color:#00703c;background:#f0f8f4;}
+  .settle-card .arrow{color:#1d70b8;font-weight:700;margin:0 6px;}
+  .settle-for{font-size:10px;color:#505a5f;margin-top:6px;border-top:1px dashed #dbdad9;padding-top:6px;}
+  .settle-for li{margin-bottom:2px;}
+  .footer-note{margin-top:24px;padding-top:12px;border-top:1px solid #dbdad9;font-size:10px;color:#505a5f;text-align:center;}
+  @media print{body{padding:0;} @page{margin:15mm;}}
+</style>
+</head>
+<body>
+
+<h1>💰 ${s.name}</h1>
+<div class="meta">Generated by Split Bills &nbsp;·&nbsp; ${now} &nbsp;·&nbsp; Session created ${created} &nbsp;·&nbsp; Members: ${s.members.join(', ')}</div>
+
+<div class="summary-box">
+  <div class="summary-box__item">
+    <div class="summary-box__val">₹${fmt2(total)}</div>
+    <div class="summary-box__label">Total Spent</div>
+  </div>
+  <div class="summary-box__item">
+    <div class="summary-box__val">${s.expenses.length}</div>
+    <div class="summary-box__label">Expenses</div>
+  </div>
+  <div class="summary-box__item">
+    <div class="summary-box__val">${s.members.length}</div>
+    <div class="summary-box__label">People</div>
+  </div>
+  <div class="summary-box__item">
+    <div class="summary-box__val">${txns.length === 0 ? '✅ Settled' : txns.length + ' pending'}</div>
+    <div class="summary-box__label">Payments</div>
+  </div>
+</div>
+
+<h2>📋 All Expenses</h2>
+<table>
+  <thead>
+    <tr>
+      <th>#</th><th>Description</th><th>Date</th><th>Paid By</th><th>Split Among</th><th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${s.expenses.map((exp, i) => {
+      const d = new Date(exp.date).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+      const splits = exp.splitAmong.map(p => `${p} (₹${fmt2(exp.shares[p])})`).join('<br>');
+      return `<tr>
+        <td>${i+1}</td>
+        <td><strong>${exp.description}</strong>${exp.note ? `<br><em style="color:#505a5f">${exp.note}</em>` : ''}</td>
+        <td>${d}</td>
+        <td>${exp.paidBy}</td>
+        <td>${splits}</td>
+        <td style="text-align:right;font-weight:700">₹${fmt2(exp.amount)}</td>
+      </tr>`;
+    }).join('')}
+    <tr class="total-row">
+      <td colspan="5" style="text-align:right">Total Spent</td>
+      <td style="text-align:right">₹${fmt2(total)}</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>⚖️ Balances — Who Owes What</h2>
+<table>
+  <thead>
+    <tr><th>Person</th><th>Total Paid</th><th>Total Share</th><th>Net Balance</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    ${s.members.map(person => {
+      const b = bal[person] || 0;
+      const paid  = s.expenses.filter(e=>e.paidBy===person).reduce((a,e)=>a+e.amount,0);
+      const share = s.expenses.reduce((a,e)=>a+(e.shares[person]||0),0);
+      const isPos = b > 0.005, isNeg = b < -0.005;
+      const status = isPos ? `<span class="badge badge-green">Owed ₹${fmt2(b)}</span>` : isNeg ? `<span class="badge badge-red">Owes ₹${fmt2(Math.abs(b))}</span>` : `<span class="badge badge-grey">Settled</span>`;
+      return `<tr>
+        <td><strong>${person}</strong></td>
+        <td>₹${fmt2(paid)}</td>
+        <td>₹${fmt2(share)}</td>
+        <td style="font-weight:700;color:${isPos?'#00703c':isNeg?'#d4351c':'#505a5f'}">${isPos?'+':''}₹${fmt2(b)}</td>
+        <td>${status}</td>
+      </tr>`;
+    }).join('')}
+  </tbody>
+</table>
+
+<h2>💸 Settle Up — Who Pays Whom &amp; For What</h2>
+${txns.length === 0
+  ? '<p style="color:#00703c;font-weight:700;padding:12px;border:2px solid #00703c;border-radius:4px">✅ All debts are settled! No payments needed.</p>'
+  : txns.map(t => {
+    const key = t.from + '→' + t.to;
+    const isDone = settled.includes(key);
+    // Find contributing expenses
+    const contributions = s.expenses.filter(e =>
+      e.splitAmong.includes(t.from) && e.paidBy === t.to
+    );
+    const contribHTML = contributions.length
+      ? `<div class="settle-for"><strong>Contributing expenses:</strong><ul style="margin-left:14px;margin-top:4px">` +
+        contributions.map(e => `<li><strong>${e.description}</strong> — ₹${fmt2(e.amount)} (${t.from}'s share: ₹${fmt2(e.shares[t.from]||0)}) — ${new Date(e.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</li>`).join('') +
+        `</ul></div>`
+      : '';
+    return `<div class="settle-card ${isDone ? 'done' : ''}">
+      <div style="font-size:14px;font-weight:700">
+        <span style="color:#d4351c">${t.from}</span>
+        <span class="arrow">→</span>
+        <span style="color:#00703c">${t.to}</span>
+        <span style="margin-left:12px;color:#1d70b8">₹${fmt2(t.amount)}</span>
+        ${isDone ? `&nbsp;<span class="badge badge-green">✓ Received</span>` : `&nbsp;<span class="badge badge-red">Pending</span>`}
+      </div>
+      ${contribHTML}
+    </div>`;
+  }).join('')}
+
+<div class="footer-note">
+  Generated by Split Bills — all data stored locally on your device &nbsp;·&nbsp; ${now}
+</div>
+
+<script>window.onload=()=>window.print()<\/script>
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = (s.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase() || 'session') + '-report.html';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('PDF report downloaded — open the file and print/save as PDF', 'icon-share');
+}
+
+function fmt2(n) { return Number(n||0).toFixed(2); }
+
+// ================================================================
+//  EXCEL / XLSX EXPORT (pure client-side, OOXML format)
+// ================================================================
+function exportSessionXLSX() {
+  const s = getSess(); if (!s) return;
+  const bal   = computeBalances(s);
+  const txns  = computeSettlement(s);
+  const total = s.expenses.reduce((a, e) => a + e.amount, 0);
+  const settled = Array.isArray(s.settledPairs) ? s.settledPairs : [];
+  const now = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+  const created = new Date(s.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+
+  // Build CSV-style multi-sheet content as a single sheet TSV
+  // Since true XLSX requires a library, we'll create a well-structured CSV with multiple sections
+  const lines = [];
+
+  // ── SECTION: Session Summary
+  lines.push(['SPLIT BILLS — SESSION REPORT', '', '', '', '', '']);
+  lines.push(['Session Name', s.name, '', '', '', '']);
+  lines.push(['Created', created, '', '', '', '']);
+  lines.push(['Members', s.members.join(', '), '', '', '', '']);
+  lines.push(['Total Expenses', s.expenses.length, '', '', '', '']);
+  lines.push(['Total Spent', `₹${fmt2(total)}`, '', '', '', '']);
+  lines.push(['Generated', now, '', '', '', '']);
+  lines.push(['', '', '', '', '', '']);
+
+  // ── SECTION: Expenses
+  lines.push(['ALL EXPENSES', '', '', '', '', '']);
+  lines.push(['#', 'Description', 'Date', 'Paid By', 'Split Among (shares)', 'Amount (₹)']);
+  s.expenses.forEach((exp, i) => {
+    const d = new Date(exp.date).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+    const splits = exp.splitAmong.map(p => `${p}: ₹${fmt2(exp.shares[p])}`).join(' | ');
+    lines.push([
+      i + 1,
+      exp.description + (exp.note ? ` (${exp.note})` : ''),
+      d,
+      exp.paidBy,
+      splits,
+      fmt2(exp.amount)
+    ]);
+  });
+  lines.push(['', '', '', '', 'TOTAL', fmt2(total)]);
+  lines.push(['', '', '', '', '', '']);
+
+  // ── SECTION: Balances
+  lines.push(['BALANCES — WHO OWES WHAT', '', '', '', '', '']);
+  lines.push(['Person', 'Total Paid (₹)', 'Fair Share (₹)', 'Net Balance (₹)', 'Status', '']);
+  s.members.forEach(person => {
+    const b     = bal[person] || 0;
+    const paid  = s.expenses.filter(e => e.paidBy === person).reduce((a, e) => a + e.amount, 0);
+    const share = s.expenses.reduce((a, e) => a + (e.shares[person] || 0), 0);
+    const isPos = b > 0.005, isNeg = b < -0.005;
+    const status = isPos ? `Should receive ₹${fmt2(b)}` : isNeg ? `Owes ₹${fmt2(Math.abs(b))}` : 'All settled';
+    lines.push([person, fmt2(paid), fmt2(share), (isPos?'+':'')+fmt2(b), status, '']);
+  });
+  lines.push(['', '', '', '', '', '']);
+
+  // ── SECTION: Settle Up
+  lines.push(['SETTLE UP — WHO PAYS WHOM & FOR WHAT', '', '', '', '', '']);
+  if (!txns.length) {
+    lines.push(['✅ All debts are settled! No payments needed.', '', '', '', '', '']);
+  } else {
+    lines.push(['From (Payer)', 'To (Receiver)', 'Amount (₹)', 'Contributing Expenses', 'Status', '']);
+    txns.forEach(t => {
+      const key = t.from + '→' + t.to;
+      const isDone = settled.includes(key);
+      const contributions = s.expenses
+        .filter(e => e.splitAmong.includes(t.from) && e.paidBy === t.to)
+        .map(e => `${e.description}: ₹${fmt2(e.shares[t.from]||0)} of ₹${fmt2(e.amount)}`)
+        .join('; ');
+      lines.push([t.from, t.to, fmt2(t.amount), contributions || 'Various shared expenses', isDone ? '✓ Received' : '⏳ Pending', '']);
+    });
+  }
+  lines.push(['', '', '', '', '', '']);
+  lines.push(['', '', '', '', '', '']);
+  lines.push([`Generated by Split Bills on ${now}`, '', '', '', '', '']);
+
+  // Convert to CSV
+  const csv = lines.map(row =>
+    row.map(cell => {
+      const s = String(cell ?? '');
+      // Escape commas/quotes
+      if (s.includes(',') || s.includes('"') || s.includes('\n')) return `"${s.replace(/"/g, '""')}"`;
+      return s;
+    }).join(',')
+  ).join('\n');
+
+  // Use BOM for Excel UTF-8 compatibility
+  const BOM  = '\uFEFF';
+  const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = (s.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase() || 'session') + '-report.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Excel/CSV report downloaded', 'icon-excel');
+}
+
+// ================================================================
+//  SETTLE UP — enhanced rendering with "For what" breakdown
+// ================================================================
+function renderSettle() {
+  const s  = getSess();
+  const el = document.getElementById('set-list');
+  if (!s.expenses.length) {
+    el.innerHTML = `<div class="govuk-empty">
+      <svg class="icon icon--lg" aria-hidden="true"><use href="#icon-receipt"></use></svg>
+      <p>Add some expenses first to see settlement details here.</p>
+    </div>`; return;
+  }
+  if (!Array.isArray(s.settledPairs)) s.settledPairs = [];
+
+  const txns = computeSettlement(s);
+
+  // Drop stale "received" markers for pairs that no longer owe money
+  const liveKeys = new Set(txns.map(txnKey));
+  s.settledPairs = s.settledPairs.filter(k => liveKeys.has(k));
+
+  const sessTotal = s.expenses.reduce((a,e)=>a+e.amount,0);
+  const header = `<div class="govuk-inset mb4">
+    <strong>${esc(s.name)}</strong>
+    <span class="fsm text-muted"> &middot; settlement summary</span>
+    <span class="fsm text-muted"> &middot; ₹${fmt(sessTotal)} total across ${s.expenses.length} expense${s.expenses.length!==1?'s':''}</span>
+  </div>`;
+
+  if (!txns.length) {
+    el.innerHTML = header + `<div class="govuk-panel govuk-panel--green">
+      <svg class="icon icon--lg" aria-hidden="true" style="margin-bottom:8px"><use href="#icon-celebrate"></use></svg>
+      <div class="govuk-panel__title">All settled!</div>
+      <div style="font-size:1rem;margin-top:8px">No payments are needed right now.</div>
+    </div>`; return;
+  }
+
+  el.innerHTML = header + txns.map(t => {
+    const key        = txnKey(t);
+    const isReceived = s.settledPairs.includes(key);
+
+    // Find contributing expenses: from owes to because 'to' paid for expenses that included 'from'
+    const contributions = s.expenses.filter(e =>
+      e.splitAmong.includes(t.from) && e.paidBy === t.to
+    );
+
+    const contribHTML = contributions.length
+      ? `<div class="settle-expense-list">
+          <div class="fsm text-muted fw" style="margin-bottom:4px">Contributing expenses:</div>
+          ${contributions.map(e => {
+            const d = new Date(e.date).toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+            return `<div class="settle-expense-row">
+              <div style="flex:1;min-width:0">
+                <strong>${esc(e.description)}</strong>
+                <span class="fsm text-muted"> &middot; ${d} &middot; total ₹${fmt(e.amount)}</span>
+              </div>
+              <div style="flex-shrink:0;padding-left:8px" class="fw">
+                ₹${fmt(e.shares[t.from]||0)}
+                <span class="fsm text-muted fw-normal"> share</span>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>`
+      : `<div class="fsm text-muted" style="margin-top:6px;font-style:italic">This payment settles the overall balance between these two people across multiple expenses.</div>`;
+
+    return `<div class="govuk-card ${isReceived ? 'govuk-card--xl' : 'govuk-card--bl'}">
+      <div class="flex align-c justify-b gap-sm flex-wrap">
+        <div class="flex align-c gap-sm" style="flex-wrap:wrap">
+          <span class="fw ${isReceived ? 'text-muted' : 'text-red'}">${esc(t.from)}</span>
+          <svg class="icon icon--sm text-muted" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+          <span class="fw ${isReceived ? 'text-muted' : 'text-green'}">${esc(t.to)}</span>
+        </div>
+        <div class="flex align-c gap-sm flex-wrap">
+          <div class="fw flg ${isReceived ? 'text-muted' : 'text-blue'}">₹${fmt(t.amount)}</div>
+          ${isReceived
+            ? `<button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="toggleReceived('${esc(key)}', false)" title="Undo — mark as not yet received">
+                 <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-undo"></use></svg>
+                 Undo
+               </button>`
+            : `<button class="govuk-btn govuk-btn--primary govuk-btn--sm btn-icon-text" onclick="toggleReceived('${esc(key)}', true)" title="Mark this payment as received">
+                 <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-cash"></use></svg>
+                 Money received
+               </button>`}
+        </div>
+      </div>
+      ${contribHTML}
+      ${isReceived ? `<div class="fsm text-green mt4" style="margin-top:8px"><svg class="icon icon--sm" aria-hidden="true"><use href="#icon-check"></use></svg> Marked as received</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ================================================================
 //  INIT
 // ================================================================
 initTheme();
 loadDb();
 renderSessionsList();
 renderQsNames();
+updateFooterActive('home');
 </script>
 
 </body>
