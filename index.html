@@ -657,8 +657,10 @@ body { padding-bottom: 60px; }
     <symbol id="icon-share" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81A3 3 0 0 0 21 5a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81A2.99 2.99 0 0 0 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65A2.92 2.92 0 0 0 18 22a2.92 2.92 0 0 0 2.92-2.92A2.92 2.92 0 0 0 18 16.08z"/></symbol>
     <!-- Home -->
     <symbol id="icon-home" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></symbol>
-    <!-- Session / layers -->
-    <symbol id="icon-sessions" viewBox="0 0 24 24"><path d="M2 17h20v2H2v-2zm1.15-4.05L4 11.47l.85 1.48 1.3-.75-.85-1.48H7v-1.5H5.3l.85-1.47L4.85 7l-.85 1.47L3.15 7l-1.3.73.85 1.47H1v1.5h1.7l-.85 1.48 1.3.77zM6.85 7l1.3.73-.85 1.47H9v1.5H7.3l.85 1.48-1.3.77-.85-1.48-.85 1.48-1.3-.77.85-1.48H3v-1.5h1.7L3.85 7.73 5.15 7l.85 1.47L6.85 7zm6 0l1.3.73-.85 1.47H15v1.5h-1.7l.85 1.48-1.3.77-.85-1.48-.85 1.48-1.3-.77.85-1.48H9v-1.5h1.7L9.85 7.73 11.15 7l.85 1.47L12.85 7zm6 0l1.3.73-.85 1.47H21v1.5h-1.7l.85 1.48-1.3.77-.85-1.48-.85 1.48-1.3-.77.85-1.48H15v-1.5h1.7L15.85 7.73 17.15 7l.85 1.47L18.85 7z"/></symbol>
+    <!-- Session / folder-group -->
+    <symbol id="icon-sessions" viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm0 12H4V8h16v10z"/></symbol>
+    <!-- Settings / gear -->
+    <symbol id="icon-settings" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7.05 7.05 0 0 0-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.47.47 0 0 0 .12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.47.47 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.37 1.04.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.47.47 0 0 0-.12-.61l-2.01-1.58zM12 15.6a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2z"/></symbol>
     <!-- Quick split -->
     <symbol id="icon-quick" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8z"/></symbol>
     <!-- Info -->
@@ -676,20 +678,7 @@ body { padding-bottom: 60px; }
       <span>Split Bills</span>
     </span>
     <div class="govuk-header__actions">
-      <button id="theme-btn" class="govuk-btn govuk-btn--secondary govuk-btn--sm"
-              onclick="toggleTheme()" title="Switch colour theme" aria-label="Switch colour theme">
-        <svg class="icon" aria-hidden="true"><use id="theme-icon" href="#icon-sun"></use></svg>
-        <span class="btn-label" id="theme-label">&nbsp;Light</span>
-      </button>
-      <button class="govuk-btn govuk-btn--secondary govuk-btn--sm govuk-header__actions--full-label" onclick="exportData()" title="Download split data" aria-label="Download split data">
-        <svg class="icon" aria-hidden="true"><use href="#icon-download"></use></svg>
-        <span>&nbsp;Download split data</span>
-      </button>
-      <label class="govuk-btn govuk-btn--secondary govuk-btn--sm govuk-header__actions--full-label" style="cursor:pointer" title="Upload split data" aria-label="Upload split data">
-        <svg class="icon" aria-hidden="true"><use href="#icon-upload"></use></svg>
-        <span>&nbsp;Upload split data</span>
-        <input type="file" accept=".json" onchange="importData(event)" style="display:none">
-      </label>
+      <span class="govuk-hint" style="color:#b1b4b6;font-size:.75rem;letter-spacing:.3px">Split Bills</span>
     </div>
   </div>
 </header>
@@ -714,39 +703,63 @@ body { padding-bottom: 60px; }
       <svg class="icon help-box__chevron" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
     </button>
     <div class="help-box__panel" id="help-panel">
+
       <h3>1. Create a session</h3>
       <ol>
-        <li>Tap <strong>New session</strong> and give it a name, e.g. "Goa Trip" or "Flat Rent".</li>
-        <li>Add the names of everyone involved (minimum 2 people).</li>
+        <li>Tap <strong>New session</strong> on the Home tab and give it a name — e.g. "Goa Trip" or "Flat Rent June".</li>
+        <li>Add the names of everyone sharing expenses (minimum 2 people). You can always come back to the same session as new bills arrive.</li>
       </ol>
 
-      <h3>2. Add expenses one by one</h3>
+      <h3>2. Navigate using the bottom bar</h3>
+      <ul>
+        <li><strong>Home</strong> — returns you to the sessions list and Quick Split at any time.</li>
+        <li><strong>Sessions</strong> — jumps straight to your saved sessions list.</li>
+        <li><strong>Quick Split</strong> — scrolls to the one-off split calculator below.</li>
+        <li><strong>Settings</strong> — toggle dark mode, back up your data, or restore from a backup file.</li>
+        <li><strong>About</strong> — info about the app, links to GitHub and LinkedIn.</li>
+      </ul>
+
+      <h3>3. Add expenses</h3>
       <ol>
-        <li>Open your session and tap <strong>Add expense</strong>.</li>
-        <li>Enter the amount, who paid, and who it should be split between.</li>
-        <li>Choose <strong>Equal split</strong> or set <strong>custom amounts</strong> for each person.</li>
-        <li>Each expense is added one at a time — you can keep adding more as bills come in.</li>
+        <li>Open a session and tap <strong>Add expense</strong>.</li>
+        <li>Enter the amount, a short description (e.g. "Dinner"), who paid, and who to split it between.</li>
+        <li>Choose <strong>Equal split</strong> (default) or enter <strong>custom amounts</strong> per person.</li>
+        <li>Tap <strong>Add expense</strong> to save. Add as many as you like — the app keeps a running total.</li>
       </ol>
 
-      <h3>3. Edit or delete an expense</h3>
+      <h3>4. Edit or delete an expense</h3>
       <ul>
-        <li>Tap the <strong>pencil</strong> icon on any expense to change its details.</li>
-        <li>Tap the <strong>bin</strong> icon to remove it permanently.</li>
+        <li>Tap the <strong>pencil icon</strong> on any expense card to update its details.</li>
+        <li>Tap the <strong>bin icon</strong> to permanently remove an expense.</li>
       </ul>
 
-      <h3>4. Check balances and settle up</h3>
+      <h3>5. Check balances and settle up</h3>
       <ul>
-        <li><strong>Balances</strong> tab shows who is owed money and who owes money.</li>
-        <li><strong>Settle up</strong> tab shows the simplest set of payments to clear all debts, under the session name.</li>
-        <li>Once someone pays you back, tap <strong>Money received</strong> to mark that payment as done. Tap <strong>Undo</strong> if you marked it by mistake.</li>
+        <li>Switch to the <strong>Balances</strong> tab inside a session to see each person's net position — who is owed money and who still owes.</li>
+        <li>Switch to the <strong>Settle up</strong> tab to see the fewest payments needed to clear every debt. Each payment card shows exactly which shared expenses caused it.</li>
+        <li>Once someone transfers money, tap <strong>Money received</strong> on that card. Tap <strong>Undo</strong> if you marked it by mistake.</li>
       </ul>
 
-      <h3>5. Save your data</h3>
+      <h3>6. Share a session as PDF or Excel</h3>
       <ul>
-        <li>Tap the <strong>download icon</strong> in the top bar to save a backup file (.json) you can re-upload later.</li>
-        <li>Tap the <strong>upload icon</strong> to restore from a backup file, or on another device.</li>
-        <li>Inside a session, tap <strong>Download as text</strong> to get a plain, readable .txt summary of all expenses, balances, and settlements — useful for sharing or printing.</li>
+        <li>Inside any session, tap <strong>Share as PDF / Excel</strong> (next to the Delete button).</li>
+        <li>Choose <strong>PDF</strong> for a print-ready report — open the downloaded .html file and use your browser's Print → Save as PDF option, then share via WhatsApp, email, or any other app.</li>
+        <li>Choose <strong>Excel / CSV</strong> for a structured spreadsheet with three sections: All Expenses, Balances, and Settle Up. Opens directly in Excel, Google Sheets, or Numbers.</li>
       </ul>
+
+      <h3>7. Back up and restore your data</h3>
+      <ul>
+        <li>Go to <strong>Settings</strong> (bottom bar) and tap <strong>Download</strong> to save a .json backup of all your sessions.</li>
+        <li>Tap <strong>Upload</strong> in Settings to restore from that backup file — useful when switching devices.</li>
+        <li>Inside a session, tap <strong>Download as text</strong> to save a plain-text summary of all expenses, balances, and settlement details.</li>
+      </ul>
+
+      <h3>8. Quick split</h3>
+      <ul>
+        <li>Use the <strong>Quick Split</strong> section (tap the Quick Split icon in the bottom bar, or scroll down on Home) for a fast one-off calculation you don't need to save.</li>
+        <li>Enter the total amount, the number of people, optional names, and what the expense was for — then tap <strong>Calculate split</strong>.</li>
+      </ul>
+
     </div>
   </div>
 
@@ -822,7 +835,7 @@ body { padding-bottom: 60px; }
         </button>
         <button class="govuk-btn govuk-btn--primary govuk-btn--sm btn-icon-text" onclick="openShareModal()" title="Share this session as PDF or Excel">
           <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-share"></use></svg>
-          Share
+          Share as PDF / Excel
         </button>
       </div>
     </div>
@@ -842,11 +855,20 @@ body { padding-bottom: 60px; }
     </div>
     <div id="p-bal" class="hidden"><div id="bal-list"></div></div>
     <div id="p-set" class="hidden">
-      <div class="govuk-inset mb4" style="border-left-color:var(--clr-blue)">
-        <p class="fw" style="margin-bottom:4px">How Settle Up works</p>
-        <p class="fsm text-muted mb2">This calculates the <strong>minimum number of payments</strong> needed to clear every debt in this session — so nobody has to make more transfers than necessary.</p>
-        <p class="fsm text-muted mb2">Each row shows <strong>who owes whom, how much, and why</strong> — the contributing expenses are listed beneath each payment so you can trace exactly where the amount comes from.</p>
-        <p class="fsm text-muted mb0">Once a payment is made, tap <strong>"Money received"</strong> to mark it done. Use <strong>Share</strong> above to export the full summary as PDF or Excel.</p>
+      <div class="help-box" style="margin-bottom:16px">
+        <button class="help-box__toggle" id="settle-help-toggle" aria-expanded="false" aria-controls="settle-help-panel" onclick="toggleSettleHelp()">
+          <span class="btn-icon-text">
+            <svg class="icon" aria-hidden="true"><use href="#icon-help"></use></svg>
+            How Settle Up works
+          </span>
+          <svg class="icon help-box__chevron" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+        </button>
+        <div class="help-box__panel" id="settle-help-panel">
+          <p class="fsm text-muted mb2">Settle Up calculates the <strong>minimum number of payments</strong> needed to clear every debt in this session — so nobody makes more transfers than necessary.</p>
+          <p class="fsm text-muted mb2">Each card shows <strong>who pays whom and how much</strong>. Below the names you'll see exactly which shared expenses caused that debt, so every rupee is traceable.</p>
+          <p class="fsm text-muted mb2">Once someone transfers the money, tap <strong>Money received</strong> on that card to mark it done. Tap <strong>Undo</strong> if you marked it by mistake — the card goes back to pending.</p>
+          <p class="fsm text-muted mb0">Tap <strong>Share as PDF / Excel</strong> at the top of the session to export a full summary including all settled and pending payments.</p>
+        </div>
       </div>
       <div id="set-list"></div>
     </div>
@@ -996,9 +1018,9 @@ body { padding-bottom: 60px; }
       <span class="footer-item__label">Quick Split</span>
     </button>
     <div class="footer-divider"></div>
-    <button class="footer-item" id="ft-share-footer" onclick="footerShareOrExport()" title="Share / Export">
-      <svg class="icon" aria-hidden="true"><use href="#icon-share"></use></svg>
-      <span class="footer-item__label">Share</span>
+    <button class="footer-item" id="ft-settings" onclick="footerNav('settings')" title="Settings">
+      <svg class="icon" aria-hidden="true"><use href="#icon-settings"></use></svg>
+      <span class="footer-item__label">Settings</span>
     </button>
     <div class="footer-divider"></div>
     <button class="footer-item" id="ft-about" onclick="footerNav('about')" title="About Split Bills">
@@ -1007,6 +1029,72 @@ body { padding-bottom: 60px; }
     </button>
   </div>
 </footer>
+
+<!-- MODAL: Settings -->
+<div class="govuk-modal-overlay" id="m-settings" role="dialog" aria-modal="true" aria-labelledby="m-settings-title">
+  <div class="govuk-modal">
+    <h2 class="govuk-h2" id="m-settings-title">Settings</h2>
+
+    <div class="govuk-summary" style="margin-bottom:20px">
+
+      <div class="govuk-summary-row" style="align-items:center">
+        <div class="govuk-summary-key">Appearance</div>
+        <div class="govuk-summary-val">
+          <button id="settings-theme-btn" class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="toggleTheme(); updateSettingsThemeBtn()">
+            <svg class="icon icon--sm" aria-hidden="true"><use id="settings-theme-icon" href="#icon-sun"></use></svg>
+            <span id="settings-theme-label">Switch to Light</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="govuk-summary-row" style="align-items:center">
+        <div class="govuk-summary-key">
+          <div class="fw fsm">Backup data</div>
+          <div class="fsm text-muted" style="font-weight:400">Download all sessions as a .json file</div>
+        </div>
+        <div class="govuk-summary-val">
+          <button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="exportData()">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-download"></use></svg>
+            Download
+          </button>
+        </div>
+      </div>
+
+      <div class="govuk-summary-row" style="align-items:center">
+        <div class="govuk-summary-key">
+          <div class="fw fsm">Restore data</div>
+          <div class="fsm text-muted" style="font-weight:400">Upload a backup .json file to restore</div>
+        </div>
+        <div class="govuk-summary-val">
+          <label class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" style="cursor:pointer">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-upload"></use></svg>
+            Upload
+            <input type="file" accept=".json" onchange="importData(event); closeModal('m-settings')" style="display:none">
+          </label>
+        </div>
+      </div>
+
+      <div class="govuk-summary-row" style="align-items:center">
+        <div class="govuk-summary-key">
+          <div class="fw fsm">Currency</div>
+          <div class="fsm text-muted" style="font-weight:400">Choose how amounts are displayed</div>
+        </div>
+        <div class="govuk-summary-val">
+          <div class="flex gap-sm">
+            <button id="curr-inr-btn" class="govuk-btn govuk-btn--primary govuk-btn--sm" onclick="setCurrency('inr')" title="Indian Rupee">₹ Rupee</button>
+            <button id="curr-cad-btn" class="govuk-btn govuk-btn--secondary govuk-btn--sm" onclick="setCurrency('cad')" title="Dollar">$ Dollar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="fsm text-muted mb4" style="padding:10px 12px;background:var(--clr-surface-2);border-left:3px solid var(--clr-divider)">
+      All your data lives entirely on this device — no accounts, no cloud. Download a backup regularly so you don't lose your sessions.
+    </p>
+    <button class="govuk-btn govuk-btn--secondary" onclick="closeModal('m-settings')">Close</button>
+  </div>
+</div>
 
 <!-- MODAL: About -->
 <div class="govuk-modal-overlay" id="m-about" role="dialog" aria-modal="true" aria-labelledby="m-about-title">
@@ -1019,11 +1107,11 @@ body { padding-bottom: 60px; }
     <div class="govuk-summary">
       <div class="govuk-summary-row"><div class="govuk-summary-key">Portfolio</div><div class="govuk-summary-val"><a href="https://mihir-panchal.vercel.app" target="_blank" rel="noopener" style="color:var(--clr-blue)">mihir-panchal.vercel.app</a></div></div>
       <div class="govuk-summary-row"><div class="govuk-summary-key">Email</div><div class="govuk-summary-val"><a href="mailto:mihirpanchal2811@gmail.com" style="color:var(--clr-blue)">mihirpanchal2811@gmail.com</a></div></div>
-      <div class="govuk-summary-row"><div class="govuk-summary-key">Report an issue</div><div class="govuk-summary-val"><a href="https://github.com" target="_blank" rel="noopener" style="color:var(--clr-blue)">GitHub Issues</a></div></div>
-      <div class="govuk-summary-row"><div class="govuk-summary-key">LinkedIn</div><div class="govuk-summary-val"><a href="https://linkedin.com" target="_blank" rel="noopener" style="color:var(--clr-blue)">Mihir Panchal</a></div></div>
+      <div class="govuk-summary-row"><div class="govuk-summary-key">GitHub</div><div class="govuk-summary-val"><a href="https://github.com/mihir2811/Split-Wise" target="_blank" rel="noopener" style="color:var(--clr-blue)">github.com/mihir2811/Split-Wise</a></div></div>
+      <div class="govuk-summary-row"><div class="govuk-summary-key">LinkedIn</div><div class="govuk-summary-val"><a href="https://linkedin.com/in/mihirpanchal28" target="_blank" rel="noopener" style="color:var(--clr-blue)">linkedin.com/in/mihirpanchal28</a></div></div>
       <div class="govuk-summary-row"><div class="govuk-summary-key">Version</div><div class="govuk-summary-val fsm text-muted">Split Bills v2.0 — all data stays on your device</div></div>
     </div>
-    <p class="fsm text-muted mb4">This project is open for learning and personal use. Future improvements include custom split amounts, percentage splits, per-item splits, payment tracking, and multi-currency support.</p>
+    <p class="fsm text-muted mb4">Open for learning and personal use. Planned: custom split amounts, percentage splits, per-item splits, payment tracking, and multi-currency support.</p>
     <button class="govuk-btn govuk-btn--secondary" onclick="closeModal('m-about')">Close</button>
   </div>
 </div>
@@ -1073,6 +1161,46 @@ function toggleHelp() {
   const open  = btn.getAttribute('aria-expanded') === 'true';
   btn.setAttribute('aria-expanded', String(!open));
   panel.classList.toggle('help-box__panel--open', !open);
+}
+
+function toggleSettleHelp() {
+  const btn   = document.getElementById('settle-help-toggle');
+  const panel = document.getElementById('settle-help-panel');
+  const open  = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', String(!open));
+  panel.classList.toggle('help-box__panel--open', !open);
+}
+
+// ================================================================
+//  CURRENCY
+// ================================================================
+function getCurrencySymbol() {
+  return localStorage.getItem('sb-currency') === 'cad' ? '$' : '₹';
+}
+
+function setCurrency(val) {
+  localStorage.setItem('sb-currency', val);
+  updateCurrencyUI();
+  // Re-render whatever is currently visible
+  renderSessionsList();
+  const inSess = !document.getElementById('v-sess').classList.contains('hidden');
+  if (inSess) {
+    renderExpenses();
+    renderBalances();
+    renderSettle();
+  }
+  const qsVisible = !document.getElementById('qs-result').classList.contains('hidden');
+  if (qsVisible) calcQs();
+}
+
+function updateCurrencyUI() {
+  const isCad = localStorage.getItem('sb-currency') === 'cad';
+  const rupBtn = document.getElementById('curr-inr-btn');
+  const cadBtn = document.getElementById('curr-cad-btn');
+  if (rupBtn) rupBtn.classList.toggle('govuk-btn--primary',   !isCad);
+  if (rupBtn) rupBtn.classList.toggle('govuk-btn--secondary',  isCad);
+  if (cadBtn) cadBtn.classList.toggle('govuk-btn--primary',    isCad);
+  if (cadBtn) cadBtn.classList.toggle('govuk-btn--secondary',  !isCad);
 }
 
 // ================================================================
@@ -1184,7 +1312,7 @@ function renderSessionsList() {
         </div>
         <div class="text-right" style="flex-shrink:0">
           <span class="govuk-tag govuk-tag--blue">${expCount} expense${expCount !== 1 ? 's' : ''}</span>
-          <div class="fw" style="margin-top:4px">₹${fmt(total)}</div>
+          <div class="fw" style="margin-top:4px">${getCurrencySymbol()}${fmt(total)}</div>
         </div>
       </div>
     </div>`;
@@ -1218,17 +1346,17 @@ function calcQs() {
   el.innerHTML = `
     <div class="govuk-panel govuk-panel--blue" style="margin-top:20px">
       <div class="govuk-panel__title">Each person pays</div>
-      <div class="govuk-panel__body">₹${fmt(share)}</div>
+      <div class="govuk-panel__body">${getCurrencySymbol()}${fmt(share)}</div>
       ${note ? `<div class="fsm" style="margin-top:8px;opacity:.9">For: ${esc(note)}</div>` : ''}
     </div>
     <div class="govuk-summary">
       ${names.map(nm => `<div class="govuk-summary-row">
         <div class="govuk-summary-key">${esc(nm)}</div>
-        <div class="govuk-summary-val fw">₹${fmt(share)}</div>
+        <div class="govuk-summary-val fw">${getCurrencySymbol()}${fmt(share)}</div>
       </div>`).join('')}
       <div class="govuk-summary-row" style="border-top:2px solid var(--clr-border)">
         <div class="govuk-summary-key fw">Total</div>
-        <div class="govuk-summary-val fw">₹${fmt(amount)}</div>
+        <div class="govuk-summary-val fw">${getCurrencySymbol()}${fmt(amount)}</div>
       </div>
     </div>
     ${_qsNewNames.length
@@ -1507,17 +1635,17 @@ function refreshExpPreview() {
     cuBlock.classList.add('hidden');
     const share = amount / expAmong.length;
     preview.classList.remove('hidden');
-    preview.innerHTML = `<strong>Each person pays: ₹${fmt(share)}</strong><br>
-      <span class="fsm text-muted">${expAmong.map(p => esc(p) + ' → ₹' + fmt(share)).join(' &nbsp;·&nbsp; ')}</span>`;
+    preview.innerHTML = `<strong>Each person pays: ${getCurrencySymbol()}${fmt(share)}</strong><br>
+      <span class="fsm text-muted">${expAmong.map(p => esc(p) + ' → ' + getCurrencySymbol() + fmt(share)).join(' &nbsp;·&nbsp; ')}</span>`;
   } else {
     cuBlock.classList.remove('hidden');
     cuBlock.innerHTML = `
       <label class="govuk-label">Enter amount for each person</label>
-      <span class="govuk-hint-text">These amounts must add up to ₹${fmt(amount)}</span>
+      <span class="govuk-hint-text">These amounts must add up to ${getCurrencySymbol()}${fmt(amount)}</span>
       ${expAmong.map((p, i) =>
         `<div class="share-row">
           <span class="share-row__label" title="${esc(p)}">${esc(p)}</span>
-          <div class="govuk-prefix-input"><span class="govuk-prefix">₹</span>
+          <div class="govuk-prefix-input"><span class="govuk-prefix">${getCurrencySymbol()}</span>
             <input class="govuk-input" type="number" id="cam${i}" min="0" step="0.01" placeholder="0.00" inputmode="decimal"
                    oninput="checkCustomTotal(${amount})">
           </div>
@@ -1533,9 +1661,9 @@ function checkCustomTotal(target) {
   const diff = target - sum;
   const el   = document.getElementById('cu-validation'); if (!el) return;
   if (Math.abs(diff) < 0.005)
-    el.innerHTML = `<span class="text-green"><svg class="icon icon--sm" aria-hidden="true"><use href="#icon-check"></use></svg> Total matches ₹${fmt(target)}</span>`;
+    el.innerHTML = `<span class="text-green"><svg class="icon icon--sm" aria-hidden="true"><use href="#icon-check"></use></svg> Total matches ${getCurrencySymbol()}${fmt(target)}</span>`;
   else
-    el.innerHTML = `<span class="text-red">₹${fmt(Math.abs(diff))} ${diff > 0 ? 'still remaining' : 'over the total'}</span>`;
+    el.innerHTML = `<span class="text-red">${getCurrencySymbol()}${fmt(Math.abs(diff))} ${diff > 0 ? 'still remaining' : 'over the total'}</span>`;
 }
 
 function saveExpense() {
@@ -1560,7 +1688,7 @@ function saveExpense() {
       shares[p] = v; sum += v;
     });
     if (Math.abs(sum - amount) > 0.01) {
-      alert(`Custom amounts must add up to ₹${fmt(amount)}. They currently total ₹${fmt(sum)}.`); return;
+      alert(`Custom amounts must add up to ${getCurrencySymbol()}${fmt(amount)}. They currently total ${getCurrencySymbol()}${fmt(sum)}.`); return;
     }
   }
 
@@ -1605,7 +1733,7 @@ function renderExpenses() {
   // Sequential order: oldest first, numbered, so order of entry is clear
   el.innerHTML = s.expenses.map((exp, idx) => {
     const date   = new Date(exp.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-    const detail = exp.splitAmong.map(p => `${esc(p)} ₹${fmt(exp.shares[p])}`).join(', ');
+    const detail = exp.splitAmong.map(p => `${esc(p)} ${getCurrencySymbol()}${fmt(exp.shares[p])}`).join(', ');
     return `<div class="govuk-card govuk-card--bl">
       <div class="flex align-c justify-b gap-sm">
         <div style="flex:1;min-width:0">
@@ -1616,7 +1744,7 @@ function renderExpenses() {
           ${exp.note ? `<div class="fsm text-muted" style="margin-top:4px;font-style:italic">Note: ${esc(exp.note)}</div>` : ''}
         </div>
         <div class="text-right" style="flex-shrink:0;padding-left:8px">
-          <div class="fw flg">₹${fmt(exp.amount)}</div>
+          <div class="fw flg">${getCurrencySymbol()}${fmt(exp.amount)}</div>
           <div class="exp-actions">
             <button class="govuk-btn govuk-btn--secondary govuk-btn--xs govuk-btn--icon-only" onclick="openEditExpModal('${exp.id}')" title="Edit this expense" aria-label="Edit expense">
               <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-edit"></use></svg>
@@ -1657,7 +1785,7 @@ function renderBalances() {
   const total = s.expenses.reduce((a, e) => a + e.amount, 0);
   el.innerHTML = `
     <div class="govuk-inset mb4">
-      <strong>Total spent: ₹${fmt(total)}</strong>
+      <strong>Total spent: ${getCurrencySymbol()}${fmt(total)}</strong>
       &nbsp;&middot;&nbsp;
       <span class="text-muted fsm">${s.expenses.length} expense${s.expenses.length !== 1 ? 's' : ''}</span>
     </div>
@@ -1670,7 +1798,7 @@ function renderBalances() {
       return `<div class="govuk-card ${cardCls}">
         <div class="flex align-c justify-b">
           <div><div class="fw">${esc(person)}</div><div class="fsm text-muted">${label}</div></div>
-          <div class="fw flg ${textCls}">${isPos ? '+' : ''}₹${fmt(Math.abs(balance))}</div>
+          <div class="fw flg ${textCls}">${isPos ? '+' : ''}${getCurrencySymbol()}${fmt(Math.abs(balance))}</div>
         </div>
       </div>`;
     }).join('')}`;
@@ -1727,7 +1855,7 @@ document.querySelectorAll('.govuk-modal-overlay').forEach(overlay => {
 //  FOOTER NAVIGATION
 // ================================================================
 function updateFooterActive(key) {
-  ['home','sessions','quick','share-footer','about'].forEach(k => {
+  ['home','sessions','quick','settings','about'].forEach(k => {
     document.getElementById('ft-' + k)?.classList.toggle('footer-item--active', k === key);
   });
 }
@@ -1739,29 +1867,29 @@ function footerNav(key) {
   } else if (key === 'sessions') {
     updateFooterActive('sessions');
     goHome();
-    // scroll to sessions list
     setTimeout(() => document.getElementById('sess-list')?.scrollIntoView({ behavior: 'smooth' }), 80);
   } else if (key === 'quick') {
     updateFooterActive('quick');
-    // if in session view, go home first
-    if (!document.getElementById('v-home').classList.contains('hidden') === false) goHome();
     showView('home');
     setTimeout(() => document.getElementById('qs-amt')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
+  } else if (key === 'settings') {
+    updateFooterActive('settings');
+    updateSettingsThemeBtn();
+    updateCurrencyUI();
+    openModal('m-settings');
   } else if (key === 'about') {
     updateFooterActive('about');
     openModal('m-about');
   }
 }
 
-function footerShareOrExport() {
-  updateFooterActive('share-footer');
-  const inSession = !document.getElementById('v-sess').classList.contains('hidden');
-  if (inSession) {
-    openShareModal();
-  } else {
-    // fallback: export full JSON
-    exportData();
-  }
+function updateSettingsThemeBtn() {
+  const cur = document.documentElement.getAttribute('data-theme') || '';
+  const isDark = cur === 'dark' || (cur === '' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const icon  = document.getElementById('settings-theme-icon');
+  const label = document.getElementById('settings-theme-label');
+  if (icon)  icon.setAttribute('href', isDark ? '#icon-sun' : '#icon-moon');
+  if (label) label.textContent = isDark ? 'Switch to Light' : 'Switch to Dark';
 }
 
 // ================================================================
@@ -1791,8 +1919,9 @@ function exportSessionPDF() {
   const settled = Array.isArray(s.settledPairs) ? s.settledPairs : [];
   const now   = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
   const created = new Date(s.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+  const curr  = getCurrencySymbol();
 
-  // Build an HTML page optimised for print/PDF
+  // Build an HTML page optimised for print/PDF — clean, modern, no emojis
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1800,136 +1929,181 @@ function exportSessionPDF() {
 <title>${s.name} — Split Bills Report</title>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:Arial,sans-serif;font-size:12px;color:#0b0c0c;background:#fff;padding:24px 32px;}
-  h1{font-size:22px;margin-bottom:4px;}
-  h2{font-size:15px;margin:20px 0 8px;border-bottom:2px solid #1d70b8;padding-bottom:4px;color:#1d70b8;}
-  .meta{font-size:11px;color:#505a5f;margin-bottom:8px;}
-  .badge{display:inline-block;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase;}
-  .badge-blue{background:#d2e2f1;color:#144e81;}
-  .badge-green{background:#cce2d8;color:#005a30;}
-  .badge-red{background:#f5d0cb;color:#55150b;}
-  .badge-grey{background:#eeefef;color:#383f43;}
-  table{width:100%;border-collapse:collapse;margin-bottom:16px;}
-  th{background:#1d70b8;color:#fff;text-align:left;padding:6px 8px;font-size:11px;}
-  td{padding:6px 8px;border-bottom:1px solid #dbdad9;vertical-align:top;font-size:11px;}
-  tr:nth-child(even) td{background:#f8f8f8;}
-  .total-row td{font-weight:700;background:#e8f0fa;border-top:2px solid #1d70b8;}
-  .summary-box{border:2px solid #1d70b8;border-radius:4px;padding:12px 16px;margin-bottom:16px;display:flex;gap:32px;flex-wrap:wrap;}
-  .summary-box__item{flex:1;min-width:140px;}
-  .summary-box__val{font-size:18px;font-weight:700;color:#1d70b8;}
-  .summary-box__label{font-size:10px;color:#505a5f;text-transform:uppercase;letter-spacing:.5px;}
-  .settle-card{border:1px solid #dbdad9;border-left:5px solid #1d70b8;padding:10px 12px;margin-bottom:8px;border-radius:0 3px 3px 0;}
-  .settle-card.done{border-left-color:#00703c;background:#f0f8f4;}
-  .settle-card .arrow{color:#1d70b8;font-weight:700;margin:0 6px;}
-  .settle-for{font-size:10px;color:#505a5f;margin-top:6px;border-top:1px dashed #dbdad9;padding-top:6px;}
-  .settle-for li{margin-bottom:2px;}
-  .footer-note{margin-top:24px;padding-top:12px;border-top:1px solid #dbdad9;font-size:10px;color:#505a5f;text-align:center;}
-  @media print{body{padding:0;} @page{margin:15mm;}}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:12px;color:#111;background:#fff;padding:32px 40px;}
+  /* Header strip */
+  .doc-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1d70b8;padding-bottom:12px;margin-bottom:6px;}
+  .doc-title{font-size:24px;font-weight:800;letter-spacing:-0.5px;color:#111;}
+  .doc-sub{font-size:11px;color:#666;margin-top:2px;}
+  .doc-brand{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#1d70b8;}
+  .doc-meta{font-size:10px;color:#888;margin-bottom:20px;padding-top:6px;}
+  /* Stats bar */
+  .stats{display:flex;gap:0;border:1.5px solid #e0e0e0;border-radius:6px;overflow:hidden;margin-bottom:22px;}
+  .stat{flex:1;padding:12px 16px;border-right:1.5px solid #e0e0e0;background:#fafafa;}
+  .stat:last-child{border-right:none;}
+  .stat__val{font-size:20px;font-weight:800;color:#1d70b8;line-height:1;}
+  .stat__lbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-top:3px;}
+  .stat--green .stat__val{color:#00703c;}
+  .stat--red .stat__val{color:#c0392b;}
+  /* Section heading */
+  h2{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#1d70b8;margin:22px 0 8px;padding-bottom:4px;border-bottom:1.5px solid #e8f0fa;}
+  /* Table */
+  table{width:100%;border-collapse:collapse;margin-bottom:0;font-size:11px;}
+  thead tr{background:#1d70b8;}
+  th{color:#fff;text-align:left;padding:7px 10px;font-size:10px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;}
+  td{padding:7px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top;color:#222;}
+  tr:nth-child(even) td{background:#f9fbff;}
+  tr:last-child td{border-bottom:none;}
+  .total-row td{font-weight:700;background:#e8f0fa;border-top:1.5px solid #1d70b8;color:#1d70b8;}
+  .amt{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;}
+  .muted{color:#888;font-style:italic;}
+  /* Badges */
+  .badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+  .badge-green{background:#e6f4ed;color:#00703c;}
+  .badge-red{background:#fdecea;color:#c0392b;}
+  .badge-grey{background:#f0f0f0;color:#666;}
+  /* Settlement cards */
+  .settle-section{display:flex;flex-direction:column;gap:8px;}
+  .settle-card{border:1.5px solid #e0e0e0;border-left:4px solid #1d70b8;padding:10px 14px;border-radius:0 5px 5px 0;background:#fff;}
+  .settle-card.done{border-left-color:#00703c;background:#f5fcf7;}
+  .settle-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .settle-names{font-size:13px;font-weight:700;}
+  .settle-from{color:#c0392b;}
+  .settle-arrow{color:#aaa;margin:0 6px;font-weight:300;}
+  .settle-to{color:#00703c;}
+  .settle-amt{font-size:14px;font-weight:800;color:#1d70b8;font-variant-numeric:tabular-nums;}
+  .settle-contrib{margin-top:8px;padding-top:8px;border-top:1px dashed #e0e0e0;}
+  .settle-contrib-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#aaa;margin-bottom:4px;}
+  .settle-contrib-row{display:flex;justify-content:space-between;font-size:10px;color:#555;padding:2px 0;}
+  .settle-contrib-row span{color:#111;font-weight:600;}
+  .all-settled{text-align:center;padding:20px;border:1.5px solid #00703c;border-radius:6px;color:#00703c;font-weight:700;font-size:13px;}
+  /* Footer */
+  .doc-footer{margin-top:28px;padding-top:10px;border-top:1px solid #eee;display:flex;justify-content:space-between;font-size:9px;color:#aaa;}
+  @media print{body{padding:0;} @page{margin:14mm 16mm;}}
 </style>
 </head>
 <body>
 
-<h1>💰 ${s.name}</h1>
-<div class="meta">Generated by Split Bills &nbsp;·&nbsp; ${now} &nbsp;·&nbsp; Session created ${created} &nbsp;·&nbsp; Members: ${s.members.join(', ')}</div>
+<div class="doc-header">
+  <div>
+    <div class="doc-title">${s.name}</div>
+    <div class="doc-sub">Session created ${created} &nbsp;&middot;&nbsp; ${s.members.length} members: ${s.members.join(', ')}</div>
+  </div>
+  <div class="doc-brand">Split Bills Report</div>
+</div>
+<div class="doc-meta">Generated ${now} &nbsp;&middot;&nbsp; All amounts in ${curr === '₹' ? 'INR (₹)' : 'CAD ($)'}</div>
 
-<div class="summary-box">
-  <div class="summary-box__item">
-    <div class="summary-box__val">₹${fmt2(total)}</div>
-    <div class="summary-box__label">Total Spent</div>
+<div class="stats">
+  <div class="stat">
+    <div class="stat__val">${curr}${fmt2(total)}</div>
+    <div class="stat__lbl">Total Spent</div>
   </div>
-  <div class="summary-box__item">
-    <div class="summary-box__val">${s.expenses.length}</div>
-    <div class="summary-box__label">Expenses</div>
+  <div class="stat">
+    <div class="stat__val">${s.expenses.length}</div>
+    <div class="stat__lbl">Expenses</div>
   </div>
-  <div class="summary-box__item">
-    <div class="summary-box__val">${s.members.length}</div>
-    <div class="summary-box__label">People</div>
+  <div class="stat">
+    <div class="stat__val">${s.members.length}</div>
+    <div class="stat__lbl">People</div>
   </div>
-  <div class="summary-box__item">
-    <div class="summary-box__val">${txns.length === 0 ? '✅ Settled' : txns.length + ' pending'}</div>
-    <div class="summary-box__label">Payments</div>
+  <div class="stat ${txns.length === 0 ? 'stat--green' : 'stat--red'}">
+    <div class="stat__val">${txns.length === 0 ? 'Settled' : txns.length + ' pending'}</div>
+    <div class="stat__lbl">Payments</div>
   </div>
 </div>
 
-<h2>📋 All Expenses</h2>
+<h2>All Expenses</h2>
 <table>
   <thead>
-    <tr>
-      <th>#</th><th>Description</th><th>Date</th><th>Paid By</th><th>Split Among</th><th>Amount</th>
-    </tr>
+    <tr><th>#</th><th>Description</th><th>Date</th><th>Paid By</th><th>Split Among</th><th style="text-align:right">Amount</th></tr>
   </thead>
   <tbody>
     ${s.expenses.map((exp, i) => {
-      const d = new Date(exp.date).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
-      const splits = exp.splitAmong.map(p => `${p} (₹${fmt2(exp.shares[p])})`).join('<br>');
+      const d = new Date(exp.date).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+      const splits = exp.splitAmong.map(p => `${p} &middot; ${curr}${fmt2(exp.shares[p])}`).join('<br>');
       return `<tr>
-        <td>${i+1}</td>
-        <td><strong>${exp.description}</strong>${exp.note ? `<br><em style="color:#505a5f">${exp.note}</em>` : ''}</td>
-        <td>${d}</td>
-        <td>${exp.paidBy}</td>
-        <td>${splits}</td>
-        <td style="text-align:right;font-weight:700">₹${fmt2(exp.amount)}</td>
+        <td style="color:#aaa">${i+1}</td>
+        <td><strong>${exp.description}</strong>${exp.note ? `<br><span class="muted">${exp.note}</span>` : ''}</td>
+        <td style="white-space:nowrap;color:#555">${d}</td>
+        <td style="font-weight:600">${exp.paidBy}</td>
+        <td style="color:#555;font-size:10px">${splits}</td>
+        <td class="amt">${curr}${fmt2(exp.amount)}</td>
       </tr>`;
     }).join('')}
     <tr class="total-row">
-      <td colspan="5" style="text-align:right">Total Spent</td>
-      <td style="text-align:right">₹${fmt2(total)}</td>
+      <td colspan="5" style="text-align:right;letter-spacing:.4px;font-size:10px;text-transform:uppercase">Total</td>
+      <td class="amt">${curr}${fmt2(total)}</td>
     </tr>
   </tbody>
 </table>
 
-<h2>⚖️ Balances — Who Owes What</h2>
+<h2>Balances — Net Position per Person</h2>
 <table>
   <thead>
-    <tr><th>Person</th><th>Total Paid</th><th>Total Share</th><th>Net Balance</th><th>Status</th></tr>
+    <tr><th>Person</th><th style="text-align:right">Paid</th><th style="text-align:right">Fair Share</th><th style="text-align:right">Net</th><th>Status</th></tr>
   </thead>
   <tbody>
     ${s.members.map(person => {
-      const b = bal[person] || 0;
+      const b     = bal[person] || 0;
       const paid  = s.expenses.filter(e=>e.paidBy===person).reduce((a,e)=>a+e.amount,0);
       const share = s.expenses.reduce((a,e)=>a+(e.shares[person]||0),0);
       const isPos = b > 0.005, isNeg = b < -0.005;
-      const status = isPos ? `<span class="badge badge-green">Owed ₹${fmt2(b)}</span>` : isNeg ? `<span class="badge badge-red">Owes ₹${fmt2(Math.abs(b))}</span>` : `<span class="badge badge-grey">Settled</span>`;
+      const netColor = isPos ? '#00703c' : isNeg ? '#c0392b' : '#888';
+      const badge = isPos
+        ? `<span class="badge badge-green">Gets back ${curr}${fmt2(b)}</span>`
+        : isNeg
+        ? `<span class="badge badge-red">Owes ${curr}${fmt2(Math.abs(b))}</span>`
+        : `<span class="badge badge-grey">Even</span>`;
       return `<tr>
-        <td><strong>${person}</strong></td>
-        <td>₹${fmt2(paid)}</td>
-        <td>₹${fmt2(share)}</td>
-        <td style="font-weight:700;color:${isPos?'#00703c':isNeg?'#d4351c':'#505a5f'}">${isPos?'+':''}₹${fmt2(b)}</td>
-        <td>${status}</td>
+        <td style="font-weight:700">${person}</td>
+        <td class="amt">${curr}${fmt2(paid)}</td>
+        <td class="amt">${curr}${fmt2(share)}</td>
+        <td class="amt" style="color:${netColor};font-weight:800">${isPos?'+ ':''}${curr}${fmt2(Math.abs(b))}</td>
+        <td>${badge}</td>
       </tr>`;
     }).join('')}
   </tbody>
 </table>
 
-<h2>💸 Settle Up — Who Pays Whom &amp; For What</h2>
+<h2>Settle Up — Minimum Payments Required</h2>
 ${txns.length === 0
-  ? '<p style="color:#00703c;font-weight:700;padding:12px;border:2px solid #00703c;border-radius:4px">✅ All debts are settled! No payments needed.</p>'
-  : txns.map(t => {
-    const key = t.from + '→' + t.to;
-    const isDone = settled.includes(key);
-    // Find contributing expenses
-    const contributions = s.expenses.filter(e =>
-      e.splitAmong.includes(t.from) && e.paidBy === t.to
-    );
-    const contribHTML = contributions.length
-      ? `<div class="settle-for"><strong>Contributing expenses:</strong><ul style="margin-left:14px;margin-top:4px">` +
-        contributions.map(e => `<li><strong>${e.description}</strong> — ₹${fmt2(e.amount)} (${t.from}'s share: ₹${fmt2(e.shares[t.from]||0)}) — ${new Date(e.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</li>`).join('') +
-        `</ul></div>`
-      : '';
-    return `<div class="settle-card ${isDone ? 'done' : ''}">
-      <div style="font-size:14px;font-weight:700">
-        <span style="color:#d4351c">${t.from}</span>
-        <span class="arrow">→</span>
-        <span style="color:#00703c">${t.to}</span>
-        <span style="margin-left:12px;color:#1d70b8">₹${fmt2(t.amount)}</span>
-        ${isDone ? `&nbsp;<span class="badge badge-green">✓ Received</span>` : `&nbsp;<span class="badge badge-red">Pending</span>`}
-      </div>
-      ${contribHTML}
-    </div>`;
-  }).join('')}
+  ? `<div class="all-settled">All debts are cleared — no payments needed.</div>`
+  : (() => {
+    // Sort: pending first, received last
+    const sorted = [...txns].sort((a, b) => {
+      const aDone = settled.includes(a.from + '→' + a.to) ? 1 : 0;
+      const bDone = settled.includes(b.from + '→' + b.to) ? 1 : 0;
+      return aDone - bDone;
+    });
+    const pendingCount  = sorted.filter(t => !settled.includes(t.from + '→' + t.to)).length;
+    const receivedCount = sorted.length - pendingCount;
+    return `<div style="font-size:10px;color:#888;margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">${pendingCount} pending &nbsp;&middot;&nbsp; ${receivedCount} received</div>
+    <div class="settle-section">${sorted.map(t => {
+      const key  = t.from + '→' + t.to;
+      const done = settled.includes(key);
+      const contributions = s.expenses.filter(e => e.splitAmong.includes(t.from) && e.paidBy === t.to);
+      const contribRows = contributions.map(e =>
+        `<div class="settle-contrib-row"><span>${e.description}</span><span style="color:#888">${new Date(e.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}</span><span>${t.from} share: ${curr}${fmt2(e.shares[t.from]||0)} of ${curr}${fmt2(e.amount)}</span></div>`
+      ).join('');
+      return `<div class="settle-card ${done?'done':''}">
+        <div class="settle-row">
+          <div class="settle-names">
+            <span class="settle-from">${t.from}</span>
+            <span class="settle-arrow">&#8594;</span>
+            <span class="settle-to">${t.to}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="settle-amt">${curr}${fmt2(t.amount)}</span>
+            ${done ? `<span class="badge badge-green">Received</span>` : `<span class="badge badge-red">Pending</span>`}
+          </div>
+        </div>
+        ${contribRows ? `<div class="settle-contrib"><div class="settle-contrib-label">Contributing expenses</div>${contribRows}</div>` : ''}
+      </div>`;
+    }).join('')}</div>`;
+  })()}
 
-<div class="footer-note">
-  Generated by Split Bills — all data stored locally on your device &nbsp;·&nbsp; ${now}
+<div class="doc-footer">
+  <span>Split Bills &mdash; all data stored locally on your device</span>
+  <span>Generated ${now}</span>
 </div>
 
 <script>window.onload=()=>window.print()<\/script>
@@ -1959,9 +2133,8 @@ function exportSessionXLSX() {
   const settled = Array.isArray(s.settledPairs) ? s.settledPairs : [];
   const now = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
   const created = new Date(s.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+  const curr2 = getCurrencySymbol();
 
-  // Build CSV-style multi-sheet content as a single sheet TSV
-  // Since true XLSX requires a library, we'll create a well-structured CSV with multiple sections
   const lines = [];
 
   // ── SECTION: Session Summary
@@ -1970,16 +2143,16 @@ function exportSessionXLSX() {
   lines.push(['Created', created, '', '', '', '']);
   lines.push(['Members', s.members.join(', '), '', '', '', '']);
   lines.push(['Total Expenses', s.expenses.length, '', '', '', '']);
-  lines.push(['Total Spent', `₹${fmt2(total)}`, '', '', '', '']);
+  lines.push(['Total Spent', `${curr2}${fmt2(total)}`, '', '', '', '']);
   lines.push(['Generated', now, '', '', '', '']);
   lines.push(['', '', '', '', '', '']);
 
   // ── SECTION: Expenses
   lines.push(['ALL EXPENSES', '', '', '', '', '']);
-  lines.push(['#', 'Description', 'Date', 'Paid By', 'Split Among (shares)', 'Amount (₹)']);
+  lines.push(['#', 'Description', 'Date', 'Paid By', 'Split Among (shares)', `Amount (${curr2})`]);
   s.expenses.forEach((exp, i) => {
     const d = new Date(exp.date).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
-    const splits = exp.splitAmong.map(p => `${p}: ₹${fmt2(exp.shares[p])}`).join(' | ');
+    const splits = exp.splitAmong.map(p => `${p}: ${curr2}${fmt2(exp.shares[p])}`).join(' | ');
     lines.push([
       i + 1,
       exp.description + (exp.note ? ` (${exp.note})` : ''),
@@ -1994,31 +2167,36 @@ function exportSessionXLSX() {
 
   // ── SECTION: Balances
   lines.push(['BALANCES — WHO OWES WHAT', '', '', '', '', '']);
-  lines.push(['Person', 'Total Paid (₹)', 'Fair Share (₹)', 'Net Balance (₹)', 'Status', '']);
+  lines.push(['Person', `Total Paid (${curr2})`, `Fair Share (${curr2})`, `Net Balance (${curr2})`, 'Status', '']);
   s.members.forEach(person => {
     const b     = bal[person] || 0;
     const paid  = s.expenses.filter(e => e.paidBy === person).reduce((a, e) => a + e.amount, 0);
     const share = s.expenses.reduce((a, e) => a + (e.shares[person] || 0), 0);
     const isPos = b > 0.005, isNeg = b < -0.005;
-    const status = isPos ? `Should receive ₹${fmt2(b)}` : isNeg ? `Owes ₹${fmt2(Math.abs(b))}` : 'All settled';
+    const status = isPos ? `Should receive ${curr2}${fmt2(b)}` : isNeg ? `Owes ${curr2}${fmt2(Math.abs(b))}` : 'All settled';
     lines.push([person, fmt2(paid), fmt2(share), (isPos?'+':'')+fmt2(b), status, '']);
   });
   lines.push(['', '', '', '', '', '']);
 
-  // ── SECTION: Settle Up
+  // ── SECTION: Settle Up (pending first, then received)
   lines.push(['SETTLE UP — WHO PAYS WHOM & FOR WHAT', '', '', '', '', '']);
   if (!txns.length) {
-    lines.push(['✅ All debts are settled! No payments needed.', '', '', '', '', '']);
+    lines.push(['All debts are settled. No payments needed.', '', '', '', '', '']);
   } else {
-    lines.push(['From (Payer)', 'To (Receiver)', 'Amount (₹)', 'Contributing Expenses', 'Status', '']);
-    txns.forEach(t => {
+    const sortedTxns = [...txns].sort((a, b) => {
+      const aDone = settled.includes(a.from + '→' + a.to) ? 1 : 0;
+      const bDone = settled.includes(b.from + '→' + b.to) ? 1 : 0;
+      return aDone - bDone;
+    });
+    lines.push(['From (Payer)', 'To (Receiver)', `Amount (${curr2})`, 'Contributing Expenses', 'Status', '']);
+    sortedTxns.forEach(t => {
       const key = t.from + '→' + t.to;
       const isDone = settled.includes(key);
       const contributions = s.expenses
         .filter(e => e.splitAmong.includes(t.from) && e.paidBy === t.to)
-        .map(e => `${e.description}: ₹${fmt2(e.shares[t.from]||0)} of ₹${fmt2(e.amount)}`)
+        .map(e => `${e.description}: ${curr2}${fmt2(e.shares[t.from]||0)} of ${curr2}${fmt2(e.amount)}`)
         .join('; ');
-      lines.push([t.from, t.to, fmt2(t.amount), contributions || 'Various shared expenses', isDone ? '✓ Received' : '⏳ Pending', '']);
+      lines.push([t.from, t.to, fmt2(t.amount), contributions || 'Various shared expenses', isDone ? 'Received' : 'Pending', '']);
     });
   }
   lines.push(['', '', '', '', '', '']);
@@ -2071,7 +2249,7 @@ function renderSettle() {
   const header = `<div class="govuk-inset mb4">
     <strong>${esc(s.name)}</strong>
     <span class="fsm text-muted"> &middot; settlement summary</span>
-    <span class="fsm text-muted"> &middot; ₹${fmt(sessTotal)} total across ${s.expenses.length} expense${s.expenses.length!==1?'s':''}</span>
+    <span class="fsm text-muted"> &middot; ${getCurrencySymbol()}${fmt(sessTotal)} total across ${s.expenses.length} expense${s.expenses.length!==1?'s':''}</span>
   </div>`;
 
   if (!txns.length) {
@@ -2099,10 +2277,10 @@ function renderSettle() {
             return `<div class="settle-expense-row">
               <div style="flex:1;min-width:0">
                 <strong>${esc(e.description)}</strong>
-                <span class="fsm text-muted"> &middot; ${d} &middot; total ₹${fmt(e.amount)}</span>
+                <span class="fsm text-muted"> &middot; ${d} &middot; total ${getCurrencySymbol()}${fmt(e.amount)}</span>
               </div>
               <div style="flex-shrink:0;padding-left:8px" class="fw">
-                ₹${fmt(e.shares[t.from]||0)}
+                ${getCurrencySymbol()}${fmt(e.shares[t.from]||0)}
                 <span class="fsm text-muted fw-normal"> share</span>
               </div>
             </div>`;
@@ -2118,7 +2296,7 @@ function renderSettle() {
           <span class="fw ${isReceived ? 'text-muted' : 'text-green'}">${esc(t.to)}</span>
         </div>
         <div class="flex align-c gap-sm flex-wrap">
-          <div class="fw flg ${isReceived ? 'text-muted' : 'text-blue'}">₹${fmt(t.amount)}</div>
+          <div class="fw flg ${isReceived ? 'text-muted' : 'text-blue'}">${getCurrencySymbol()}${fmt(t.amount)}</div>
           ${isReceived
             ? `<button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="toggleReceived('${esc(key)}', false)" title="Undo — mark as not yet received">
                  <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-undo"></use></svg>
@@ -2144,6 +2322,8 @@ loadDb();
 renderSessionsList();
 renderQsNames();
 updateFooterActive('home');
+updateSettingsThemeBtn();
+updateCurrencyUI();
 </script>
 
 </body>
