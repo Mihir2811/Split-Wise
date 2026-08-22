@@ -785,7 +785,7 @@ body { padding-bottom: 60px; }
       <label class="govuk-label" for="qs-amt">Total bill amount</label>
       <!-- Input: total amount to be divided. Numeric, 2 decimal places. -->
       <div class="govuk-prefix-input">
-        <span class="govuk-prefix">₹</span>
+        <span class="govuk-prefix" id="qs-amt-prefix">₹</span>
         <input class="govuk-input" type="number" id="qs-amt" min="0" step="0.01" placeholder="e.g. 1500.00" inputmode="decimal">
       </div>
     </div>
@@ -923,9 +923,9 @@ body { padding-bottom: 60px; }
     </div>
     <div class="govuk-form-group">
       <label class="govuk-label" for="ae-amt">Amount</label>
-      <!-- Input: total cost of this expense in rupees -->
+      <!-- Input: total cost of this expense -->
       <div class="govuk-prefix-input">
-        <span class="govuk-prefix">₹</span>
+        <span class="govuk-prefix" id="ae-amt-prefix">₹</span>
         <input class="govuk-input" type="number" id="ae-amt" min="0" step="0.01" placeholder="e.g. 850.00" inputmode="decimal" oninput="refreshExpPreview()">
       </div>
     </div>
@@ -1201,6 +1201,15 @@ function updateCurrencyUI() {
   if (rupBtn) rupBtn.classList.toggle('govuk-btn--secondary',  isCad);
   if (cadBtn) cadBtn.classList.toggle('govuk-btn--primary',    isCad);
   if (cadBtn) cadBtn.classList.toggle('govuk-btn--secondary',  !isCad);
+
+  // Keep every static currency-symbol prefix in the app in sync (form fields
+  // that show a fixed ₹/$ sign next to the amount input, not the dynamically
+  // rendered lists which already call getCurrencySymbol() on every render).
+  const sym = getCurrencySymbol();
+  const qsPrefix = document.getElementById('qs-amt-prefix');
+  const aePrefix = document.getElementById('ae-amt-prefix');
+  if (qsPrefix) qsPrefix.textContent = sym;
+  if (aePrefix) aePrefix.textContent = sym;
 }
 
 // ================================================================
@@ -1762,13 +1771,44 @@ function renderExpenses() {
 // ================================================================
 //  BALANCES
 // ================================================================
-function computeBalances(s) {
+// Raw balances from expenses alone — what each person paid vs. their fair
+// share, ignoring any settle-up payments that have already been made.
+function computeRawBalances(s) {
   const bal = {};
   s.members.forEach(m => { bal[m] = 0; });
   s.expenses.forEach(exp => {
     bal[exp.paidBy] = (bal[exp.paidBy] || 0) + exp.amount;
     exp.splitAmong.forEach(p => { bal[p] = (bal[p] || 0) - exp.shares[p]; });
   });
+  return bal;
+}
+
+// Balances after applying any transfers already marked "Money received" on
+// the Settle Up tab. This is what should be shown anywhere the app displays
+// "who owes what right now" — so it agrees with the Settle Up tab instead of
+// staying frozen at the pre-payment amounts.
+function computeBalances(s) {
+  const bal = computeRawBalances(s);
+  const settled = Array.isArray(s.settledPairs) ? s.settledPairs : [];
+  if (settled.length) {
+    // Re-derive the settlement transactions from the raw balances (not via
+    // computeSettlement, to avoid a circular call) and apply the ones marked
+    // received.
+    const credits = Object.entries(bal).filter(([, b]) => b >  0.005).map(([p, b]) => ({ p, b }));
+    const debts   = Object.entries(bal).filter(([, b]) => b < -0.005).map(([p, b]) => ({ p, b: -b }));
+    let ci = 0, di = 0;
+    while (ci < credits.length && di < debts.length) {
+      const amount = Math.min(credits[ci].b, debts[di].b);
+      const key = debts[di].p + '→' + credits[ci].p;
+      if (settled.includes(key)) {
+        bal[debts[di].p]   += amount;
+        bal[credits[ci].p] -= amount;
+      }
+      credits[ci].b -= amount; debts[di].b -= amount;
+      if (credits[ci].b < 0.005) ci++;
+      if (debts[di].b   < 0.005) di++;
+    }
+  }
   return bal;
 }
 
@@ -1789,12 +1829,13 @@ function renderBalances() {
       &nbsp;&middot;&nbsp;
       <span class="text-muted fsm">${s.expenses.length} expense${s.expenses.length !== 1 ? 's' : ''}</span>
     </div>
+    <p class="fsm text-muted mb4">This shows what's still left to settle right now — it already accounts for any payments marked as received on the Settle Up tab.</p>
     ${Object.entries(bal).map(([person, balance]) => {
       const isPos   = balance  >  0.005;
       const isNeg   = balance  < -0.005;
       const cardCls = isPos ? 'govuk-card--gl' : isNeg ? 'govuk-card--rl' : 'govuk-card--xl';
       const textCls = isPos ? 'text-green'     : isNeg ? 'text-red'       : 'text-muted';
-      const label   = isPos ? 'Should receive' : isNeg ? 'Owes others'    : 'All settled';
+      const label   = isPos ? 'Still owed to them' : isNeg ? 'Still owes'    : 'All settled up';
       return `<div class="govuk-card ${cardCls}">
         <div class="flex align-c justify-b">
           <div><div class="fw">${esc(person)}</div><div class="fsm text-muted">${label}</div></div>
@@ -1808,7 +1849,7 @@ function renderBalances() {
 //  SETTLE UP — greedy debt simplification
 // ================================================================
 function computeSettlement(s) {
-  const bal     = computeBalances(s);
+  const bal     = computeRawBalances(s);
   const credits = Object.entries(bal).filter(([, b]) => b >  0.005).map(([p, b]) => ({ p, b }));
   const debts   = Object.entries(bal).filter(([, b]) => b < -0.005).map(([p, b]) => ({ p, b: -b }));
   const txns = []; let ci = 0, di = 0;
@@ -1977,7 +2018,7 @@ function exportSessionPDF() {
   .settle-contrib-row span{color:#111;font-weight:600;}
   .all-settled{text-align:center;padding:20px;border:1.5px solid #00703c;border-radius:6px;color:#00703c;font-weight:700;font-size:13px;}
   /* Footer */
-  .doc-footer{margin-top:28px;padding-top:10px;border-top:1px solid #eee;display:flex;justify-content:space-between;font-size:9px;color:#aaa;}
+  .doc-footer{margin-top:28px;padding-top:10px;border-top:1px solid #eee;display:flex;justify-content:space-between;font-size:10px;color:#666;}
   @media print{body{padding:0;} @page{margin:14mm 16mm;}}
 </style>
 </head>
@@ -2005,8 +2046,11 @@ function exportSessionPDF() {
     <div class="stat__val">${s.members.length}</div>
     <div class="stat__lbl">People</div>
   </div>
-  <div class="stat ${txns.length === 0 ? 'stat--green' : 'stat--red'}">
-    <div class="stat__val">${txns.length === 0 ? 'Settled' : txns.length + ' pending'}</div>
+  <div class="stat ${(txns.length === 0 || txns.every(t => settled.includes(txnKey(t)))) ? 'stat--green' : 'stat--red'}">
+    <div class="stat__val">${(() => {
+      const pendingN = txns.filter(t => !settled.includes(txnKey(t))).length;
+      return pendingN === 0 ? 'Settled' : pendingN + ' pending';
+    })()}</div>
     <div class="stat__lbl">Payments</div>
   </div>
 </div>
@@ -2036,10 +2080,10 @@ function exportSessionPDF() {
   </tbody>
 </table>
 
-<h2>Balances — Net Position per Person</h2>
+<h2>Balances — What's Still Owed</h2>
 <table>
   <thead>
-    <tr><th>Person</th><th style="text-align:right">Paid</th><th style="text-align:right">Fair Share</th><th style="text-align:right">Net</th><th>Status</th></tr>
+    <tr><th>Person</th><th style="text-align:right">Paid</th><th style="text-align:right">Fair Share</th><th style="text-align:right">Still Owed / Owes</th><th>Status</th></tr>
   </thead>
   <tbody>
     ${s.members.map(person => {
