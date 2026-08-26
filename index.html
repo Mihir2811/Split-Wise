@@ -1226,18 +1226,86 @@ let editingExpId = null; // null = adding new expense, otherwise editing this id
 // ================================================================
 //  PERSISTENCE
 // ================================================================
-function loadDb() {
-  try {
-    const raw = localStorage.getItem('split-bills-v2');
-    if (raw) {
-      const p = JSON.parse(raw);
-      db.sessions = Array.isArray(p.sessions) ? p.sessions : [];
-      db.people   = Array.isArray(p.people)   ? p.people   : [];
-    }
-  } catch {}
+const DB_KEY = 'split-bills-v2';
+
+// ── IndexedDB backup mirror ─────────────────────────────────────
+// localStorage is the fast, synchronous, primary store (unchanged
+// behaviour). IndexedDB is written on every save as a redundant
+// backup and used to auto-recover data if localStorage ever comes
+// back empty (e.g. Safari/Chrome storage eviction, private mode
+// residue, etc). This does NOT fix cases where you open a totally
+// different copy of this file (different download/path) — that is
+// a different origin/file and no browser storage can bridge that.
+let _idbPromise = null;
+function _idb() {
+  if (_idbPromise) return _idbPromise;
+  _idbPromise = new Promise((resolve, reject) => {
+    if (!('indexedDB' in window)) { reject(new Error('no idb')); return; }
+    const req = indexedDB.open('split-bills-store', 1);
+    req.onupgradeneeded = () => { req.result.createObjectStore('kv'); };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror   = () => reject(req.error);
+  });
+  return _idbPromise;
+}
+function idbSet(key, value) {
+  _idb().then(db => {
+    const tx = db.transaction('kv', 'readwrite');
+    tx.objectStore('kv').put(value, key);
+  }).catch(() => {});
+}
+function idbGet(key) {
+  return _idb().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction('kv', 'readonly');
+    const rq = tx.objectStore('kv').get(key);
+    rq.onsuccess = () => resolve(rq.result);
+    rq.onerror   = () => reject(rq.error);
+  })).catch(() => undefined);
 }
 
-function saveDb() { localStorage.setItem('split-bills-v2', JSON.stringify(db)); }
+function _applyDb(p) {
+  db.sessions = Array.isArray(p.sessions) ? p.sessions : [];
+  db.people   = Array.isArray(p.people)   ? p.people   : [];
+}
+
+function loadDb() {
+  let loadedFromLocal = false;
+  try {
+    const raw = localStorage.getItem(DB_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      _applyDb(p);
+      if (db.sessions.length || db.people.length) loadedFromLocal = true;
+    }
+  } catch {}
+
+  // Always mirror whatever we have into IndexedDB, then check if
+  // IndexedDB is holding newer/different data localStorage lost.
+  idbGet(DB_KEY).then(backup => {
+    if (!backup) {
+      // No backup yet — seed it from current state (if any).
+      if (loadedFromLocal) idbSet(DB_KEY, JSON.stringify(db));
+      return;
+    }
+    if (!loadedFromLocal) {
+      // localStorage was empty but we have a backup — restore it.
+      try {
+        const p = JSON.parse(backup);
+        _applyDb(p);
+        localStorage.setItem(DB_KEY, backup);
+        renderSessionsList();
+        renderQsNames();
+        showToast('Restored your data from backup', 'icon-check');
+      } catch {}
+    }
+  });
+}
+
+function saveDb() {
+  const raw = JSON.stringify(db);
+  localStorage.setItem(DB_KEY, raw);
+  idbSet(DB_KEY, raw);
+}
 
 function exportData() {
   const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
