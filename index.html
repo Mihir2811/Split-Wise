@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Split Bills</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d70b8'/%3E%3Cpath fill='%23ffffff' d='M20 10h-1V8a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2zM7 8h11v2H7V8zm13 12H7V12h13v2h-3a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h3v2zm0-4h-3v-2h3v2z'/%3E%3C/svg%3E">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231d70b8' d='M20 6h-1V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zM4 4h13v2H4V4zm16 14H4V8h16v2h-4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h4v2zm0-4h-4v-2h4v2z'/%3E%3C/svg%3E">
+
 <style>
 /* ── GOV.UK Design System — with light/dark theming ────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -38,6 +41,8 @@
   --clr-notif-bg:    #0b0c0c;
   --clr-notif-txt:   #ffffff;
   --clr-card-hover:  #f3f2f1;
+  --clr-nav-bg:      #ffffff;
+  --clr-nav-border:  #b1b4b6;
   --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath fill='%230b0c0c' d='M8 11L2 5h12z'/%3E%3C/svg%3E");
   --border: 2px solid var(--clr-border);
 }
@@ -72,6 +77,8 @@
     --clr-notif-bg:    #2c2c2e;
     --clr-notif-txt:   #f0f0f0;
     --clr-card-hover:  #2c2c2e;
+    --clr-nav-bg:      #1c1c1e;
+    --clr-nav-border:  #38383a;
     --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath fill='%23f0f0f0' d='M8 11L2 5h12z'/%3E%3C/svg%3E");
   }
 }
@@ -105,6 +112,8 @@ html[data-theme="dark"] {
   --clr-notif-bg:    #2c2c2e;
   --clr-notif-txt:   #f0f0f0;
   --clr-card-hover:  #2c2c2e;
+  --clr-nav-bg:      #1c1c1e;
+  --clr-nav-border:  #38383a;
   --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath fill='%23f0f0f0' d='M8 11L2 5h12z'/%3E%3C/svg%3E");
 }
 
@@ -136,6 +145,8 @@ html[data-theme="light"] {
   --clr-notif-bg:    #0b0c0c;
   --clr-notif-txt:   #ffffff;
   --clr-card-hover:  #f3f2f1;
+  --clr-nav-bg:      #ffffff;
+  --clr-nav-border:  #b1b4b6;
   --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath fill='%230b0c0c' d='M8 11L2 5h12z'/%3E%3C/svg%3E");
 }
 
@@ -146,6 +157,7 @@ body {
   color: var(--clr-text);
   background: var(--clr-bg);
   min-height: 100vh;
+  padding-bottom: 70px; /* Space for bottom nav */
 }
 
 /* ── ICONS (referenced via <use href="#icon-id">) ──────────────── */
@@ -169,49 +181,9 @@ body {
   display: flex; align-items: center; gap: 6px; flex-shrink: 0;
 }
 .govuk-header__logo span { display: none; }
-.govuk-header__actions {
-  display: flex; gap: 6px; flex-shrink: 0; align-items: center;
-  flex-wrap: wrap; justify-content: flex-end;
-}
 
-.govuk-header__actions .govuk-btn {
-  background: #f3f2f1 !important;
-  color: #0b0c0c !important;
-  box-shadow: none !important;
-  padding: 8px !important;
-  min-width: 38px; min-height: 38px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 4px;
-}
-.govuk-header__actions .govuk-btn .icon { width: 18px; height: 18px; }
-.govuk-header__actions .btn-label { display: none; }
-
-/* Download / Upload split data buttons always keep their full text label,
-   on every screen size, so they are never mistaken for unrelated icons. */
-.govuk-header__actions--full-label {
-  width: auto !important;
-  padding: 8px 12px !important;
-  font-size: .8125rem !important;
-}
-.govuk-header__actions--full-label span { display: inline !important; }
-
-.govuk-header__actions .govuk-btn:hover { background: #dbdad9 !important; }
-.govuk-header__actions .govuk-btn:focus {
-  outline: 3px solid var(--clr-yellow);
-  outline-offset: 1px;
-  background: var(--clr-yellow) !important;
-  color: #0b0c0c !important;
-}
-
-/* From small-tablet breakpoint up, show text labels alongside icons */
 @media (min-width: 481px) {
   .govuk-header__logo span { display: inline; }
-  .govuk-header__actions .govuk-btn {
-    padding: 8px 12px !important;
-    width: auto;
-  }
-  .govuk-header__actions .btn-label { display: inline; }
-  .govuk-header__actions--full-label { font-size: 1rem !important; }
 }
 
 /* ── INFO BANNER (replaces phase banner) ───────────────────────── */
@@ -431,6 +403,8 @@ body {
   background: var(--clr-surface); width: 100%; max-width: 560px;
   padding: 20px; margin: auto; position: relative;
   border: 1px solid var(--clr-divider);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 /* ── SUMMARY LIST ───────────────────────────────────────────────── */
@@ -473,7 +447,7 @@ body {
 
 /* ── NOTIFICATION TOAST ─────────────────────────────────────────── */
 .govuk-notif {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
   background: var(--clr-notif-bg); color: var(--clr-notif-txt);
   padding: 10px 20px; font-weight: 700; z-index: 9999;
   min-width: 180px; text-align: center;
@@ -503,8 +477,115 @@ body {
 /* ── EXPENSE CARD ACTION ROW ────────────────────────────────────── */
 .exp-actions { display: flex; gap: 6px; margin-top: 6px; justify-content: flex-end; }
 
-/* ── THEME TOGGLE BUTTON ────────────────────────────────────────── */
-#theme-btn { font-size: .75rem; min-width: 52px; letter-spacing: .5px; }
+/* ── BOTTOM NAVIGATION BAR ──────────────────────────────────────── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--clr-nav-bg);
+  border-top: 2px solid var(--clr-nav-border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0;
+  z-index: 999;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.bottom-nav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--clr-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+  flex: 1;
+  max-width: 80px;
+}
+
+.bottom-nav__item:hover,
+.bottom-nav__item--active {
+  color: var(--clr-blue);
+}
+
+.bottom-nav__item svg {
+  width: 24px;
+  height: 24px;
+}
+
+@media (min-width: 641px) {
+  .bottom-nav__item {
+    font-size: 0.75rem;
+  }
+  .bottom-nav__item svg {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* Settings Card */
+.settings-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-divider);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.settings-section {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--clr-divider);
+}
+
+.settings-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.settings-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.settings-option__label {
+  font-weight: 700;
+  color: var(--clr-text);
+}
+
+.settings-option__hint {
+  color: var(--clr-muted);
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+/* About Section Styles */
+.about-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-divider);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.about-link {
+  color: var(--clr-blue);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.about-link:hover {
+  text-decoration: none;
+}
 
 /* ── UTILITIES ──────────────────────────────────────────────────── */
 .hidden { display: none !important; }
@@ -526,100 +607,18 @@ body {
 .mb2 { margin-bottom: 8px; }
 .mb4 { margin-bottom: 20px; }
 .mt4 { margin-top: 20px; }
-
-/* ── FOOTER / TASKBAR ───────────────────────────────────────────── */
-.app-footer {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: #0b0c0c;
-  border-top: 4px solid var(--clr-blue);
-  z-index: 900;
-  box-shadow: 0 -2px 12px rgba(0,0,0,.35);
-}
-.app-footer__inner {
-  max-width: 960px; margin: 0 auto;
-  padding: 0 12px;
-  display: flex; align-items: stretch;
-  justify-content: space-between;
-  gap: 0;
-}
-.footer-item {
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 3px;
-  padding: 8px 10px;
-  color: #b1b4b6;
-  font-size: .65rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .4px;
-  border: none; background: none; cursor: pointer;
-  font-family: inherit; flex: 1;
-  transition: color .15s, background .15s;
-  white-space: nowrap;
-}
-.footer-item:hover { color: #ffffff; background: rgba(255,255,255,.06); }
-.footer-item:focus { outline: 3px solid var(--clr-yellow); outline-offset: -3px; }
-.footer-item--active { color: var(--clr-yellow); }
-.footer-item .icon { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
-.footer-item__label { line-height: 1; }
-.footer-divider {
-  width: 1px; background: #38383a;
-  margin: 8px 0; flex-shrink: 0;
-}
-/* push main content up so footer doesn't overlap */
-body { padding-bottom: 60px; }
-
-/* ── SHARE MODAL SPECIFICS ──────────────────────────────────────── */
-.share-format-card {
-  display: flex; align-items: center; gap: 12px;
-  border: 2px solid var(--clr-divider);
-  padding: 14px 16px; margin-bottom: 10px;
-  cursor: pointer; background: var(--clr-surface-2);
-  transition: border-color .15s, background .15s;
-}
-.share-format-card:hover { border-color: var(--clr-blue); background: var(--clr-inset-bg); }
-.share-format-card input[type=radio] { accent-color: var(--clr-blue); width: 20px; height: 20px; flex-shrink: 0; }
-.share-format-card__body { flex: 1; }
-.share-format-card__title { font-weight: 700; font-size: 1rem; }
-.share-format-card__desc  { font-size: .8rem; color: var(--clr-muted); margin-top: 2px; }
-.share-format-icon {
-  width: 36px; height: 36px; border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; font-weight: 900; font-size: 13px; letter-spacing: -.5px;
-}
-.share-format-icon--pdf  { background: #d4351c; color: #fff; }
-.share-format-icon--xlsx { background: #00703c; color: #fff; }
-
-/* ── SETTLE-UP ENHANCEMENT ──────────────────────────────────────── */
-.settle-for-label {
-  display: inline-flex; align-items: center; gap: 4px;
-  background: var(--clr-tag-blue-bg); color: var(--clr-tag-blue-txt);
-  border-radius: 3px; padding: 2px 7px;
-  font-size: .75rem; font-weight: 700; margin-top: 6px;
-}
-.settle-expense-list {
-  margin-top: 8px;
-  border-top: 1px dashed var(--clr-divider);
-  padding-top: 8px;
-}
-.settle-expense-row {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 8px; padding: 4px 0;
-  font-size: .8125rem; color: var(--clr-muted);
-  border-bottom: 1px solid var(--clr-surface-2);
-}
-.settle-expense-row:last-child { border-bottom: none; }
-.settle-expense-row strong { color: var(--clr-text); }
 </style>
 </head>
 <body>
 
-<!-- ── SVG ICON SPRITE (referenced everywhere via <use href="#icon-...">) ── -->
+<!-- ── SVG ICON SPRITE ── -->
 <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
   <defs>
     <!-- Wallet / app logo -->
     <symbol id="icon-wallet" viewBox="0 0 24 24"><path d="M20 6h-1V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zM4 4h13v2H4V4zm16 14H4V8h16v2h-4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h4v2zm0-4h-4v-2h4v2z"/></symbol>
-    <!-- Sun (light mode) -->
+    <!-- Sun -->
     <symbol id="icon-sun" viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.5 4.9l1.4-1.4L7 5.6 5.6 7 3.5 4.9zm13.1.7l2.1-2.1 1.4 1.4-2.1 2.1-1.4-1.4zM1 11h3v2H1v-2zm19 0h3v2h-3v-2zM5.6 17l-2.1 2.1-1.4-1.4L4.2 15.6 5.6 17zm12.8 0l1.4 1.4-2.1 2.1-1.4-1.4 2.1-2.1z"/></symbol>
-    <!-- Moon (dark mode) -->
+    <!-- Moon -->
     <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M12.3 2a9.5 9.5 0 1 0 9.7 11.8c.1-.5-.4-.9-.9-.7a7.6 7.6 0 0 1-9.6-9.6c.1-.5-.3-1-.8-.9z"/></symbol>
     <!-- Download -->
     <symbol id="icon-download" viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zm7-18v12.2l4-4 1.4 1.4L11 18 4.6 11.6 6 10.2l4 4V2h2z"/></symbol>
@@ -627,46 +626,46 @@ body { padding-bottom: 60px; }
     <symbol id="icon-upload" viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM11 4.8 7 8.8 5.6 7.4 12 1l6.4 6.4L17 8.8l-4-4V16h-2V4.8z"/></symbol>
     <!-- Plus -->
     <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6V5z"/></symbol>
-    <!-- Edit / pencil -->
+    <!-- Edit -->
     <symbol id="icon-edit" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></symbol>
-    <!-- Trash / delete -->
+    <!-- Trash -->
     <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M6 7h12l-1 14H7L6 7zm3-4h6l1 2h4v2H4V5h4l1-2zm1 7v8h2v-8H10zm4 0v8h2v-8h-2z"/></symbol>
     <!-- Chevron down -->
     <symbol id="icon-chevron-down" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></symbol>
-    <!-- Help / question -->
+    <!-- Help -->
     <symbol id="icon-help" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.9 15.5h-1.8v-1.8h1.8v1.8zm1.86-7a3.1 3.1 0 0 1-1.36 2.34c-.56.4-.8.7-.8 1.26v.4h-1.8v-.5c0-1.1.5-1.74 1.3-2.3.6-.43.96-.78.96-1.4a1.36 1.36 0 0 0-1.46-1.3c-.78 0-1.3.42-1.5 1.18l-1.74-.7c.36-1.36 1.5-2.28 3.3-2.28 1.96 0 3.3 1.16 3.1 2.8z"/></symbol>
-    <!-- Receipt / empty state -->
+    <!-- Receipt -->
     <symbol id="icon-receipt" viewBox="0 0 24 24"><path d="M6 2v20l2-1.5 2 1.5 2-1.5 2 1.5 2-1.5 2 1.5V2l-2 1.5L14 2l-2 1.5L10 2 8 3.5 6 2zm2 5h8v2H8V7zm0 4h8v2H8v-2zm0 4h5v2H8v-2z"/></symbol>
     <!-- Empty list -->
     <symbol id="icon-empty-list" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM5 5h14v14H5V5zm2 3h10v2H7V8zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/></symbol>
-    <!-- Cross / remove -->
+    <!-- Close -->
     <symbol id="icon-close" viewBox="0 0 24 24"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.4 1.42L10.58 13.4l-6.3 6.3 1.42 1.42 6.3-6.3 6.3 6.3 1.42-1.42-6.3-6.3 6.3-6.3z"/></symbol>
-    <!-- Tick / check -->
+    <!-- Check -->
     <symbol id="icon-check" viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></symbol>
-    <!-- Arrow right (settle up) -->
+    <!-- Arrow right -->
     <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M12 4 10.6 5.4 16.2 11H4v2h12.2l-5.6 5.6L12 20l8-8z"/></symbol>
-    <!-- Party / celebration (all settled) -->
+    <!-- Celebrate -->
     <symbol id="icon-celebrate" viewBox="0 0 24 24"><path d="M3 21l1.7-5.1c.2-.6.7-1 1.3-1.1L13.6 13l-2-2-7.5 1.6c-.6.1-1.1-.4-.9-1L5 4l3.5 3.5L17 4l-1.5 3.5L19 11l-7.4 1.6L13.7 14l-1.7 7.5c-.1.6-.6 1-1.2 1.1L3 21z"/></symbol>
-    <!-- Plain text file -->
+    <!-- Text file -->
     <symbol id="icon-text-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 1.5L19.5 9H14V3.5zM8 13h8v1.5H8V13zm0 3.5h8V18H8v-1.5zm0-7h5v1.5H8V9.5z"/></symbol>
-    <!-- Cash / money received -->
+    <!-- Cash -->
     <symbol id="icon-cash" viewBox="0 0 24 24"><path d="M3 6h18a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm9 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM5 9a2 2 0 0 1-2 2v2a2 2 0 0 1 2 2h14a2 2 0 0 1 2-2v-2a2 2 0 0 1-2-2H5z"/></symbol>
-    <!-- Undo / revert -->
+    <!-- Undo -->
     <symbol id="icon-undo" viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62a6.95 6.95 0 0 1 5.12-2.13c3.07 0 5.7 1.92 6.74 4.6l2.06-.76C20.07 10.36 16.6 8 12.5 8z"/></symbol>
-    <!-- Share -->
-    <symbol id="icon-share" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81A3 3 0 0 0 21 5a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81A2.99 2.99 0 0 0 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65A2.92 2.92 0 0 0 18 22a2.92 2.92 0 0 0 2.92-2.92A2.92 2.92 0 0 0 18 16.08z"/></symbol>
     <!-- Home -->
     <symbol id="icon-home" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></symbol>
-    <!-- Session / folder-group -->
-    <symbol id="icon-sessions" viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm0 12H4V8h16v10z"/></symbol>
-    <!-- Settings / gear -->
-    <symbol id="icon-settings" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7.05 7.05 0 0 0-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.47.47 0 0 0 .12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.47.47 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.37 1.04.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.47.47 0 0 0-.12-.61l-2.01-1.58zM12 15.6a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2z"/></symbol>
-    <!-- Quick split -->
-    <symbol id="icon-quick" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8z"/></symbol>
-    <!-- Info -->
-    <symbol id="icon-info" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol>
-    <!-- Spreadsheet/Excel -->
-    <symbol id="icon-excel" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm1 9H9v2h6v-2zm0 4H9v2h6v-2zM9 9h6V7H9v2zm5-6.5V9h5.5L14 2.5z"/></symbol>
+    <!-- Sessions / List -->
+    <symbol id="icon-sessions" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></symbol>
+    <!-- Calculator -->
+    <symbol id="icon-calculator" viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v4h10V4H7zm0 6v2h2v-2H7zm4 0v2h2v-2h-2zm4 0v2h2v-2h-2zm-8 4v2h2v-2H7zm4 0v2h2v-2h-2zm4 0v2h2v-2h-2zm-8 4v2h2v-2H7zm4 0v2h2v-2h-2zm4 0v2h2v-2h-2z"/></symbol>
+    <!-- Settings / Cog -->
+    <symbol id="icon-settings" viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1 0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66z"/></symbol>
+    <!-- Info / About -->
+    <symbol id="icon-info" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol>
+    <!-- PDF -->
+    <symbol id="icon-pdf" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm2-6h2v4H8v-4zm4 0h2v4h-2v-4zm4 0h2v4h-2v-4z"/></symbol>
+    <!-- Excel -->
+    <symbol id="icon-excel" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm3-5l2-3-2-3h2l1 2 1-2h2l-2 3 2 3h-2l-1-2-1 2H9z"/></symbol>
   </defs>
 </svg>
 
@@ -677,122 +676,52 @@ body { padding-bottom: 60px; }
       <svg class="icon" aria-hidden="true" style="width:22px;height:22px"><use href="#icon-wallet"></use></svg>
       <span>Split Bills</span>
     </span>
-    <div class="govuk-header__actions">
-      <span class="govuk-hint" style="color:#b1b4b6;font-size:.75rem;letter-spacing:.3px">Split Bills</span>
-    </div>
   </div>
 </header>
 
-<div class="info-banner">
-  <div class="info-banner__inner">
-    <svg class="icon icon--sm text-muted" aria-hidden="true"><use href="#icon-wallet"></use></svg>
-    <span class="govuk-hint mb0">All data stays on this device. Use "Download" regularly to keep a backup file.</span>
-  </div>
-</div>
+
 
 <!-- ── MAIN ─────────────────────────────────────────────────────── -->
 <main class="govuk-main">
 
-  <!-- HOW TO USE — collapsible help -->
-  <div class="help-box">
-    <button class="help-box__toggle" id="help-toggle" aria-expanded="false" aria-controls="help-panel" onclick="toggleHelp()">
-      <span class="btn-icon-text">
-        <svg class="icon" aria-hidden="true"><use href="#icon-help"></use></svg>
-        How to use this app
-      </span>
-      <svg class="icon help-box__chevron" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
-    </button>
-    <div class="help-box__panel" id="help-panel">
-
-      <h3>1. Create a session</h3>
-      <ol>
-        <li>Tap <strong>New session</strong> on the Home tab and give it a name — e.g. "Goa Trip" or "Flat Rent June".</li>
-        <li>Add the names of everyone sharing expenses (minimum 2 people). You can always come back to the same session as new bills arrive.</li>
-      </ol>
-
-      <h3>2. Navigate using the bottom bar</h3>
-      <ul>
-        <li><strong>Home</strong> — returns you to the sessions list and Quick Split at any time.</li>
-        <li><strong>Sessions</strong> — jumps straight to your saved sessions list.</li>
-        <li><strong>Quick Split</strong> — scrolls to the one-off split calculator below.</li>
-        <li><strong>Settings</strong> — toggle dark mode, back up your data, or restore from a backup file.</li>
-        <li><strong>About</strong> — info about the app, links to GitHub and LinkedIn.</li>
-      </ul>
-
-      <h3>3. Add expenses</h3>
-      <ol>
-        <li>Open a session and tap <strong>Add expense</strong>.</li>
-        <li>Enter the amount, a short description (e.g. "Dinner"), who paid, and who to split it between.</li>
-        <li>Choose <strong>Equal split</strong> (default) or enter <strong>custom amounts</strong> per person.</li>
-        <li>Tap <strong>Add expense</strong> to save. Add as many as you like — the app keeps a running total.</li>
-      </ol>
-
-      <h3>4. Edit or delete an expense</h3>
-      <ul>
-        <li>Tap the <strong>pencil icon</strong> on any expense card to update its details.</li>
-        <li>Tap the <strong>bin icon</strong> to permanently remove an expense.</li>
-      </ul>
-
-      <h3>5. Check balances and settle up</h3>
-      <ul>
-        <li>Switch to the <strong>Balances</strong> tab inside a session to see each person's net position — who is owed money and who still owes.</li>
-        <li>Switch to the <strong>Settle up</strong> tab to see the fewest payments needed to clear every debt. Each payment card shows exactly which shared expenses caused it.</li>
-        <li>Once someone transfers money, tap <strong>Money received</strong> on that card. Tap <strong>Undo</strong> if you marked it by mistake.</li>
-      </ul>
-
-      <h3>6. Share a session as PDF or Excel</h3>
-      <ul>
-        <li>Inside any session, tap <strong>Share as PDF / Excel</strong> (next to the Delete button).</li>
-        <li>Choose <strong>PDF</strong> for a print-ready report — open the downloaded .html file and use your browser's Print → Save as PDF option, then share via WhatsApp, email, or any other app.</li>
-        <li>Choose <strong>Excel / CSV</strong> for a structured spreadsheet with three sections: All Expenses, Balances, and Settle Up. Opens directly in Excel, Google Sheets, or Numbers.</li>
-      </ul>
-
-      <h3>7. Back up and restore your data</h3>
-      <ul>
-        <li>Go to <strong>Settings</strong> (bottom bar) and tap <strong>Download</strong> to save a .json backup of all your sessions.</li>
-        <li>Tap <strong>Upload</strong> in Settings to restore from that backup file — useful when switching devices.</li>
-        <li>Inside a session, tap <strong>Download as text</strong> to save a plain-text summary of all expenses, balances, and settlement details.</li>
-      </ul>
-
-      <h3>8. Quick split</h3>
-      <ul>
-        <li>Use the <strong>Quick Split</strong> section (tap the Quick Split icon in the bottom bar, or scroll down on Home) for a fast one-off calculation you don't need to save.</li>
-        <li>Enter the total amount, the number of people, optional names, and what the expense was for — then tap <strong>Calculate split</strong>.</li>
-      </ul>
-
-    </div>
-  </div>
-
   <!-- HOME VIEW -->
   <section id="v-home">
     <h1 class="govuk-h1">Split Bills</h1>
-    <p class="govuk-body text-muted">Track shared expenses across sessions, or do a quick one-off split below.</p>
+    <p class="govuk-body text-muted">Track shared expenses across sessions, or do a quick one-off split.</p>
     <button class="govuk-btn govuk-btn--primary btn-icon-text" onclick="openNewSessModal()">
       <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-plus"></use></svg>
       New session
     </button>
-
     <hr class="govuk-sep govuk-sep--thick" style="margin-top:24px;">
     <h2 class="govuk-h2">Your sessions</h2>
     <div id="sess-list"></div>
-    <hr class="govuk-sep">
+  </section>
 
-    <!-- QUICK SPLIT -->
-    <h2 class="govuk-h2">Quick split</h2>
+  <!-- SESSIONS VIEW -->
+  <section id="v-sessions" class="hidden">
+    <h1 class="govuk-h1">Your Sessions</h1>
+    <button class="govuk-btn govuk-btn--primary btn-icon-text mb4" onclick="openNewSessModal()">
+      <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-plus"></use></svg>
+      New session
+    </button>
+    <div id="sess-list-full"></div>
+  </section>
+
+  <!-- QUICK SPLIT VIEW -->
+  <section id="v-quick" class="hidden">
+    <h1 class="govuk-h1">Quick Split</h1>
     <p class="govuk-body text-muted fsm">Use this for a one-off split that you don't need to save as a session.</p>
 
     <div class="govuk-form-group">
       <label class="govuk-label" for="qs-amt">Total bill amount</label>
-      <!-- Input: total amount to be divided. Numeric, 2 decimal places. -->
       <div class="govuk-prefix-input">
-        <span class="govuk-prefix" id="qs-amt-prefix">₹</span>
+        <span class="govuk-prefix" id="qs-currency">₹</span>
         <input class="govuk-input" type="number" id="qs-amt" min="0" step="0.01" placeholder="e.g. 1500.00" inputmode="decimal">
       </div>
     </div>
 
     <div class="govuk-form-group">
       <label class="govuk-label" for="qs-n">Number of people sharing this bill</label>
-      <!-- Input: how many people to divide the amount between. Min 2. -->
       <input class="govuk-input govuk-input--width-sm" type="number" id="qs-n" min="2" max="50" value="2" placeholder="2" inputmode="numeric" oninput="renderQsNames()">
     </div>
 
@@ -804,7 +733,6 @@ body { padding-bottom: 60px; }
 
     <div class="govuk-form-group">
       <label class="govuk-label" for="qs-note">What was this expense for? <span class="govuk-hint" style="display:inline;font-weight:400">(optional)</span></label>
-      <!-- Input: free-text note describing the purpose of this split, e.g. "Dinner" -->
       <input class="govuk-input" type="text" id="qs-note" placeholder="e.g. Dinner at restaurant, Cab fare, Movie tickets" maxlength="80">
     </div>
 
@@ -812,11 +740,178 @@ body { padding-bottom: 60px; }
     <div id="qs-result" class="hidden"></div>
   </section>
 
-  <!-- SESSION VIEW -->
+  <!-- SETTINGS VIEW -->
+  <section id="v-settings" class="hidden">
+    <h1 class="govuk-h1">Settings</h1>
+    
+    <div class="settings-card">
+      <div class="settings-section">
+        <h2 class="govuk-h3">Appearance</h2>
+        <div class="settings-option">
+          <div>
+            <div class="settings-option__label">Theme</div>
+            <div class="settings-option__hint">Choose light or dark mode</div>
+          </div>
+          <button class="govuk-btn govuk-btn--secondary govuk-btn--sm" onclick="toggleTheme()" id="theme-toggle-btn">
+            <svg class="icon" aria-hidden="true"><use id="theme-icon" href="#icon-sun"></use></svg>
+            <span id="theme-label">Light</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2 class="govuk-h3">Currency</h2>
+        <div class="settings-option">
+          <div>
+            <div class="settings-option__label">Default Currency</div>
+            <div class="settings-option__hint">Choose your preferred currency</div>
+          </div>
+          <select class="govuk-select" id="currency-select" onchange="updateCurrency()" style="width: auto; min-width: 120px;">
+            <option value="₹">₹ Rupee (INR)</option>
+            <option value="$">$ Dollar (USD)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2 class="govuk-h3">Data Management</h2>
+        <div class="settings-option">
+          <div>
+            <div class="settings-option__label">Download Data</div>
+            <div class="settings-option__hint">Save a backup of all your sessions</div>
+          </div>
+          <button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="exportData()">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-download"></use></svg>
+            Download
+          </button>
+        </div>
+        <div class="settings-option">
+          <div>
+            <div class="settings-option__label">Upload Data</div>
+            <div class="settings-option__hint">Restore from a backup file</div>
+          </div>
+          <label class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" style="cursor:pointer; margin: 0;">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-upload"></use></svg>
+            Upload
+            <input type="file" accept=".json" onchange="importData(event)" style="display:none">
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2 class="govuk-h3">Danger Zone</h2>
+        <div class="settings-option">
+          <div>
+            <div class="settings-option__label">Clear All Data</div>
+            <div class="settings-option__hint">Permanently delete all sessions</div>
+          </div>
+          <button class="govuk-btn govuk-btn--danger govuk-btn--sm" onclick="clearAllData()">
+            Clear All
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT VIEW -->
+  <section id="v-about" class="hidden">
+    <h1 class="govuk-h1">About Split Bills</h1>
+    
+    <div class="about-card">
+      <h2 class="govuk-h3">Built by Mihir Panchal</h2>
+      <p class="govuk-body">AI/ML Developer — builds scalable, data-driven systems using Python and AI techniques. Experience in Generative AI, Deep Learning, and Machine Learning.</p>
+      
+      <div class="govuk-summary">
+        <div class="govuk-summary-row">
+          <div class="govuk-summary-key">Portfolio</div>
+          <div class="govuk-summary-val"><a href="https://mihir-panchal.vercel.app" target="_blank" class="about-link">mihir-panchal.vercel.app</a></div>
+        </div>
+        <div class="govuk-summary-row">
+          <div class="govuk-summary-key">Email</div>
+          <div class="govuk-summary-val"><a href="mailto:mihirpanchal2811@gmail.com" class="about-link">mihirpanchal2811@gmail.com</a></div>
+        </div>
+        <div class="govuk-summary-row">
+          <div class="govuk-summary-key">GitHub</div>
+          <div class="govuk-summary-val"><a href="https://github.com/mihir2811/Split-Wise" target="_blank" class="about-link">github.com/mihir2811/Split-Wise</a></div>
+        </div>
+        <div class="govuk-summary-row">
+          <div class="govuk-summary-key">LinkedIn</div>
+          <div class="govuk-summary-val"><a href="https://linkedin.com/in/mihirpanchal28" target="_blank" class="about-link">linkedin.com/in/mihirpanchal28</a></div>
+        </div>
+        <div class="govuk-summary-row">
+          <div class="govuk-summary-key">Version</div>
+          <div class="govuk-summary-val">Split Bills V2.1.1</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-inset">
+      <p class="govuk-body"><strong>Privacy:</strong> All data stays on your device. Nothing is sent to any server.</p>
+      <p class="govuk-body mb0"><strong>License:</strong> Open for learning and personal use only.</p>
+    </div>
+
+    <div class="about-card">
+      <h2 class="govuk-h3">Planned Features</h2>
+      <ul class="govuk-body" style="margin-left: 1.2em;">
+        <li>Custom split amounts</li>
+        <li>Percentage splits</li>
+        <li>Per-item splits</li>
+        <li>Payment tracking</li>
+        <li>Multi-currency support</li>
+      </ul>
+    </div>
+
+    <!-- HOW TO USE — collapsible help -->
+    <div class="help-box">
+      <button class="help-box__toggle" id="help-toggle" aria-expanded="false" aria-controls="help-panel" onclick="toggleHelp()">
+        <span class="btn-icon-text">
+          <svg class="icon" aria-hidden="true"><use href="#icon-help"></use></svg>
+          How to use this app
+        </span>
+        <svg class="icon help-box__chevron" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+      </button>
+      <div class="help-box__panel" id="help-panel">
+        <h3>1. Create a session</h3>
+        <ol>
+          <li>Tap <strong>New session</strong> and give it a name, e.g. "Goa Trip" or "Flat Rent".</li>
+          <li>Add the names of everyone involved (minimum 2 people).</li>
+        </ol>
+
+        <h3>2. Add expenses one by one</h3>
+        <ol>
+          <li>Open your session and tap <strong>Add expense</strong>.</li>
+          <li>Enter the amount, who paid, and who it should be split between.</li>
+          <li>Choose <strong>Equal split</strong> or set <strong>custom amounts</strong> for each person.</li>
+          <li>Each expense is added one at a time — you can keep adding more as bills come in.</li>
+        </ol>
+
+        <h3>3. Edit or delete an expense</h3>
+        <ul>
+          <li>Tap the <strong>pencil</strong> icon on any expense to change its details.</li>
+          <li>Tap the <strong>bin</strong> icon to remove it permanently.</li>
+        </ul>
+
+        <h3>4. Check balances and settle up</h3>
+        <ul>
+          <li><strong>Balances</strong> tab shows who is owed money and who owes money.</li>
+          <li><strong>Settle up</strong> tab shows the simplest set of payments to clear all debts.</li>
+          <li>Once someone pays you back, tap <strong>Money received</strong> to mark that payment as done.</li>
+        </ul>
+
+        <h3>5. Save your data</h3>
+        <ul>
+          <li>Go to <strong>Settings</strong> and tap <strong>Download</strong> to save a backup file (.json).</li>
+          <li>Use <strong>Upload</strong> to restore from a backup file.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SESSION DETAIL VIEW -->
   <section id="v-sess" class="hidden">
-    <button class="govuk-back" onclick="goHome()">
+    <button class="govuk-back" onclick="goBack()">
       <svg class="icon icon--sm" aria-hidden="true" style="transform:rotate(180deg)"><use href="#icon-arrow-right"></use></svg>
-      Back to sessions
+      Back
     </button>
 
     <div class="flex align-c justify-b flex-wrap gap-sm mb4">
@@ -827,16 +922,28 @@ body { padding-bottom: 60px; }
       <div class="flex gap-sm flex-wrap">
         <button class="govuk-btn govuk-btn--danger govuk-btn--sm btn-icon-text" onclick="deleteSess()">
           <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-trash"></use></svg>
-          Delete session
+          Delete
         </button>
-        <button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="downloadSessTxt()" title="Download a plain text summary of this session">
-          <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-text-file"></use></svg>
-          Download as text
-        </button>
-        <button class="govuk-btn govuk-btn--primary govuk-btn--sm btn-icon-text" onclick="openShareModal()" title="Share this session as PDF or Excel">
-          <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-share"></use></svg>
-          Share as PDF / Excel
-        </button>
+        <div style="position: relative; display: inline-block;">
+          <button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="toggleExportMenu()">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-download"></use></svg>
+            Export
+          </button>
+          <div id="export-menu" class="hidden" style="position: absolute; right: 0; top: 100%; margin-top: 4px; background: var(--clr-surface); border: 1px solid var(--clr-divider); box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 100; min-width: 180px;">
+            <button onclick="downloadSessTxt(); toggleExportMenu();" style="display: block; width: 100%; text-align: left; padding: 10px 15px; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 0.875rem; color: var(--clr-text);" onmouseover="this.style.background='var(--clr-surface-2)'" onmouseout="this.style.background='none'">
+              <svg class="icon icon--sm" aria-hidden="true" style="margin-right: 8px;"><use href="#icon-text-file"></use></svg>
+              As Text
+            </button>
+            <button onclick="downloadSessPDF(); toggleExportMenu();" style="display: block; width: 100%; text-align: left; padding: 10px 15px; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 0.875rem; color: var(--clr-text);" onmouseover="this.style.background='var(--clr-surface-2)'" onmouseout="this.style.background='none'">
+              <svg class="icon icon--sm" aria-hidden="true" style="margin-right: 8px;"><use href="#icon-pdf"></use></svg>
+              As PDF
+            </button>
+            <button onclick="downloadSessExcel(); toggleExportMenu();" style="display: block; width: 100%; text-align: left; padding: 10px 15px; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 0.875rem; color: var(--clr-text);" onmouseover="this.style.background='var(--clr-surface-2)'" onmouseout="this.style.background='none'">
+              <svg class="icon icon--sm" aria-hidden="true" style="margin-right: 8px;"><use href="#icon-excel"></use></svg>
+              As Excel
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -855,26 +962,36 @@ body { padding-bottom: 60px; }
     </div>
     <div id="p-bal" class="hidden"><div id="bal-list"></div></div>
     <div id="p-set" class="hidden">
-      <div class="help-box" style="margin-bottom:16px">
-        <button class="help-box__toggle" id="settle-help-toggle" aria-expanded="false" aria-controls="settle-help-panel" onclick="toggleSettleHelp()">
-          <span class="btn-icon-text">
-            <svg class="icon" aria-hidden="true"><use href="#icon-help"></use></svg>
-            How Settle Up works
-          </span>
-          <svg class="icon help-box__chevron" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
-        </button>
-        <div class="help-box__panel" id="settle-help-panel">
-          <p class="fsm text-muted mb2">Settle Up calculates the <strong>minimum number of payments</strong> needed to clear every debt in this session — so nobody makes more transfers than necessary.</p>
-          <p class="fsm text-muted mb2">Each card shows <strong>who pays whom and how much</strong>. Below the names you'll see exactly which shared expenses caused that debt, so every rupee is traceable.</p>
-          <p class="fsm text-muted mb2">Once someone transfers the money, tap <strong>Money received</strong> on that card to mark it done. Tap <strong>Undo</strong> if you marked it by mistake — the card goes back to pending.</p>
-          <p class="fsm text-muted mb0">Tap <strong>Share as PDF / Excel</strong> at the top of the session to export a full summary including all settled and pending payments.</p>
-        </div>
-      </div>
+      <div id="set-summary" class="govuk-inset mb4"></div>
       <div id="set-list"></div>
     </div>
   </section>
 
 </main>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+  <button class="bottom-nav__item bottom-nav__item--active" onclick="navigateTo('home')" id="nav-home">
+    <svg aria-hidden="true"><use href="#icon-home"></use></svg>
+    <span>Home</span>
+  </button>
+  <button class="bottom-nav__item" onclick="navigateTo('sessions')" id="nav-sessions">
+    <svg aria-hidden="true"><use href="#icon-sessions"></use></svg>
+    <span>Sessions</span>
+  </button>
+  <button class="bottom-nav__item" onclick="navigateTo('quick')" id="nav-quick">
+    <svg aria-hidden="true"><use href="#icon-calculator"></use></svg>
+    <span>Quick Split</span>
+  </button>
+  <button class="bottom-nav__item" onclick="navigateTo('settings')" id="nav-settings">
+    <svg aria-hidden="true"><use href="#icon-settings"></use></svg>
+    <span>Settings</span>
+  </button>
+  <button class="bottom-nav__item" onclick="navigateTo('about')" id="nav-about">
+    <svg aria-hidden="true"><use href="#icon-info"></use></svg>
+    <span>About</span>
+  </button>
+</nav>
 
 <!-- TOAST -->
 <div id="toast" class="govuk-notif hidden" role="status" aria-live="polite"></div>
@@ -885,13 +1002,11 @@ body { padding-bottom: 60px; }
     <h2 class="govuk-h2" id="m-ns-title">New session</h2>
     <div class="govuk-form-group">
       <label class="govuk-label" for="ns-name">Session name</label>
-      <!-- Input: short label for this group of expenses -->
       <span class="govuk-hint-text">Give this group of expenses a name, e.g. "Goa Trip" or "Flat Rent".</span>
       <input class="govuk-input" type="text" id="ns-name" placeholder="e.g. Goa Trip 2026" maxlength="60">
     </div>
     <div class="govuk-form-group">
       <label class="govuk-label" for="ns-mi">Add people to this session</label>
-      <!-- Input: name of a person to add to the member list. Press Enter or Add to confirm. -->
       <span class="govuk-hint-text">Type a name and press Enter or Add. You need at least 2 people.</span>
       <div class="govuk-member-row">
         <input class="govuk-input" type="text" id="ns-mi" placeholder="e.g. Priya Sharma" maxlength="40"
@@ -917,21 +1032,18 @@ body { padding-bottom: 60px; }
     <h2 class="govuk-h2" id="m-ae-title">Add expense</h2>
     <div class="govuk-form-group">
       <label class="govuk-label" for="ae-desc">What was this expense for?</label>
-      <!-- Input: short title for the expense, e.g. "Dinner" or "Cab to airport" -->
       <span class="govuk-hint-text">A short description so you can recognise it later.</span>
       <input class="govuk-input" type="text" id="ae-desc" placeholder="e.g. Dinner at restaurant" maxlength="60">
     </div>
     <div class="govuk-form-group">
       <label class="govuk-label" for="ae-amt">Amount</label>
-      <!-- Input: total cost of this expense -->
       <div class="govuk-prefix-input">
-        <span class="govuk-prefix" id="ae-amt-prefix">₹</span>
+        <span class="govuk-prefix" id="ae-currency">₹</span>
         <input class="govuk-input" type="number" id="ae-amt" min="0" step="0.01" placeholder="e.g. 850.00" inputmode="decimal" oninput="refreshExpPreview()">
       </div>
     </div>
     <div class="govuk-form-group">
       <label class="govuk-label" for="ae-by">Who paid for this?</label>
-      <!-- Input: select the person who paid the bill -->
       <select class="govuk-select" id="ae-by"></select>
     </div>
     <div class="govuk-form-group">
@@ -956,7 +1068,6 @@ body { padding-bottom: 60px; }
     <div id="ae-preview" class="govuk-inset hidden"></div>
     <div class="govuk-form-group">
       <label class="govuk-label" for="ae-note">Additional notes <span class="govuk-hint" style="display:inline;font-weight:400">(optional)</span></label>
-      <!-- Input: optional free-text note, e.g. location, receipt number, reason for custom split -->
       <span class="govuk-hint-text">Any extra detail you want to remember about this expense.</span>
       <input class="govuk-input" type="text" id="ae-note" placeholder="e.g. Paid by card, includes tip" maxlength="120">
     </div>
@@ -966,165 +1077,36 @@ body { padding-bottom: 60px; }
     </div>
   </div>
 </div>
-<!-- MODAL: Share Session -->
-<div class="govuk-modal-overlay" id="m-share" role="dialog" aria-modal="true" aria-labelledby="m-share-title">
-  <div class="govuk-modal">
-    <h2 class="govuk-h2" id="m-share-title">Share session</h2>
-    <p class="govuk-body fsm text-muted mb4">Choose a format, then tap <strong>Download &amp; Share</strong>. Your browser will prompt you to save the file — you can then share it via WhatsApp, email, or any other app.</p>
 
-    <label class="share-format-card">
-      <input type="radio" name="share-fmt" value="pdf" checked>
-      <div class="share-format-icon share-format-icon--pdf">PDF</div>
-      <div class="share-format-card__body">
-        <div class="share-format-card__title">PDF Document</div>
-        <div class="share-format-card__desc">Formatted report with session summary, all expenses, balances &amp; settlement — ideal for sharing or printing.</div>
-      </div>
-    </label>
-
-    <label class="share-format-card">
-      <input type="radio" name="share-fmt" value="xlsx">
-      <div class="share-format-icon share-format-icon--xlsx">XLS</div>
-      <div class="share-format-card__body">
-        <div class="share-format-card__title">Excel Spreadsheet (.xlsx)</div>
-        <div class="share-format-card__desc">Multi-sheet workbook with Expenses, Balances and Settlement tabs — great for further analysis or record-keeping.</div>
-      </div>
-    </label>
-
-    <div class="flex gap-sm mt4">
-      <button class="govuk-btn govuk-btn--primary btn-icon-text" onclick="doShare()">
-        <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-download"></use></svg>
-        Download &amp; Share
-      </button>
-      <button class="govuk-btn govuk-btn--secondary" onclick="closeModal('m-share')">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- ── FOOTER TASKBAR ───────────────────────────────────────────── -->
-<footer class="app-footer" role="contentinfo" aria-label="App navigation">
-  <div class="app-footer__inner">
-    <button class="footer-item" id="ft-home" onclick="footerNav('home')" title="Home — sessions list">
-      <svg class="icon" aria-hidden="true"><use href="#icon-home"></use></svg>
-      <span class="footer-item__label">Home</span>
-    </button>
-    <div class="footer-divider"></div>
-    <button class="footer-item" id="ft-sessions" onclick="footerNav('sessions')" title="Your sessions">
-      <svg class="icon" aria-hidden="true"><use href="#icon-sessions"></use></svg>
-      <span class="footer-item__label">Sessions</span>
-    </button>
-    <div class="footer-divider"></div>
-    <button class="footer-item" id="ft-quick" onclick="footerNav('quick')" title="Quick split">
-      <svg class="icon" aria-hidden="true"><use href="#icon-quick"></use></svg>
-      <span class="footer-item__label">Quick Split</span>
-    </button>
-    <div class="footer-divider"></div>
-    <button class="footer-item" id="ft-settings" onclick="footerNav('settings')" title="Settings">
-      <svg class="icon" aria-hidden="true"><use href="#icon-settings"></use></svg>
-      <span class="footer-item__label">Settings</span>
-    </button>
-    <div class="footer-divider"></div>
-    <button class="footer-item" id="ft-about" onclick="footerNav('about')" title="About Split Bills">
-      <svg class="icon" aria-hidden="true"><use href="#icon-info"></use></svg>
-      <span class="footer-item__label">About</span>
-    </button>
-  </div>
-</footer>
-
-<!-- MODAL: Settings -->
-<div class="govuk-modal-overlay" id="m-settings" role="dialog" aria-modal="true" aria-labelledby="m-settings-title">
-  <div class="govuk-modal">
-    <h2 class="govuk-h2" id="m-settings-title">Settings</h2>
-
-    <div class="govuk-summary" style="margin-bottom:20px">
-
-      <div class="govuk-summary-row" style="align-items:center">
-        <div class="govuk-summary-key">Appearance</div>
-        <div class="govuk-summary-val">
-          <button id="settings-theme-btn" class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="toggleTheme(); updateSettingsThemeBtn()">
-            <svg class="icon icon--sm" aria-hidden="true"><use id="settings-theme-icon" href="#icon-sun"></use></svg>
-            <span id="settings-theme-label">Switch to Light</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="govuk-summary-row" style="align-items:center">
-        <div class="govuk-summary-key">
-          <div class="fw fsm">Backup data</div>
-          <div class="fsm text-muted" style="font-weight:400">Download all sessions as a .json file</div>
-        </div>
-        <div class="govuk-summary-val">
-          <button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="exportData()">
-            <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-download"></use></svg>
-            Download
-          </button>
-        </div>
-      </div>
-
-      <div class="govuk-summary-row" style="align-items:center">
-        <div class="govuk-summary-key">
-          <div class="fw fsm">Restore data</div>
-          <div class="fsm text-muted" style="font-weight:400">Upload a backup .json file to restore</div>
-        </div>
-        <div class="govuk-summary-val">
-          <label class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" style="cursor:pointer">
-            <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-upload"></use></svg>
-            Upload
-            <input type="file" accept=".json" onchange="importData(event); closeModal('m-settings')" style="display:none">
-          </label>
-        </div>
-      </div>
-
-      <div class="govuk-summary-row" style="align-items:center">
-        <div class="govuk-summary-key">
-          <div class="fw fsm">Currency</div>
-          <div class="fsm text-muted" style="font-weight:400">Choose how amounts are displayed</div>
-        </div>
-        <div class="govuk-summary-val">
-          <div class="flex gap-sm">
-            <button id="curr-inr-btn" class="govuk-btn govuk-btn--primary govuk-btn--sm" onclick="setCurrency('inr')" title="Indian Rupee">₹ Rupee</button>
-            <button id="curr-cad-btn" class="govuk-btn govuk-btn--secondary govuk-btn--sm" onclick="setCurrency('cad')" title="Dollar">$ Dollar</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <p class="fsm text-muted mb4" style="padding:10px 12px;background:var(--clr-surface-2);border-left:3px solid var(--clr-divider)">
-      All your data lives entirely on this device — no accounts, no cloud. Download a backup regularly so you don't lose your sessions.
-    </p>
-    <button class="govuk-btn govuk-btn--secondary" onclick="closeModal('m-settings')">Close</button>
-  </div>
-</div>
-
-<!-- MODAL: About -->
-<div class="govuk-modal-overlay" id="m-about" role="dialog" aria-modal="true" aria-labelledby="m-about-title">
-  <div class="govuk-modal">
-    <h2 class="govuk-h2" id="m-about-title">About Split Bills</h2>
-    <div class="govuk-inset mb4">
-      <p class="fw mb2">Built by Mihir Panchal</p>
-      <p class="fsm text-muted mb2">AI/ML Developer — builds scalable, data-driven systems using Python and AI techniques. Experience in Generative AI, Deep Learning, and Machine Learning.</p>
-    </div>
-    <div class="govuk-summary">
-      <div class="govuk-summary-row"><div class="govuk-summary-key">Portfolio</div><div class="govuk-summary-val"><a href="https://mihir-panchal.vercel.app" target="_blank" rel="noopener" style="color:var(--clr-blue)">mihir-panchal.vercel.app</a></div></div>
-      <div class="govuk-summary-row"><div class="govuk-summary-key">Email</div><div class="govuk-summary-val"><a href="mailto:mihirpanchal2811@gmail.com" style="color:var(--clr-blue)">mihirpanchal2811@gmail.com</a></div></div>
-      <div class="govuk-summary-row"><div class="govuk-summary-key">GitHub</div><div class="govuk-summary-val"><a href="https://github.com/mihir2811/Split-Wise" target="_blank" rel="noopener" style="color:var(--clr-blue)">github.com/mihir2811/Split-Wise</a></div></div>
-      <div class="govuk-summary-row"><div class="govuk-summary-key">LinkedIn</div><div class="govuk-summary-val"><a href="https://linkedin.com/in/mihirpanchal28" target="_blank" rel="noopener" style="color:var(--clr-blue)">linkedin.com/in/mihirpanchal28</a></div></div>
-      <div class="govuk-summary-row"><div class="govuk-summary-key">Version</div><div class="govuk-summary-val fsm text-muted">Split Bills v2.0 — all data stays on your device</div></div>
-    </div>
-    <p class="fsm text-muted mb4">Open for learning and personal use. Planned: custom split amounts, percentage splits, per-item splits, payment tracking, and multi-currency support.</p>
-    <button class="govuk-btn govuk-btn--secondary" onclick="closeModal('m-about')">Close</button>
-  </div>
-</div>
+<!-- Include libraries for PDF and Excel generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <script>
 'use strict';
 
 // ================================================================
+//  STATE
+// ================================================================
+let db = { sessions: [], people: [], settings: { currency: '₹', theme: '' } };
+let curSessId   = null;
+let tempMembers = [];
+let expAmong    = [];
+let _spRef      = [];
+let _qsNewNames = [];
+let editingExpId = null;
+let currentView = 'home';
+let lastMainView = 'home';
+
+// ================================================================
 //  THEME
 // ================================================================
 function initTheme() {
-  const saved = localStorage.getItem('sb-theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  const saved = db.settings?.theme || localStorage.getItem('sb-theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    if (db.settings) db.settings.theme = saved;
+  }
   updateThemeBtn();
 }
 
@@ -1136,6 +1118,8 @@ function toggleTheme() {
   const next = effectivelyDark ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
   localStorage.setItem('sb-theme', next);
+  if (db.settings) db.settings.theme = next;
+  saveDb();
   updateThemeBtn();
 }
 
@@ -1153,6 +1137,38 @@ function updateThemeBtn() {
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateThemeBtn);
 
 // ================================================================
+//  CURRENCY
+// ================================================================
+function initCurrency() {
+  const saved = db.settings?.currency || '₹';
+  db.settings = db.settings || {};
+  db.settings.currency = saved;
+  document.getElementById('currency-select').value = saved;
+  updateAllCurrencySymbols();
+}
+
+function updateCurrency() {
+  const newCurrency = document.getElementById('currency-select').value;
+  db.settings.currency = newCurrency;
+  saveDb();
+  updateAllCurrencySymbols();
+  showToast('Currency updated', 'icon-check');
+}
+
+function updateAllCurrencySymbols() {
+  const symbol = db.settings?.currency || '₹';
+  document.querySelectorAll('.govuk-prefix').forEach(el => {
+    if (el.id === 'qs-currency' || el.id === 'ae-currency') {
+      el.textContent = symbol;
+    }
+  });
+}
+
+function getCurrency() {
+  return db.settings?.currency || '₹';
+}
+
+// ================================================================
 //  HELP DROPDOWN
 // ================================================================
 function toggleHelp() {
@@ -1163,148 +1179,23 @@ function toggleHelp() {
   panel.classList.toggle('help-box__panel--open', !open);
 }
 
-function toggleSettleHelp() {
-  const btn   = document.getElementById('settle-help-toggle');
-  const panel = document.getElementById('settle-help-panel');
-  const open  = btn.getAttribute('aria-expanded') === 'true';
-  btn.setAttribute('aria-expanded', String(!open));
-  panel.classList.toggle('help-box__panel--open', !open);
-}
-
-// ================================================================
-//  CURRENCY
-// ================================================================
-function getCurrencySymbol() {
-  return localStorage.getItem('sb-currency') === 'cad' ? '$' : '₹';
-}
-
-function setCurrency(val) {
-  localStorage.setItem('sb-currency', val);
-  updateCurrencyUI();
-  // Re-render whatever is currently visible
-  renderSessionsList();
-  const inSess = !document.getElementById('v-sess').classList.contains('hidden');
-  if (inSess) {
-    renderExpenses();
-    renderBalances();
-    renderSettle();
-  }
-  const qsVisible = !document.getElementById('qs-result').classList.contains('hidden');
-  if (qsVisible) calcQs();
-}
-
-function updateCurrencyUI() {
-  const isCad = localStorage.getItem('sb-currency') === 'cad';
-  const rupBtn = document.getElementById('curr-inr-btn');
-  const cadBtn = document.getElementById('curr-cad-btn');
-  if (rupBtn) rupBtn.classList.toggle('govuk-btn--primary',   !isCad);
-  if (rupBtn) rupBtn.classList.toggle('govuk-btn--secondary',  isCad);
-  if (cadBtn) cadBtn.classList.toggle('govuk-btn--primary',    isCad);
-  if (cadBtn) cadBtn.classList.toggle('govuk-btn--secondary',  !isCad);
-
-  // Keep every static currency-symbol prefix in the app in sync (form fields
-  // that show a fixed ₹/$ sign next to the amount input, not the dynamically
-  // rendered lists which already call getCurrencySymbol() on every render).
-  const sym = getCurrencySymbol();
-  const qsPrefix = document.getElementById('qs-amt-prefix');
-  const aePrefix = document.getElementById('ae-amt-prefix');
-  if (qsPrefix) qsPrefix.textContent = sym;
-  if (aePrefix) aePrefix.textContent = sym;
-}
-
-// ================================================================
-//  STATE
-// ================================================================
-let db = { sessions: [], people: [] };
-let curSessId   = null;
-let tempMembers = [];
-let expAmong    = [];
-let _spRef      = [];
-let _qsNewNames = [];
-let editingExpId = null; // null = adding new expense, otherwise editing this id
-
 // ================================================================
 //  PERSISTENCE
 // ================================================================
-const DB_KEY = 'split-bills-v2';
-
-// ── IndexedDB backup mirror ─────────────────────────────────────
-// localStorage is the fast, synchronous, primary store (unchanged
-// behaviour). IndexedDB is written on every save as a redundant
-// backup and used to auto-recover data if localStorage ever comes
-// back empty (e.g. Safari/Chrome storage eviction, private mode
-// residue, etc). This does NOT fix cases where you open a totally
-// different copy of this file (different download/path) — that is
-// a different origin/file and no browser storage can bridge that.
-let _idbPromise = null;
-function _idb() {
-  if (_idbPromise) return _idbPromise;
-  _idbPromise = new Promise((resolve, reject) => {
-    if (!('indexedDB' in window)) { reject(new Error('no idb')); return; }
-    const req = indexedDB.open('split-bills-store', 1);
-    req.onupgradeneeded = () => { req.result.createObjectStore('kv'); };
-    req.onsuccess = () => resolve(req.result);
-    req.onerror   = () => reject(req.error);
-  });
-  return _idbPromise;
-}
-function idbSet(key, value) {
-  _idb().then(db => {
-    const tx = db.transaction('kv', 'readwrite');
-    tx.objectStore('kv').put(value, key);
-  }).catch(() => {});
-}
-function idbGet(key) {
-  return _idb().then(db => new Promise((resolve, reject) => {
-    const tx = db.transaction('kv', 'readonly');
-    const rq = tx.objectStore('kv').get(key);
-    rq.onsuccess = () => resolve(rq.result);
-    rq.onerror   = () => reject(rq.error);
-  })).catch(() => undefined);
-}
-
-function _applyDb(p) {
-  db.sessions = Array.isArray(p.sessions) ? p.sessions : [];
-  db.people   = Array.isArray(p.people)   ? p.people   : [];
-}
-
 function loadDb() {
-  let loadedFromLocal = false;
   try {
-    const raw = localStorage.getItem(DB_KEY);
+    const raw = localStorage.getItem('split-bills-v2');
     if (raw) {
       const p = JSON.parse(raw);
-      _applyDb(p);
-      if (db.sessions.length || db.people.length) loadedFromLocal = true;
+      db.sessions = Array.isArray(p.sessions) ? p.sessions : [];
+      db.people   = Array.isArray(p.people)   ? p.people   : [];
+      db.settings = p.settings || { currency: '₹', theme: '' };
     }
   } catch {}
-
-  // Always mirror whatever we have into IndexedDB, then check if
-  // IndexedDB is holding newer/different data localStorage lost.
-  idbGet(DB_KEY).then(backup => {
-    if (!backup) {
-      // No backup yet — seed it from current state (if any).
-      if (loadedFromLocal) idbSet(DB_KEY, JSON.stringify(db));
-      return;
-    }
-    if (!loadedFromLocal) {
-      // localStorage was empty but we have a backup — restore it.
-      try {
-        const p = JSON.parse(backup);
-        _applyDb(p);
-        localStorage.setItem(DB_KEY, backup);
-        renderSessionsList();
-        renderQsNames();
-        showToast('Restored your data from backup', 'icon-check');
-      } catch {}
-    }
-  });
 }
 
-function saveDb() {
-  const raw = JSON.stringify(db);
-  localStorage.setItem(DB_KEY, raw);
-  idbSet(DB_KEY, raw);
+function saveDb() { 
+  localStorage.setItem('split-bills-v2', JSON.stringify(db)); 
 }
 
 function exportData() {
@@ -1315,7 +1206,7 @@ function exportData() {
   a.download = 'split-bills-' + new Date().toISOString().slice(0, 10) + '.json';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast('Split data downloaded', 'icon-download');
+  showToast('Data downloaded', 'icon-download');
 }
 
 function importData(event) {
@@ -1325,12 +1216,29 @@ function importData(event) {
     try {
       const data = JSON.parse(e.target.result);
       if (Array.isArray(data.sessions)) {
-        db = { sessions: data.sessions, people: data.people || [] };
-        saveDb(); renderSessionsList(); showToast('Split data uploaded', 'icon-upload');
+        db = { 
+          sessions: data.sessions, 
+          people: data.people || [], 
+          settings: data.settings || { currency: '₹', theme: '' }
+        };
+        saveDb(); 
+        renderSessionsList();
+        renderSessionsListFull();
+        initCurrency();
+        showToast('Data uploaded', 'icon-upload');
       } else alert('This file is not a valid Split Bills data file.');
     } catch { alert('Could not read this file. Please choose a valid Split Bills data file.'); }
   };
   reader.readAsText(file); event.target.value = '';
+}
+
+function clearAllData() {
+  if (!confirm('Delete ALL sessions and data? This cannot be undone.')) return;
+  db = { sessions: [], people: [], settings: { currency: db.settings?.currency || '₹', theme: db.settings?.theme || '' } };
+  saveDb();
+  renderSessionsList();
+  renderSessionsListFull();
+  showToast('All data cleared', 'icon-trash');
 }
 
 // ================================================================
@@ -1357,13 +1265,48 @@ function showToast(msg, iconId) {
 // ================================================================
 //  NAVIGATION
 // ================================================================
-function showView(name) {
-  ['home', 'sess'].forEach(v =>
-    document.getElementById('v-' + v).classList.toggle('hidden', v !== name));
+function navigateTo(view) {
+  document.querySelectorAll('.bottom-nav__item').forEach(item => {
+    item.classList.remove('bottom-nav__item--active');
+  });
+  document.getElementById('nav-' + view).classList.add('bottom-nav__item--active');
+
+  ['home', 'sessions', 'quick', 'settings', 'about', 'sess'].forEach(v => {
+    document.getElementById('v-' + v).classList.add('hidden');
+  });
+
+  document.getElementById('v-' + view).classList.remove('hidden');
+  currentView = view;
+  
+  if (view !== 'sess') {
+    lastMainView = view;
+  }
+
+  if (view === 'home') renderSessionsList();
+  if (view === 'sessions') renderSessionsListFull();
+  if (view === 'quick') {
+    renderQsNames();
+    updateAllCurrencySymbols();
+  }
+
   window.scrollTo(0, 0);
 }
 
-function goHome() { curSessId = null; showView('home'); renderSessionsList(); }
+function goBack() {
+  navigateTo(lastMainView);
+}
+
+function showView(name) {
+  if (name === 'home' || name === 'sessions' || name === 'quick' || name === 'settings' || name === 'about') {
+    navigateTo(name);
+  } else {
+    ['home', 'sessions', 'quick', 'settings', 'about', 'sess'].forEach(v => {
+      document.getElementById('v-' + v).classList.add('hidden');
+    });
+    document.getElementById('v-' + name).classList.remove('hidden');
+    currentView = name;
+  }
+}
 
 // ================================================================
 //  HOME — SESSIONS LIST
@@ -1376,6 +1319,36 @@ function renderSessionsList() {
       <p>No sessions yet. Tap "New session" above to create your first one.</p>
     </div>`; return;
   }
+  const currency = getCurrency();
+  el.innerHTML = db.sessions.slice(0, 3).reverse().map(s => {
+    const total    = s.expenses.reduce((a, e) => a + e.amount, 0);
+    const expCount = s.expenses.length;
+    const date     = new Date(s.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+    return `<div class="govuk-card govuk-card--clickable" onclick="openSess('${s.id}')">
+      <div class="flex align-c justify-b gap-sm">
+        <div style="min-width:0;flex:1">
+          <div class="fw">${esc(s.name)}</div>
+          <div class="fsm text-muted">${s.members.map(esc).join(', ')}</div>
+          <div class="fsm text-muted">${date}</div>
+        </div>
+        <div class="text-right" style="flex-shrink:0">
+          <span class="govuk-tag govuk-tag--blue">${expCount} expense${expCount !== 1 ? 's' : ''}</span>
+          <div class="fw" style="margin-top:4px">${currency}${fmt(total)}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderSessionsListFull() {
+  const el = document.getElementById('sess-list-full');
+  if (!db.sessions.length) {
+    el.innerHTML = `<div class="govuk-empty">
+      <svg class="icon icon--lg" aria-hidden="true"><use href="#icon-empty-list"></use></svg>
+      <p>No sessions yet. Tap "New session" above to create your first one.</p>
+    </div>`; return;
+  }
+  const currency = getCurrency();
   el.innerHTML = db.sessions.slice().reverse().map(s => {
     const total    = s.expenses.reduce((a, e) => a + e.amount, 0);
     const expCount = s.expenses.length;
@@ -1389,7 +1362,7 @@ function renderSessionsList() {
         </div>
         <div class="text-right" style="flex-shrink:0">
           <span class="govuk-tag govuk-tag--blue">${expCount} expense${expCount !== 1 ? 's' : ''}</span>
-          <div class="fw" style="margin-top:4px">${getCurrencySymbol()}${fmt(total)}</div>
+          <div class="fw" style="margin-top:4px">${currency}${fmt(total)}</div>
         </div>
       </div>
     </div>`;
@@ -1418,22 +1391,23 @@ function calcQs() {
     document.getElementById(`qsn${i}`)?.value.trim() || `Person ${i + 1}`);
   const note = document.getElementById('qs-note').value.trim();
   _qsNewNames = names.filter(nm => !/^Person \d+$/.test(nm) && !db.people.includes(nm));
+  const currency = getCurrency();
   const el = document.getElementById('qs-result');
   el.classList.remove('hidden');
   el.innerHTML = `
     <div class="govuk-panel govuk-panel--blue" style="margin-top:20px">
       <div class="govuk-panel__title">Each person pays</div>
-      <div class="govuk-panel__body">${getCurrencySymbol()}${fmt(share)}</div>
+      <div class="govuk-panel__body">${currency}${fmt(share)}</div>
       ${note ? `<div class="fsm" style="margin-top:8px;opacity:.9">For: ${esc(note)}</div>` : ''}
     </div>
     <div class="govuk-summary">
       ${names.map(nm => `<div class="govuk-summary-row">
         <div class="govuk-summary-key">${esc(nm)}</div>
-        <div class="govuk-summary-val fw">${getCurrencySymbol()}${fmt(share)}</div>
+        <div class="govuk-summary-val fw">${currency}${fmt(share)}</div>
       </div>`).join('')}
       <div class="govuk-summary-row" style="border-top:2px solid var(--clr-border)">
         <div class="govuk-summary-key fw">Total</div>
-        <div class="govuk-summary-val fw">${getCurrencySymbol()}${fmt(amount)}</div>
+        <div class="govuk-summary-val fw">${currency}${fmt(amount)}</div>
       </div>
     </div>
     ${_qsNewNames.length
@@ -1516,6 +1490,7 @@ function openSess(id) {
   document.getElementById('s-title').textContent   = s.name;
   document.getElementById('s-members').textContent = 'People: ' + s.members.join(', ');
   showView('sess'); switchTab('exp');
+  updateAllCurrencySymbols();
 }
 
 function getSess() { return db.sessions.find(s => s.id === curSessId) || null; }
@@ -1523,13 +1498,33 @@ function getSess() { return db.sessions.find(s => s.id === curSessId) || null; }
 function deleteSess() {
   if (!confirm(`Delete "${getSess()?.name}" and all its expenses? This cannot be undone.`)) return;
   db.sessions = db.sessions.filter(s => s.id !== curSessId);
-  saveDb(); goHome(); showToast('Session deleted', 'icon-trash');
+  saveDb(); goBack(); showToast('Session deleted', 'icon-trash');
 }
 
+// ================================================================
+//  EXPORT MENU
+// ================================================================
+function toggleExportMenu() {
+  const menu = document.getElementById('export-menu');
+  menu.classList.toggle('hidden');
+}
+
+document.addEventListener('click', function(event) {
+  const menu = document.getElementById('export-menu');
+  const exportBtn = event.target.closest('button');
+  if (menu && !menu.classList.contains('hidden') && !menu.contains(event.target) && (!exportBtn || !exportBtn.textContent.includes('Export'))) {
+    menu.classList.add('hidden');
+  }
+});
+
+// ================================================================
+//  TEXT EXPORT
+// ================================================================
 function downloadSessTxt() {
   const s = getSess();
   if (!s) return;
 
+  const currency = getCurrency();
   const line  = '-'.repeat(48);
   const dline = '='.repeat(48);
   const lines = [];
@@ -1550,17 +1545,17 @@ function downloadSessTxt() {
   } else {
     s.expenses.forEach((exp, idx) => {
       const date = new Date(exp.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-      lines.push(`${idx + 1}. ${exp.description} - Rs. ${fmt(exp.amount)}`);
+      lines.push(`${idx + 1}. ${exp.description} - ${currency} ${fmt(exp.amount)}`);
       lines.push(`   Date: ${date}`);
       lines.push(`   Paid by: ${exp.paidBy}`);
-      lines.push(`   Split among: ${exp.splitAmong.map(p => `${p} (Rs. ${fmt(exp.shares[p])})`).join(', ')}`);
+      lines.push(`   Split among: ${exp.splitAmong.map(p => `${p} (${currency} ${fmt(exp.shares[p])})`).join(', ')}`);
       if (exp.note) lines.push(`   Note: ${exp.note}`);
       lines.push('');
     });
   }
 
   const total = s.expenses.reduce((a, e) => a + e.amount, 0);
-  lines.push(`Total spent: Rs. ${fmt(total)}`);
+  lines.push(`Total spent: ${currency} ${fmt(total)}`);
   lines.push('');
 
   lines.push(line);
@@ -1568,8 +1563,8 @@ function downloadSessTxt() {
   lines.push(line);
   const bal = computeBalances(s);
   Object.entries(bal).forEach(([person, b]) => {
-    if (b > 0.005)      lines.push(`${person}: should receive Rs. ${fmt(b)}`);
-    else if (b < -0.005) lines.push(`${person}: owes Rs. ${fmt(Math.abs(b))}`);
+    if (b > 0.005)      lines.push(`${person}: should receive ${currency} ${fmt(b)}`);
+    else if (b < -0.005) lines.push(`${person}: owes ${currency} ${fmt(Math.abs(b))}`);
     else                  lines.push(`${person}: settled up`);
   });
   lines.push('');
@@ -1584,7 +1579,7 @@ function downloadSessTxt() {
   } else {
     txns.forEach(t => {
       const status = settledPairs.includes(txnKey(t)) ? ' [RECEIVED]' : ' [PENDING]';
-      lines.push(`${t.from} pays ${t.to}: Rs. ${fmt(t.amount)}${status}`);
+      lines.push(`${t.from} pays ${t.to}: ${currency} ${fmt(t.amount)}${status}`);
     });
   }
   lines.push('');
@@ -1603,6 +1598,427 @@ function downloadSessTxt() {
 }
 
 // ================================================================
+//  PDF EXPORT WITH GOV.UK STYLING
+// ================================================================
+function downloadSessPDF() {
+  const s = getSess();
+  if (!s) return;
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const currency = getCurrency();
+
+  const pageWidth = doc.internal.pageSize.width;
+  const pageHeight = doc.internal.pageSize.height;
+  const margin = 15;
+  const contentWidth = pageWidth - (margin * 2);
+  let yPos = margin;
+
+  const govukBlue      = [29, 112, 184];
+  const govukGreen     = [0, 112, 60];
+  const govukRed       = [212, 53, 28];
+  const govukGrey      = [177, 180, 182];
+  const govukLightGrey = [243, 242, 241];
+  const govukDarkGrey  = [11, 12, 12];
+  const govukMuted     = [80, 90, 95];
+
+  function checkPageBreak(neededSpace) {
+    if (yPos + neededSpace > pageHeight - 20) {
+      doc.addPage();
+      drawPageHeader();
+      yPos = 28;
+      return true;
+    }
+    return false;
+  }
+
+  function drawPageHeader() {
+    doc.setFillColor(...govukDarkGrey);
+    doc.rect(0, 0, pageWidth, 15, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(13);
+    doc.setFont(undefined, 'bold');
+    doc.text('Split Bills', margin, 10);
+    doc.setFillColor(...govukBlue);
+    doc.rect(0, 15, pageWidth, 3, 'F');
+  }
+
+  function drawSectionTitle(title) {
+    checkPageBreak(20);
+    doc.setTextColor(...govukDarkGrey);
+    doc.setFontSize(13);
+    doc.setFont(undefined, 'bold');
+    doc.text(title, margin, yPos);
+    yPos += 7;
+  }
+
+  // Helper: Draw table with full grid lines
+  function drawTable(headers, rows, colWidths, options = {}) {
+    const rowHeight    = 8;
+    const headerHeight = 9;
+    const tableStartY  = yPos;
+
+    // Header background
+    doc.setFillColor(...govukBlue);
+    doc.rect(margin, yPos, contentWidth, headerHeight, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(8.5);
+    doc.setFont(undefined, 'bold');
+
+    let xPos = margin;
+    headers.forEach((header, i) => {
+      doc.text(header, xPos + 3, yPos + 6);
+      xPos += colWidths[i];
+    });
+    yPos += headerHeight;
+
+    // Rows
+    doc.setFont(undefined, 'normal');
+    doc.setFontSize(8);
+
+    rows.forEach((row, rowIdx) => {
+      checkPageBreak(rowHeight + 2);
+
+      if (options.totalRow && rowIdx === rows.length - 1) {
+        doc.setFillColor(210, 226, 241);
+        doc.rect(margin, yPos, contentWidth, rowHeight, 'F');
+        doc.setFont(undefined, 'bold');
+      } else if (rowIdx % 2 === 0) {
+        doc.setFillColor(...govukLightGrey);
+        doc.rect(margin, yPos, contentWidth, rowHeight, 'F');
+      }
+
+      xPos = margin;
+      row.forEach((cell, i) => {
+        const cellStr = String(cell);
+        // Color-code status cells
+        if (options.statusCol !== undefined && i === options.statusCol) {
+          const lower = cellStr.toLowerCase();
+          if (lower === 'paid' || lower === 'received') {
+            doc.setTextColor(...govukGreen);
+          } else if (lower === 'pending') {
+            doc.setTextColor(...govukRed);
+          } else {
+            doc.setTextColor(...govukDarkGrey);
+          }
+        } else {
+          doc.setTextColor(...govukDarkGrey);
+        }
+        doc.text(cellStr, xPos + 3, yPos + 5.5, { maxWidth: colWidths[i] - 5 });
+        xPos += colWidths[i];
+      });
+
+      // Horizontal line after each row
+      doc.setDrawColor(...govukGrey);
+      doc.line(margin, yPos + rowHeight, margin + contentWidth, yPos + rowHeight);
+
+      yPos += rowHeight;
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(...govukDarkGrey);
+    });
+
+    // Outer border
+    doc.setDrawColor(...govukGrey);
+    doc.rect(margin, tableStartY, contentWidth, yPos - tableStartY);
+
+    // Vertical column lines
+    xPos = margin;
+    headers.forEach((_, i) => {
+      xPos += colWidths[i];
+      if (i < headers.length - 1) {
+        doc.line(xPos, tableStartY, xPos, yPos);
+      }
+    });
+
+    yPos += 6;
+  }
+
+  // ── Page 1 header ──
+  drawPageHeader();
+  yPos = 28;
+
+  // Session name — with proper gap from top bar
+  doc.setTextColor(...govukDarkGrey);
+  doc.setFontSize(20);
+  doc.setFont(undefined, 'bold');
+  doc.text(s.name, margin, yPos);
+  yPos += 9;
+
+  // Metadata
+  doc.setFontSize(8.5);
+  doc.setFont(undefined, 'normal');
+  doc.setTextColor(...govukMuted);
+  doc.text(`Created: ${new Date(s.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}`, margin, yPos);
+  yPos += 5;
+  doc.text(`People: ${s.members.join(', ')}`, margin, yPos);
+  yPos += 10;
+
+  // Summary panel
+  const total = s.expenses.reduce((a, e) => a + e.amount, 0);
+  doc.setFillColor(...govukBlue);
+  doc.rect(margin, yPos, contentWidth, 22, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text('Summary', margin + 4, yPos + 7);
+  doc.setFontSize(8.5);
+  doc.setFont(undefined, 'normal');
+  doc.text(`Total Spent: ${currency} ${fmt(total)}`, margin + 4, yPos + 13);
+  doc.text(`Expenses: ${s.expenses.length}   ·   People: ${s.members.length}`, margin + 4, yPos + 19);
+  yPos += 28;
+
+  // ── Expenses table ──
+  drawSectionTitle('Expenses');
+  if (s.expenses.length > 0) {
+    const expHeaders   = ['#', 'Description', 'Date', 'Paid By', 'Amount'];
+    const expColWidths = [10, 62, 26, 42, 30];
+    const expRows = s.expenses.map((exp, idx) => [
+      String(idx + 1),
+      exp.description.length > 32 ? exp.description.substring(0, 29) + '...' : exp.description,
+      new Date(exp.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }),
+      exp.paidBy.length > 18 ? exp.paidBy.substring(0, 15) + '...' : exp.paidBy,
+      `${currency} ${fmt(exp.amount)}`
+    ]);
+    expRows.push(['', '', '', 'TOTAL', `${currency} ${fmt(total)}`]);
+    drawTable(expHeaders, expRows, expColWidths, { totalRow: true });
+  } else {
+    doc.setFontSize(8.5);
+    doc.setTextColor(...govukMuted);
+    doc.text('No expenses added yet.', margin, yPos);
+    yPos += 8;
+  }
+
+  // ── Balances table ──
+  drawSectionTitle("Balances");
+  const bal     = computeBalances(s);
+  const balData = computeBalanceDetails(s);
+  const balHeaders   = ['Person', 'Paid', 'Fair Share', 'Balance', 'Status'];
+  const balColWidths = [42, 28, 28, 28, 44];
+  const balRows = Object.entries(balData).map(([person, data]) => {
+    const balance = bal[person];
+    let status = 'Settled';
+    let balStr = `${currency} ${fmt(0)}`;
+    if (balance > 0.005)       { status = 'Paid';    balStr = `+${currency} ${fmt(balance)}`; }
+    else if (balance < -0.005) { status = 'Pending'; balStr = `-${currency} ${fmt(Math.abs(balance))}`; }
+    return [person, `${currency} ${fmt(data.paid)}`, `${currency} ${fmt(data.fairShare)}`, balStr, status];
+  });
+  drawTable(balHeaders, balRows, balColWidths, { statusCol: 4 });
+
+  // ── Payments table ──
+  drawSectionTitle('Payments Required');
+  const txns = computeSettlement(s);
+  if (txns.length === 0) {
+    doc.setFillColor(204, 226, 216);
+    doc.rect(margin, yPos, contentWidth, 12, 'F');
+    doc.setTextColor(...govukGreen);
+    doc.setFontSize(9);
+    doc.setFont(undefined, 'bold');
+    doc.text('Everyone is settled up! No payments needed.', margin + 4, yPos + 8);
+    yPos += 18;
+  } else {
+    const settledPairs = Array.isArray(s.settledPairs) ? s.settledPairs : [];
+    const payHeaders   = ['From', 'To', 'Amount', 'Status'];
+    const payColWidths = [48, 48, 34, 40];
+    const payRows = txns.map(t => {
+      const status = settledPairs.includes(txnKey(t)) ? 'Paid' : 'Pending';
+      return [t.from, t.to, `${currency} ${fmt(t.amount)}`, status];
+    });
+    drawTable(payHeaders, payRows, payColWidths, { statusCol: 3 });
+  }
+
+  // ── Footer on all pages ──
+  const githubUrl = 'https://github.com/mihir2811/Split-Wise';
+  const totalPages = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i);
+    const footerY = pageHeight - 8;
+    doc.setFontSize(7);
+    doc.setTextColor(...govukMuted);
+    doc.text(`Generated by Split Bills · ${new Date().toLocaleDateString('en-IN')}`, margin, footerY);
+    doc.setTextColor(...govukBlue);
+    doc.textWithLink(githubUrl, pageWidth / 2 - 28, footerY, { url: githubUrl });
+    doc.setTextColor(...govukMuted);
+    doc.text(`Page ${i} of ${totalPages}`, pageWidth - margin - 18, footerY);
+  }
+
+  doc.save(`${s.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}-report.pdf`);
+  showToast('PDF downloaded', 'icon-pdf');
+}
+
+function computeBalanceDetails(s) {
+  const details = {};
+  s.members.forEach(m => {
+    details[m] = { paid: 0, fairShare: 0 };
+  });
+
+  s.expenses.forEach(exp => {
+    details[exp.paidBy].paid += exp.amount;
+    exp.splitAmong.forEach(p => {
+      details[p].fairShare += exp.shares[p];
+    });
+  });
+
+  return details;
+}
+
+// ================================================================
+//  EXCEL EXPORT
+// ================================================================
+function downloadSessExcel() {
+  const s = getSess();
+  if (!s) return;
+
+  const currency = getCurrency();
+  const wb = XLSX.utils.book_new();
+
+  // Sheet 1: Summary
+  const summaryData = [
+    ['Session Name', s.name],
+    ['Created', new Date(s.createdAt).toLocaleDateString('en-IN')],
+    ['People', s.members.join(', ')],
+    ['Total Expenses', s.expenses.length],
+    ['Total Amount', parseFloat(fmt(s.expenses.reduce((a, e) => a + e.amount, 0)))]
+  ];
+  const summaryWs = XLSX.utils.aoa_to_sheet(summaryData);
+  summaryWs['!cols'] = [{ wch: 20 }, { wch: 40 }];
+  XLSX.utils.book_append_sheet(wb, summaryWs, 'Summary');
+
+  // Sheet 2: Expenses
+  const expensesData = [
+    ['No', 'Description', 'Date', 'Paid By', 'Amount', 'Split Among', 'Note']
+  ];
+  s.expenses.forEach((exp, idx) => {
+    expensesData.push([
+      idx + 1,
+      exp.description,
+      new Date(exp.date).toLocaleDateString('en-IN'),
+      exp.paidBy,
+      parseFloat(fmt(exp.amount)),
+      exp.splitAmong.join(', '),
+      exp.note || ''
+    ]);
+  });
+  expensesData.push(['', '', '', 'TOTAL', parseFloat(fmt(s.expenses.reduce((a, e) => a + e.amount, 0))), '', '']);
+
+  const expensesWs = XLSX.utils.aoa_to_sheet(expensesData);
+  expensesWs['!cols'] = [
+    { wch: 5 }, { wch: 30 }, { wch: 12 }, { wch: 20 }, { wch: 12 }, { wch: 30 }, { wch: 30 }
+  ];
+
+  const range = XLSX.utils.decode_range(expensesWs['!ref']);
+  for (let row = 1; row <= range.e.r; row++) {
+    const cellAddress = XLSX.utils.encode_cell({ r: row, c: 4 });
+    if (expensesWs[cellAddress]) {
+      expensesWs[cellAddress].z = `"${currency}" #,##0.00`;
+    }
+  }
+
+  const totalRowIdx = expensesData.length - 1;
+  for (let col = 0; col <= 6; col++) {
+    const cellAddress = XLSX.utils.encode_cell({ r: totalRowIdx, c: col });
+    if (expensesWs[cellAddress]) {
+      expensesWs[cellAddress].s = {
+        fill: { fgColor: { rgb: "D2E2F1" } },
+        font: { bold: true }
+      };
+    }
+  }
+
+  XLSX.utils.book_append_sheet(wb, expensesWs, 'Expenses');
+
+  // Sheet 3: Balances
+  const bal = computeBalances(s);
+  const balData = computeBalanceDetails(s);
+  const balancesData = [
+    ['Person', 'Paid', 'Fair Share', 'Balance', 'Status']
+  ];
+  
+  Object.entries(balData).forEach(([person, data]) => {
+    const balance = bal[person];
+    let status = '';
+    if (balance > 0.005) status = 'Owed';
+    else if (balance < -0.005) status = 'Owes';
+    else status = 'Settled';
+
+    balancesData.push([
+      person,
+      parseFloat(fmt(data.paid)),
+      parseFloat(fmt(data.fairShare)),
+      parseFloat(fmt(Math.abs(balance))),
+      status
+    ]);
+  });
+
+  const balancesWs = XLSX.utils.aoa_to_sheet(balancesData);
+  balancesWs['!cols'] = [{ wch: 20 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 12 }];
+
+  const balRange = XLSX.utils.decode_range(balancesWs['!ref']);
+  for (let row = 1; row <= balRange.e.r; row++) {
+    for (let col = 1; col <= 3; col++) {
+      const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
+      if (balancesWs[cellAddress]) {
+        balancesWs[cellAddress].z = `"${currency}" #,##0.00`;
+      }
+    }
+    
+    const statusCell = XLSX.utils.encode_cell({ r: row, c: 4 });
+    if (balancesWs[statusCell]) {
+      const status = balancesWs[statusCell].v;
+      if (status === 'Owed') {
+        balancesWs[statusCell].s = { fill: { fgColor: { rgb: "CCE2D8" } } };
+      } else if (status === 'Owes') {
+        balancesWs[statusCell].s = { fill: { fgColor: { rgb: "F8D7DA" } } };
+      } else {
+        balancesWs[statusCell].s = { fill: { fgColor: { rgb: "EEEFEF" } } };
+      }
+    }
+  }
+
+  XLSX.utils.book_append_sheet(wb, balancesWs, 'Balances');
+
+  // Sheet 4: Payments
+  const txns = computeSettlement(s);
+  const paymentsData = [['From', 'To', 'Amount', 'Status']];
+  
+  const settledPairs = Array.isArray(s.settledPairs) ? s.settledPairs : [];
+  txns.forEach(t => {
+    const status = settledPairs.includes(txnKey(t)) ? 'Received' : 'Pending';
+    paymentsData.push([
+      t.from,
+      t.to,
+      parseFloat(fmt(t.amount)),
+      status
+    ]);
+  });
+
+  const paymentsWs = XLSX.utils.aoa_to_sheet(paymentsData);
+  paymentsWs['!cols'] = [{ wch: 20 }, { wch: 20 }, { wch: 12 }, { wch: 12 }];
+
+  const payRange = XLSX.utils.decode_range(paymentsWs['!ref']);
+  for (let row = 1; row <= payRange.e.r; row++) {
+    const amountCell = XLSX.utils.encode_cell({ r: row, c: 2 });
+    if (paymentsWs[amountCell]) {
+      paymentsWs[amountCell].z = `"${currency}" #,##0.00`;
+    }
+
+    const statusCell = XLSX.utils.encode_cell({ r: row, c: 3 });
+    if (paymentsWs[statusCell]) {
+      const status = paymentsWs[statusCell].v;
+      if (status === 'Received') {
+        paymentsWs[statusCell].s = { fill: { fgColor: { rgb: "CCE2D8" } } };
+      } else {
+        paymentsWs[statusCell].s = { fill: { fgColor: { rgb: "FFF4CC" } } };
+      }
+    }
+  }
+
+  XLSX.utils.book_append_sheet(wb, paymentsWs, 'Payments');
+
+  XLSX.writeFile(wb, `${s.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}-report.xlsx`);
+  showToast('Excel downloaded', 'icon-excel');
+}
+
+// ================================================================
 //  TABS
 // ================================================================
 function switchTab(name) {
@@ -1616,7 +2032,7 @@ function switchTab(name) {
 }
 
 // ================================================================
-//  EXPENSES — ADD / EDIT (shared modal) / DELETE
+//  EXPENSES — ADD / EDIT / DELETE
 // ================================================================
 function openAddExpModal() {
   editingExpId = null;
@@ -1635,7 +2051,9 @@ function openAddExpModal() {
     s.members.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('');
 
   expAmong = [...s.members];
-  renderExpAmong(); openModal('m-ae');
+  renderExpAmong(); 
+  updateAllCurrencySymbols();
+  openModal('m-ae');
   setTimeout(() => document.getElementById('ae-desc').focus(), 80);
 }
 
@@ -1656,7 +2074,6 @@ function openEditExpModal(expId) {
 
   expAmong = [...exp.splitAmong];
 
-  // Determine if this was a custom split (shares not all equal)
   const isEqual = (() => {
     const vals = exp.splitAmong.map(p => exp.shares[p]);
     const expected = exp.amount / exp.splitAmong.length;
@@ -1667,7 +2084,6 @@ function openEditExpModal(expId) {
 
   renderExpAmong();
 
-  // If custom, populate the custom amount fields after render
   if (!isEqual) {
     setTimeout(() => {
       expAmong.forEach((p, i) => {
@@ -1678,6 +2094,7 @@ function openEditExpModal(expId) {
     }, 0);
   }
 
+  updateAllCurrencySymbols();
   openModal('m-ae');
   setTimeout(() => document.getElementById('ae-desc').focus(), 80);
 }
@@ -1707,22 +2124,24 @@ function refreshExpPreview() {
   const type    = document.querySelector('input[name="stype"]:checked')?.value || 'eq';
   const preview = document.getElementById('ae-preview');
   const cuBlock = document.getElementById('cu-inputs');
+  const currency = getCurrency();
+  
   if (!amount || !expAmong.length) { preview.classList.add('hidden'); return; }
   if (type === 'eq') {
     cuBlock.classList.add('hidden');
     const share = amount / expAmong.length;
     preview.classList.remove('hidden');
-    preview.innerHTML = `<strong>Each person pays: ${getCurrencySymbol()}${fmt(share)}</strong><br>
-      <span class="fsm text-muted">${expAmong.map(p => esc(p) + ' → ' + getCurrencySymbol() + fmt(share)).join(' &nbsp;·&nbsp; ')}</span>`;
+    preview.innerHTML = `<strong>Each person pays: ${currency}${fmt(share)}</strong><br>
+      <span class="fsm text-muted">${expAmong.map(p => esc(p) + ' → ' + currency + fmt(share)).join(' &nbsp;·&nbsp; ')}</span>`;
   } else {
     cuBlock.classList.remove('hidden');
     cuBlock.innerHTML = `
       <label class="govuk-label">Enter amount for each person</label>
-      <span class="govuk-hint-text">These amounts must add up to ${getCurrencySymbol()}${fmt(amount)}</span>
+      <span class="govuk-hint-text">These amounts must add up to ${currency}${fmt(amount)}</span>
       ${expAmong.map((p, i) =>
         `<div class="share-row">
           <span class="share-row__label" title="${esc(p)}">${esc(p)}</span>
-          <div class="govuk-prefix-input"><span class="govuk-prefix">${getCurrencySymbol()}</span>
+          <div class="govuk-prefix-input"><span class="govuk-prefix">${currency}</span>
             <input class="govuk-input" type="number" id="cam${i}" min="0" step="0.01" placeholder="0.00" inputmode="decimal"
                    oninput="checkCustomTotal(${amount})">
           </div>
@@ -1737,10 +2156,11 @@ function checkCustomTotal(target) {
     acc + (parseFloat(document.getElementById('cam' + i)?.value) || 0), 0);
   const diff = target - sum;
   const el   = document.getElementById('cu-validation'); if (!el) return;
+  const currency = getCurrency();
   if (Math.abs(diff) < 0.005)
-    el.innerHTML = `<span class="text-green"><svg class="icon icon--sm" aria-hidden="true"><use href="#icon-check"></use></svg> Total matches ${getCurrencySymbol()}${fmt(target)}</span>`;
+    el.innerHTML = `<span class="text-green"><svg class="icon icon--sm" aria-hidden="true"><use href="#icon-check"></use></svg> Total matches ${currency}${fmt(target)}</span>`;
   else
-    el.innerHTML = `<span class="text-red">${getCurrencySymbol()}${fmt(Math.abs(diff))} ${diff > 0 ? 'still remaining' : 'over the total'}</span>`;
+    el.innerHTML = `<span class="text-red">${currency}${fmt(Math.abs(diff))} ${diff > 0 ? 'still remaining' : 'over the total'}</span>`;
 }
 
 function saveExpense() {
@@ -1765,7 +2185,8 @@ function saveExpense() {
       shares[p] = v; sum += v;
     });
     if (Math.abs(sum - amount) > 0.01) {
-      alert(`Custom amounts must add up to ${getCurrencySymbol()}${fmt(amount)}. They currently total ${getCurrencySymbol()}${fmt(sum)}.`); return;
+      const currency = getCurrency();
+      alert(`Custom amounts must add up to ${currency}${fmt(amount)}. They currently total ${currency}${fmt(sum)}.`); return;
     }
   }
 
@@ -1801,16 +2222,18 @@ function deleteExpense(id) {
 function renderExpenses() {
   const s  = getSess();
   const el = document.getElementById('exp-list');
+  const currency = getCurrency();
+  
   if (!s.expenses.length) {
     el.innerHTML = `<div class="govuk-empty">
       <svg class="icon icon--lg" aria-hidden="true"><use href="#icon-receipt"></use></svg>
       <p>No expenses added yet. Tap "Add expense" above to add your first one.</p>
     </div>`; return;
   }
-  // Sequential order: oldest first, numbered, so order of entry is clear
+  
   el.innerHTML = s.expenses.map((exp, idx) => {
     const date   = new Date(exp.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-    const detail = exp.splitAmong.map(p => `${esc(p)} ${getCurrencySymbol()}${fmt(exp.shares[p])}`).join(', ');
+    const detail = exp.splitAmong.map(p => `${esc(p)} ${currency}${fmt(exp.shares[p])}`).join(', ');
     return `<div class="govuk-card govuk-card--bl">
       <div class="flex align-c justify-b gap-sm">
         <div style="flex:1;min-width:0">
@@ -1821,7 +2244,7 @@ function renderExpenses() {
           ${exp.note ? `<div class="fsm text-muted" style="margin-top:4px;font-style:italic">Note: ${esc(exp.note)}</div>` : ''}
         </div>
         <div class="text-right" style="flex-shrink:0;padding-left:8px">
-          <div class="fw flg">${getCurrencySymbol()}${fmt(exp.amount)}</div>
+          <div class="fw flg">${currency}${fmt(exp.amount)}</div>
           <div class="exp-actions">
             <button class="govuk-btn govuk-btn--secondary govuk-btn--xs govuk-btn--icon-only" onclick="openEditExpModal('${exp.id}')" title="Edit this expense" aria-label="Edit expense">
               <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-edit"></use></svg>
@@ -1833,15 +2256,13 @@ function renderExpenses() {
         </div>
       </div>
     </div>`;
-  }).reverse().join(''); // show most recent first, while keeping #1 = first added
+  }).reverse().join('');
 }
 
 // ================================================================
 //  BALANCES
 // ================================================================
-// Raw balances from expenses alone — what each person paid vs. their fair
-// share, ignoring any settle-up payments that have already been made.
-function computeRawBalances(s) {
+function computeBalances(s) {
   const bal = {};
   s.members.forEach(m => { bal[m] = 0; });
   s.expenses.forEach(exp => {
@@ -1851,38 +2272,11 @@ function computeRawBalances(s) {
   return bal;
 }
 
-// Balances after applying any transfers already marked "Money received" on
-// the Settle Up tab. This is what should be shown anywhere the app displays
-// "who owes what right now" — so it agrees with the Settle Up tab instead of
-// staying frozen at the pre-payment amounts.
-function computeBalances(s) {
-  const bal = computeRawBalances(s);
-  const settled = Array.isArray(s.settledPairs) ? s.settledPairs : [];
-  if (settled.length) {
-    // Re-derive the settlement transactions from the raw balances (not via
-    // computeSettlement, to avoid a circular call) and apply the ones marked
-    // received.
-    const credits = Object.entries(bal).filter(([, b]) => b >  0.005).map(([p, b]) => ({ p, b }));
-    const debts   = Object.entries(bal).filter(([, b]) => b < -0.005).map(([p, b]) => ({ p, b: -b }));
-    let ci = 0, di = 0;
-    while (ci < credits.length && di < debts.length) {
-      const amount = Math.min(credits[ci].b, debts[di].b);
-      const key = debts[di].p + '→' + credits[ci].p;
-      if (settled.includes(key)) {
-        bal[debts[di].p]   += amount;
-        bal[credits[ci].p] -= amount;
-      }
-      credits[ci].b -= amount; debts[di].b -= amount;
-      if (credits[ci].b < 0.005) ci++;
-      if (debts[di].b   < 0.005) di++;
-    }
-  }
-  return bal;
-}
-
 function renderBalances() {
   const s  = getSess();
   const el = document.getElementById('bal-list');
+  const currency = getCurrency();
+  
   if (!s.expenses.length) {
     el.innerHTML = `<div class="govuk-empty">
       <svg class="icon icon--lg" aria-hidden="true"><use href="#icon-receipt"></use></svg>
@@ -1893,31 +2287,30 @@ function renderBalances() {
   const total = s.expenses.reduce((a, e) => a + e.amount, 0);
   el.innerHTML = `
     <div class="govuk-inset mb4">
-      <strong>Total spent: ${getCurrencySymbol()}${fmt(total)}</strong>
+      <strong>Total spent: ${currency}${fmt(total)}</strong>
       &nbsp;&middot;&nbsp;
       <span class="text-muted fsm">${s.expenses.length} expense${s.expenses.length !== 1 ? 's' : ''}</span>
     </div>
-    <p class="fsm text-muted mb4">This shows what's still left to settle right now — it already accounts for any payments marked as received on the Settle Up tab.</p>
     ${Object.entries(bal).map(([person, balance]) => {
       const isPos   = balance  >  0.005;
       const isNeg   = balance  < -0.005;
       const cardCls = isPos ? 'govuk-card--gl' : isNeg ? 'govuk-card--rl' : 'govuk-card--xl';
       const textCls = isPos ? 'text-green'     : isNeg ? 'text-red'       : 'text-muted';
-      const label   = isPos ? 'Still owed to them' : isNeg ? 'Still owes'    : 'All settled up';
+      const label   = isPos ? 'Should receive' : isNeg ? 'Owes others'    : 'All settled';
       return `<div class="govuk-card ${cardCls}">
         <div class="flex align-c justify-b">
           <div><div class="fw">${esc(person)}</div><div class="fsm text-muted">${label}</div></div>
-          <div class="fw flg ${textCls}">${isPos ? '+' : ''}${getCurrencySymbol()}${fmt(Math.abs(balance))}</div>
+          <div class="fw flg ${textCls}">${isPos ? '+' : ''}${currency}${fmt(Math.abs(balance))}</div>
         </div>
       </div>`;
     }).join('')}`;
 }
 
 // ================================================================
-//  SETTLE UP — greedy debt simplification
+//  SETTLE UP
 // ================================================================
 function computeSettlement(s) {
-  const bal     = computeRawBalances(s);
+  const bal     = computeBalances(s);
   const credits = Object.entries(bal).filter(([, b]) => b >  0.005).map(([p, b]) => ({ p, b }));
   const debts   = Object.entries(bal).filter(([, b]) => b < -0.005).map(([p, b]) => ({ p, b: -b }));
   const txns = []; let ci = 0, di = 0;
@@ -1932,6 +2325,89 @@ function computeSettlement(s) {
 }
 
 function txnKey(t) { return t.from + '→' + t.to; }
+
+function renderSettle() {
+  const s  = getSess();
+  const el = document.getElementById('set-list');
+  const summaryEl = document.getElementById('set-summary');
+  const currency = getCurrency();
+  
+  if (!s.expenses.length) {
+    summaryEl.innerHTML = '';
+    el.innerHTML = `<div class="govuk-empty">
+      <svg class="icon icon--lg" aria-hidden="true"><use href="#icon-receipt"></use></svg>
+      <p>Add some expenses first to see settlement details here.</p>
+    </div>`; return;
+  }
+  
+  if (!Array.isArray(s.settledPairs)) s.settledPairs = [];
+
+  const txns = computeSettlement(s);
+  const liveKeys = new Set(txns.map(txnKey));
+  s.settledPairs = s.settledPairs.filter(k => liveKeys.has(k));
+
+  const bal = computeBalances(s);
+  const total = s.expenses.reduce((a, e) => a + e.amount, 0);
+  
+  const whoPaid = {};
+  const whoOwes = {};
+  s.expenses.forEach(exp => {
+    whoPaid[exp.paidBy] = (whoPaid[exp.paidBy] || 0) + exp.amount;
+  });
+  Object.entries(bal).forEach(([person, balance]) => {
+    if (balance < -0.005) whoOwes[person] = Math.abs(balance);
+  });
+
+  summaryEl.innerHTML = `
+    <strong>${esc(s.name)}</strong>
+    <div class="fsm text-muted" style="margin-top:8px">
+      <strong>Total spent:</strong> ${currency}${fmt(total)}
+      &nbsp;&middot;&nbsp;
+      <strong>Expenses:</strong> ${s.expenses.length}
+    </div>
+    <div class="fsm text-muted" style="margin-top:4px">
+      <strong>Who paid:</strong> ${Object.entries(whoPaid).map(([p, amt]) => `${esc(p)} (${currency}${fmt(amt)})`).join(', ') || 'None'}
+    </div>
+    <div class="fsm text-muted" style="margin-top:4px">
+      <strong>Who owes:</strong> ${Object.entries(whoOwes).map(([p, amt]) => `${esc(p)} (${currency}${fmt(amt)})`).join(', ') || 'None'}
+    </div>
+  `;
+
+  if (!txns.length) {
+    el.innerHTML = `<div class="govuk-panel govuk-panel--green">
+      <svg class="icon icon--lg" aria-hidden="true" style="margin-bottom:8px"><use href="#icon-celebrate"></use></svg>
+      <div class="govuk-panel__title">All settled!</div>
+      <div style="font-size:1rem;margin-top:8px">No payments are needed right now.</div>
+    </div>`; return;
+  }
+
+  el.innerHTML = txns.map(t => {
+    const key       = txnKey(t);
+    const isReceived = s.settledPairs.includes(key);
+    return `<div class="govuk-card ${isReceived ? 'govuk-card--xl' : 'govuk-card--bl'}">
+      <div class="flex align-c justify-b gap-sm flex-wrap">
+        <div class="flex align-c gap-sm" style="flex-wrap:wrap">
+          <span class="fw ${isReceived ? 'text-muted' : ''}">${esc(t.from)}</span>
+          <svg class="icon icon--sm text-muted" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+          <span class="fw ${isReceived ? 'text-muted' : ''}">${esc(t.to)}</span>
+        </div>
+        <div class="flex align-c gap-sm flex-wrap">
+          <div class="fw flg ${isReceived ? 'text-muted' : 'text-blue'}">${currency}${fmt(t.amount)}</div>
+          ${isReceived
+            ? `<button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="toggleReceived('${esc(key)}', false)" title="Undo — mark as not yet received">
+                 <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-undo"></use></svg>
+                 Undo
+               </button>`
+            : `<button class="govuk-btn govuk-btn--primary govuk-btn--sm btn-icon-text" onclick="toggleReceived('${esc(key)}', true)" title="Mark this payment as received">
+                 <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-cash"></use></svg>
+                 Money received
+               </button>`}
+        </div>
+      </div>
+      ${isReceived ? `<div class="fsm text-green mt4" style="margin-top:8px"><svg class="icon icon--sm" aria-hidden="true"><use href="#icon-check"></use></svg> Marked as received</div>` : ''}
+    </div>`;
+  }).join('');
+}
 
 function toggleReceived(key, received) {
   const s = getSess();
@@ -1961,481 +2437,15 @@ document.querySelectorAll('.govuk-modal-overlay').forEach(overlay => {
 });
 
 // ================================================================
-//  FOOTER NAVIGATION
-// ================================================================
-function updateFooterActive(key) {
-  ['home','sessions','quick','settings','about'].forEach(k => {
-    document.getElementById('ft-' + k)?.classList.toggle('footer-item--active', k === key);
-  });
-}
-
-function footerNav(key) {
-  if (key === 'home') {
-    updateFooterActive('home');
-    goHome();
-  } else if (key === 'sessions') {
-    updateFooterActive('sessions');
-    goHome();
-    setTimeout(() => document.getElementById('sess-list')?.scrollIntoView({ behavior: 'smooth' }), 80);
-  } else if (key === 'quick') {
-    updateFooterActive('quick');
-    showView('home');
-    setTimeout(() => document.getElementById('qs-amt')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
-  } else if (key === 'settings') {
-    updateFooterActive('settings');
-    updateSettingsThemeBtn();
-    updateCurrencyUI();
-    openModal('m-settings');
-  } else if (key === 'about') {
-    updateFooterActive('about');
-    openModal('m-about');
-  }
-}
-
-function updateSettingsThemeBtn() {
-  const cur = document.documentElement.getAttribute('data-theme') || '';
-  const isDark = cur === 'dark' || (cur === '' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  const icon  = document.getElementById('settings-theme-icon');
-  const label = document.getElementById('settings-theme-label');
-  if (icon)  icon.setAttribute('href', isDark ? '#icon-sun' : '#icon-moon');
-  if (label) label.textContent = isDark ? 'Switch to Light' : 'Switch to Dark';
-}
-
-// ================================================================
-//  SHARE MODAL
-// ================================================================
-function openShareModal() {
-  const s = getSess();
-  if (!s) { alert('Open a session first to share it.'); return; }
-  openModal('m-share');
-}
-
-function doShare() {
-  const fmt = document.querySelector('input[name="share-fmt"]:checked')?.value || 'pdf';
-  closeModal('m-share');
-  if (fmt === 'pdf') exportSessionPDF();
-  else               exportSessionXLSX();
-}
-
-// ================================================================
-//  PDF EXPORT (pure client-side, no external library)
-// ================================================================
-function exportSessionPDF() {
-  const s = getSess(); if (!s) return;
-  const bal   = computeBalances(s);
-  const txns  = computeSettlement(s);
-  const total = s.expenses.reduce((a, e) => a + e.amount, 0);
-  const settled = Array.isArray(s.settledPairs) ? s.settledPairs : [];
-  const now   = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
-  const created = new Date(s.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
-  const curr  = getCurrencySymbol();
-
-  // Build an HTML page optimised for print/PDF — clean, modern, no emojis
-  const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>${s.name} — Split Bills Report</title>
-<style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:12px;color:#111;background:#fff;padding:32px 40px;}
-  /* Header strip */
-  .doc-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1d70b8;padding-bottom:12px;margin-bottom:6px;}
-  .doc-title{font-size:24px;font-weight:800;letter-spacing:-0.5px;color:#111;}
-  .doc-sub{font-size:11px;color:#666;margin-top:2px;}
-  .doc-brand{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#1d70b8;}
-  .doc-meta{font-size:10px;color:#888;margin-bottom:20px;padding-top:6px;}
-  /* Stats bar */
-  .stats{display:flex;gap:0;border:1.5px solid #e0e0e0;border-radius:6px;overflow:hidden;margin-bottom:22px;}
-  .stat{flex:1;padding:12px 16px;border-right:1.5px solid #e0e0e0;background:#fafafa;}
-  .stat:last-child{border-right:none;}
-  .stat__val{font-size:20px;font-weight:800;color:#1d70b8;line-height:1;}
-  .stat__lbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-top:3px;}
-  .stat--green .stat__val{color:#00703c;}
-  .stat--red .stat__val{color:#c0392b;}
-  /* Section heading */
-  h2{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#1d70b8;margin:22px 0 8px;padding-bottom:4px;border-bottom:1.5px solid #e8f0fa;}
-  /* Table */
-  table{width:100%;border-collapse:collapse;margin-bottom:0;font-size:11px;}
-  thead tr{background:#1d70b8;}
-  th{color:#fff;text-align:left;padding:7px 10px;font-size:10px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;}
-  td{padding:7px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top;color:#222;}
-  tr:nth-child(even) td{background:#f9fbff;}
-  tr:last-child td{border-bottom:none;}
-  .total-row td{font-weight:700;background:#e8f0fa;border-top:1.5px solid #1d70b8;color:#1d70b8;}
-  .amt{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;}
-  .muted{color:#888;font-style:italic;}
-  /* Badges */
-  .badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
-  .badge-green{background:#e6f4ed;color:#00703c;}
-  .badge-red{background:#fdecea;color:#c0392b;}
-  .badge-grey{background:#f0f0f0;color:#666;}
-  /* Settlement cards */
-  .settle-section{display:flex;flex-direction:column;gap:8px;}
-  .settle-card{border:1.5px solid #e0e0e0;border-left:4px solid #1d70b8;padding:10px 14px;border-radius:0 5px 5px 0;background:#fff;}
-  .settle-card.done{border-left-color:#00703c;background:#f5fcf7;}
-  .settle-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
-  .settle-names{font-size:13px;font-weight:700;}
-  .settle-from{color:#c0392b;}
-  .settle-arrow{color:#aaa;margin:0 6px;font-weight:300;}
-  .settle-to{color:#00703c;}
-  .settle-amt{font-size:14px;font-weight:800;color:#1d70b8;font-variant-numeric:tabular-nums;}
-  .settle-contrib{margin-top:8px;padding-top:8px;border-top:1px dashed #e0e0e0;}
-  .settle-contrib-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#aaa;margin-bottom:4px;}
-  .settle-contrib-row{display:flex;justify-content:space-between;font-size:10px;color:#555;padding:2px 0;}
-  .settle-contrib-row span{color:#111;font-weight:600;}
-  .all-settled{text-align:center;padding:20px;border:1.5px solid #00703c;border-radius:6px;color:#00703c;font-weight:700;font-size:13px;}
-  /* Footer */
-  .doc-footer{margin-top:28px;padding-top:10px;border-top:1px solid #eee;display:flex;justify-content:space-between;font-size:10px;color:#666;}
-  @media print{body{padding:0;} @page{margin:14mm 16mm;}}
-</style>
-</head>
-<body>
-
-<div class="doc-header">
-  <div>
-    <div class="doc-title">${s.name}</div>
-    <div class="doc-sub">Session created ${created} &nbsp;&middot;&nbsp; ${s.members.length} members: ${s.members.join(', ')}</div>
-  </div>
-  <div class="doc-brand">Split Bills Report</div>
-</div>
-<div class="doc-meta">Generated ${now} &nbsp;&middot;&nbsp; All amounts in ${curr === '₹' ? 'INR (₹)' : 'CAD ($)'}</div>
-
-<div class="stats">
-  <div class="stat">
-    <div class="stat__val">${curr}${fmt2(total)}</div>
-    <div class="stat__lbl">Total Spent</div>
-  </div>
-  <div class="stat">
-    <div class="stat__val">${s.expenses.length}</div>
-    <div class="stat__lbl">Expenses</div>
-  </div>
-  <div class="stat">
-    <div class="stat__val">${s.members.length}</div>
-    <div class="stat__lbl">People</div>
-  </div>
-  <div class="stat ${(txns.length === 0 || txns.every(t => settled.includes(txnKey(t)))) ? 'stat--green' : 'stat--red'}">
-    <div class="stat__val">${(() => {
-      const pendingN = txns.filter(t => !settled.includes(txnKey(t))).length;
-      return pendingN === 0 ? 'Settled' : pendingN + ' pending';
-    })()}</div>
-    <div class="stat__lbl">Payments</div>
-  </div>
-</div>
-
-<h2>All Expenses</h2>
-<table>
-  <thead>
-    <tr><th>#</th><th>Description</th><th>Date</th><th>Paid By</th><th>Split Among</th><th style="text-align:right">Amount</th></tr>
-  </thead>
-  <tbody>
-    ${s.expenses.map((exp, i) => {
-      const d = new Date(exp.date).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
-      const splits = exp.splitAmong.map(p => `${p} &middot; ${curr}${fmt2(exp.shares[p])}`).join('<br>');
-      return `<tr>
-        <td style="color:#aaa">${i+1}</td>
-        <td><strong>${exp.description}</strong>${exp.note ? `<br><span class="muted">${exp.note}</span>` : ''}</td>
-        <td style="white-space:nowrap;color:#555">${d}</td>
-        <td style="font-weight:600">${exp.paidBy}</td>
-        <td style="color:#555;font-size:10px">${splits}</td>
-        <td class="amt">${curr}${fmt2(exp.amount)}</td>
-      </tr>`;
-    }).join('')}
-    <tr class="total-row">
-      <td colspan="5" style="text-align:right;letter-spacing:.4px;font-size:10px;text-transform:uppercase">Total</td>
-      <td class="amt">${curr}${fmt2(total)}</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2>Balances — What's Still Owed</h2>
-<table>
-  <thead>
-    <tr><th>Person</th><th style="text-align:right">Paid</th><th style="text-align:right">Fair Share</th><th style="text-align:right">Still Owed / Owes</th><th>Status</th></tr>
-  </thead>
-  <tbody>
-    ${s.members.map(person => {
-      const b     = bal[person] || 0;
-      const paid  = s.expenses.filter(e=>e.paidBy===person).reduce((a,e)=>a+e.amount,0);
-      const share = s.expenses.reduce((a,e)=>a+(e.shares[person]||0),0);
-      const isPos = b > 0.005, isNeg = b < -0.005;
-      const netColor = isPos ? '#00703c' : isNeg ? '#c0392b' : '#888';
-      const badge = isPos
-        ? `<span class="badge badge-green">Gets back ${curr}${fmt2(b)}</span>`
-        : isNeg
-        ? `<span class="badge badge-red">Owes ${curr}${fmt2(Math.abs(b))}</span>`
-        : `<span class="badge badge-grey">Even</span>`;
-      return `<tr>
-        <td style="font-weight:700">${person}</td>
-        <td class="amt">${curr}${fmt2(paid)}</td>
-        <td class="amt">${curr}${fmt2(share)}</td>
-        <td class="amt" style="color:${netColor};font-weight:800">${isPos?'+ ':''}${curr}${fmt2(Math.abs(b))}</td>
-        <td>${badge}</td>
-      </tr>`;
-    }).join('')}
-  </tbody>
-</table>
-
-<h2>Settle Up — Minimum Payments Required</h2>
-${txns.length === 0
-  ? `<div class="all-settled">All debts are cleared — no payments needed.</div>`
-  : (() => {
-    // Sort: pending first, received last
-    const sorted = [...txns].sort((a, b) => {
-      const aDone = settled.includes(a.from + '→' + a.to) ? 1 : 0;
-      const bDone = settled.includes(b.from + '→' + b.to) ? 1 : 0;
-      return aDone - bDone;
-    });
-    const pendingCount  = sorted.filter(t => !settled.includes(t.from + '→' + t.to)).length;
-    const receivedCount = sorted.length - pendingCount;
-    return `<div style="font-size:10px;color:#888;margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">${pendingCount} pending &nbsp;&middot;&nbsp; ${receivedCount} received</div>
-    <div class="settle-section">${sorted.map(t => {
-      const key  = t.from + '→' + t.to;
-      const done = settled.includes(key);
-      const contributions = s.expenses.filter(e => e.splitAmong.includes(t.from) && e.paidBy === t.to);
-      const contribRows = contributions.map(e =>
-        `<div class="settle-contrib-row"><span>${e.description}</span><span style="color:#888">${new Date(e.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}</span><span>${t.from} share: ${curr}${fmt2(e.shares[t.from]||0)} of ${curr}${fmt2(e.amount)}</span></div>`
-      ).join('');
-      return `<div class="settle-card ${done?'done':''}">
-        <div class="settle-row">
-          <div class="settle-names">
-            <span class="settle-from">${t.from}</span>
-            <span class="settle-arrow">&#8594;</span>
-            <span class="settle-to">${t.to}</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <span class="settle-amt">${curr}${fmt2(t.amount)}</span>
-            ${done ? `<span class="badge badge-green">Received</span>` : `<span class="badge badge-red">Pending</span>`}
-          </div>
-        </div>
-        ${contribRows ? `<div class="settle-contrib"><div class="settle-contrib-label">Contributing expenses</div>${contribRows}</div>` : ''}
-      </div>`;
-    }).join('')}</div>`;
-  })()}
-
-<div class="doc-footer">
-  <span>Split Bills &mdash; all data stored locally on your device</span>
-  <span>Generated ${now}</span>
-</div>
-
-<script>window.onload=()=>window.print()<\/script>
-</body>
-</html>`;
-
-  const blob = new Blob([html], { type: 'text/html' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = (s.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase() || 'session') + '-report.html';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast('PDF report downloaded — open the file and print/save as PDF', 'icon-share');
-}
-
-function fmt2(n) { return Number(n||0).toFixed(2); }
-
-// ================================================================
-//  EXCEL / XLSX EXPORT (pure client-side, OOXML format)
-// ================================================================
-function exportSessionXLSX() {
-  const s = getSess(); if (!s) return;
-  const bal   = computeBalances(s);
-  const txns  = computeSettlement(s);
-  const total = s.expenses.reduce((a, e) => a + e.amount, 0);
-  const settled = Array.isArray(s.settledPairs) ? s.settledPairs : [];
-  const now = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
-  const created = new Date(s.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
-  const curr2 = getCurrencySymbol();
-
-  const lines = [];
-
-  // ── SECTION: Session Summary
-  lines.push(['SPLIT BILLS — SESSION REPORT', '', '', '', '', '']);
-  lines.push(['Session Name', s.name, '', '', '', '']);
-  lines.push(['Created', created, '', '', '', '']);
-  lines.push(['Members', s.members.join(', '), '', '', '', '']);
-  lines.push(['Total Expenses', s.expenses.length, '', '', '', '']);
-  lines.push(['Total Spent', `${curr2}${fmt2(total)}`, '', '', '', '']);
-  lines.push(['Generated', now, '', '', '', '']);
-  lines.push(['', '', '', '', '', '']);
-
-  // ── SECTION: Expenses
-  lines.push(['ALL EXPENSES', '', '', '', '', '']);
-  lines.push(['#', 'Description', 'Date', 'Paid By', 'Split Among (shares)', `Amount (${curr2})`]);
-  s.expenses.forEach((exp, i) => {
-    const d = new Date(exp.date).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
-    const splits = exp.splitAmong.map(p => `${p}: ${curr2}${fmt2(exp.shares[p])}`).join(' | ');
-    lines.push([
-      i + 1,
-      exp.description + (exp.note ? ` (${exp.note})` : ''),
-      d,
-      exp.paidBy,
-      splits,
-      fmt2(exp.amount)
-    ]);
-  });
-  lines.push(['', '', '', '', 'TOTAL', fmt2(total)]);
-  lines.push(['', '', '', '', '', '']);
-
-  // ── SECTION: Balances
-  lines.push(['BALANCES — WHO OWES WHAT', '', '', '', '', '']);
-  lines.push(['Person', `Total Paid (${curr2})`, `Fair Share (${curr2})`, `Net Balance (${curr2})`, 'Status', '']);
-  s.members.forEach(person => {
-    const b     = bal[person] || 0;
-    const paid  = s.expenses.filter(e => e.paidBy === person).reduce((a, e) => a + e.amount, 0);
-    const share = s.expenses.reduce((a, e) => a + (e.shares[person] || 0), 0);
-    const isPos = b > 0.005, isNeg = b < -0.005;
-    const status = isPos ? `Should receive ${curr2}${fmt2(b)}` : isNeg ? `Owes ${curr2}${fmt2(Math.abs(b))}` : 'All settled';
-    lines.push([person, fmt2(paid), fmt2(share), (isPos?'+':'')+fmt2(b), status, '']);
-  });
-  lines.push(['', '', '', '', '', '']);
-
-  // ── SECTION: Settle Up (pending first, then received)
-  lines.push(['SETTLE UP — WHO PAYS WHOM & FOR WHAT', '', '', '', '', '']);
-  if (!txns.length) {
-    lines.push(['All debts are settled. No payments needed.', '', '', '', '', '']);
-  } else {
-    const sortedTxns = [...txns].sort((a, b) => {
-      const aDone = settled.includes(a.from + '→' + a.to) ? 1 : 0;
-      const bDone = settled.includes(b.from + '→' + b.to) ? 1 : 0;
-      return aDone - bDone;
-    });
-    lines.push(['From (Payer)', 'To (Receiver)', `Amount (${curr2})`, 'Contributing Expenses', 'Status', '']);
-    sortedTxns.forEach(t => {
-      const key = t.from + '→' + t.to;
-      const isDone = settled.includes(key);
-      const contributions = s.expenses
-        .filter(e => e.splitAmong.includes(t.from) && e.paidBy === t.to)
-        .map(e => `${e.description}: ${curr2}${fmt2(e.shares[t.from]||0)} of ${curr2}${fmt2(e.amount)}`)
-        .join('; ');
-      lines.push([t.from, t.to, fmt2(t.amount), contributions || 'Various shared expenses', isDone ? 'Received' : 'Pending', '']);
-    });
-  }
-  lines.push(['', '', '', '', '', '']);
-  lines.push(['', '', '', '', '', '']);
-  lines.push([`Generated by Split Bills on ${now}`, '', '', '', '', '']);
-
-  // Convert to CSV
-  const csv = lines.map(row =>
-    row.map(cell => {
-      const s = String(cell ?? '');
-      // Escape commas/quotes
-      if (s.includes(',') || s.includes('"') || s.includes('\n')) return `"${s.replace(/"/g, '""')}"`;
-      return s;
-    }).join(',')
-  ).join('\n');
-
-  // Use BOM for Excel UTF-8 compatibility
-  const BOM  = '\uFEFF';
-  const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = (s.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase() || 'session') + '-report.csv';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast('Excel/CSV report downloaded', 'icon-excel');
-}
-
-// ================================================================
-//  SETTLE UP — enhanced rendering with "For what" breakdown
-// ================================================================
-function renderSettle() {
-  const s  = getSess();
-  const el = document.getElementById('set-list');
-  if (!s.expenses.length) {
-    el.innerHTML = `<div class="govuk-empty">
-      <svg class="icon icon--lg" aria-hidden="true"><use href="#icon-receipt"></use></svg>
-      <p>Add some expenses first to see settlement details here.</p>
-    </div>`; return;
-  }
-  if (!Array.isArray(s.settledPairs)) s.settledPairs = [];
-
-  const txns = computeSettlement(s);
-
-  // Drop stale "received" markers for pairs that no longer owe money
-  const liveKeys = new Set(txns.map(txnKey));
-  s.settledPairs = s.settledPairs.filter(k => liveKeys.has(k));
-
-  const sessTotal = s.expenses.reduce((a,e)=>a+e.amount,0);
-  const header = `<div class="govuk-inset mb4">
-    <strong>${esc(s.name)}</strong>
-    <span class="fsm text-muted"> &middot; settlement summary</span>
-    <span class="fsm text-muted"> &middot; ${getCurrencySymbol()}${fmt(sessTotal)} total across ${s.expenses.length} expense${s.expenses.length!==1?'s':''}</span>
-  </div>`;
-
-  if (!txns.length) {
-    el.innerHTML = header + `<div class="govuk-panel govuk-panel--green">
-      <svg class="icon icon--lg" aria-hidden="true" style="margin-bottom:8px"><use href="#icon-celebrate"></use></svg>
-      <div class="govuk-panel__title">All settled!</div>
-      <div style="font-size:1rem;margin-top:8px">No payments are needed right now.</div>
-    </div>`; return;
-  }
-
-  el.innerHTML = header + txns.map(t => {
-    const key        = txnKey(t);
-    const isReceived = s.settledPairs.includes(key);
-
-    // Find contributing expenses: from owes to because 'to' paid for expenses that included 'from'
-    const contributions = s.expenses.filter(e =>
-      e.splitAmong.includes(t.from) && e.paidBy === t.to
-    );
-
-    const contribHTML = contributions.length
-      ? `<div class="settle-expense-list">
-          <div class="fsm text-muted fw" style="margin-bottom:4px">Contributing expenses:</div>
-          ${contributions.map(e => {
-            const d = new Date(e.date).toLocaleDateString('en-IN', { day:'numeric', month:'short' });
-            return `<div class="settle-expense-row">
-              <div style="flex:1;min-width:0">
-                <strong>${esc(e.description)}</strong>
-                <span class="fsm text-muted"> &middot; ${d} &middot; total ${getCurrencySymbol()}${fmt(e.amount)}</span>
-              </div>
-              <div style="flex-shrink:0;padding-left:8px" class="fw">
-                ${getCurrencySymbol()}${fmt(e.shares[t.from]||0)}
-                <span class="fsm text-muted fw-normal"> share</span>
-              </div>
-            </div>`;
-          }).join('')}
-        </div>`
-      : `<div class="fsm text-muted" style="margin-top:6px;font-style:italic">This payment settles the overall balance between these two people across multiple expenses.</div>`;
-
-    return `<div class="govuk-card ${isReceived ? 'govuk-card--xl' : 'govuk-card--bl'}">
-      <div class="flex align-c justify-b gap-sm flex-wrap">
-        <div class="flex align-c gap-sm" style="flex-wrap:wrap">
-          <span class="fw ${isReceived ? 'text-muted' : 'text-red'}">${esc(t.from)}</span>
-          <svg class="icon icon--sm text-muted" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
-          <span class="fw ${isReceived ? 'text-muted' : 'text-green'}">${esc(t.to)}</span>
-        </div>
-        <div class="flex align-c gap-sm flex-wrap">
-          <div class="fw flg ${isReceived ? 'text-muted' : 'text-blue'}">${getCurrencySymbol()}${fmt(t.amount)}</div>
-          ${isReceived
-            ? `<button class="govuk-btn govuk-btn--secondary govuk-btn--sm btn-icon-text" onclick="toggleReceived('${esc(key)}', false)" title="Undo — mark as not yet received">
-                 <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-undo"></use></svg>
-                 Undo
-               </button>`
-            : `<button class="govuk-btn govuk-btn--primary govuk-btn--sm btn-icon-text" onclick="toggleReceived('${esc(key)}', true)" title="Mark this payment as received">
-                 <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-cash"></use></svg>
-                 Money received
-               </button>`}
-        </div>
-      </div>
-      ${contribHTML}
-      ${isReceived ? `<div class="fsm text-green mt4" style="margin-top:8px"><svg class="icon icon--sm" aria-hidden="true"><use href="#icon-check"></use></svg> Marked as received</div>` : ''}
-    </div>`;
-  }).join('');
-}
-
-// ================================================================
 //  INIT
 // ================================================================
-initTheme();
 loadDb();
+initTheme();
+initCurrency();
 renderSessionsList();
+renderSessionsListFull();
 renderQsNames();
-updateFooterActive('home');
-updateSettingsThemeBtn();
-updateCurrencyUI();
+navigateTo('home');
 </script>
 
 </body>
